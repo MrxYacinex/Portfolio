@@ -7,17 +7,27 @@ body {
     background-color: rgb(45, 45, 45);
 }
 
-nav {
+nav, footer {
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgb(30, 30, 30);
-    top: 0;
     margin: 0;
     padding: 20px 0;
     position: fixed;
     width: 100%;
     box-sizing: border-box;
+    font-family: "Atkinson Hyperlegible Mono";
+}
+
+nav {
+    top: 0;
+}
+
+footer {
+    bottom: 0;
+    padding: 10px 0;
+    color: #ffffff;
 }
 
 nav ul {
@@ -31,6 +41,12 @@ nav ul li {
     display: flex;
     align-items: center;
     margin: 0 20px;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+nav ul li:hover {
+    transform: scale(1.2);
+    text-shadow: 0 0 10px #ffffff;
 }
 
 nav a {
@@ -38,38 +54,34 @@ nav a {
     color: #ffffff;
     display: flex;
     align-items: center;
-    font-family: "Atkinson Hyperlegible Mono";
+}
+
+nav img, #search, #games {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 nav img {
     height: 50px;
     margin-right: 20px;
+    border-radius: 30%;
+}
+
+nav img:hover, #search:hover, #games:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px white;
+}
+
+#search, #games {
+    margin-top: 5px;
 }
 
 #search {
     height: 20px;
     margin-left: 5px;
-    margin-top: 5px;
     filter: invert(1);
 }
 
 #games {
     height: 30px;
-    margin-left: 0px;
-    margin-top: 5px;
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(30, 30, 30);
-    bottom: 0;
-    margin: 0;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    box-sizing: border-box;
-    color: #ffffff;
-    font-family: "Atkinson Hyperlegible Mono";
+    margin-left: 0;
 }
