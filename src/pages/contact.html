@@ -25,10 +25,21 @@
 
     <div class="clipper">
         <div class="main">
-            <p><span id="myname">Coming soon...</span></p>
+            <p><span id="myname">Coming Soon <span id="dots"></span></span></p>
         </div>
     </div>
+
     
+    
+    <script>
+        const dots = document.getElementById('dots');
+        let dotCount = 0;
+
+        setInterval(() => {
+            dotCount = (dotCount + 1) % 4;
+            dots.textContent = '.'.repeat(dotCount);
+        }, 500);
+    </script>
 </body>
 <footer>
     <p>Yacine © 2025</p>
