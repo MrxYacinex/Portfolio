@@ -96,8 +96,8 @@ nav img.home:hover {
 }
 
 .socialmedia img {
-    height: 100px;
-    width: 100px;
+    height: 50px;
+    width: 50px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
