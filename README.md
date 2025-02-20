@@ -17,6 +17,10 @@ Feel free to explore the different pages and see what I've been working on. Your
 - CSS
 - JavaScript
 
+## Hosting
+
+This website is hosted on my own programmed Raspberry Pi using Nginx.
+
 Stay tuned for more updates as I continue to learn and grow as a web developer!
 
 Yacine © 2025
