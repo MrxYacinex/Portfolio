@@ -19,7 +19,7 @@ Feel free to explore the different pages and see what I've been working on. Your
 
 ## Hosting
 
-This website is hosted on my own programmed Raspberry Pi using Nginx. K
+This website is hosted on my own programmed Raspberry Pi using Nginx. Informations Coming soon with DNS
 
 Stay tuned for more updates as I continue to learn and grow as a web developer!
 
