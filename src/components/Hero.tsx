@@ -22,31 +22,29 @@ const Hero = () => {
     const handleType = () => {
       const currentMessage = messages[loopNum % messages.length];
 
-      // Typing phase
-      if (text.length < currentMessage.length) {
-        setText(currentMessage.slice(0, text.length + 1));
-        timeout = setTimeout(handleType, 100);
+      if (isSelecting) {
+        // Selection phase - delete all text at once after showing selection
+        setIsSelecting(false);
+        setText(""); // Delete all text at once
+        setLoopNum(loopNum + 1);
       } else {
-        // Finished typing, wait then start selection phase
-        timeout = setTimeout(() => {
-          setIsSelecting(true);
-          // After showing selection for 1 second, delete all at once
+        // Typing phase
+        if (text.length < currentMessage.length) {
+          setText(currentMessage.slice(0, text.length + 1));
+        } else {
+          // Finished typing, start selection phase
           timeout = setTimeout(() => {
-            setIsSelecting(false);
-            setText(""); // Delete all text at once
-            setLoopNum(loopNum + 1);
-            // Start typing new message
-            timeout = setTimeout(handleType, 200);
-          }, 1000);
-        }, 2000);
+            setIsSelecting(true);
+          }, 2000);
+        }
       }
     };
 
-    // Only run typing logic when not selecting
-    if (!isSelecting) {
-      timeout = setTimeout(handleType, 100);
-    }
+    // Dynamic timing based on state
+    let delay = 100;
+    if (isSelecting) delay = 800; // Show selection for 800ms before deleting
 
+    timeout = setTimeout(handleType, delay);
     return () => clearTimeout(timeout);
   }, [text, isSelecting, loopNum, messages]);
 
@@ -200,20 +198,9 @@ const Hero = () => {
               <span className="text-foreground/60 mr-3 text-2xl">{">"}</span>
               <span className="relative inline-flex items-center h-8">
                 <motion.span
-                  className="px-1"
+                  className={isSelecting ? "bg-foreground/20 text-foreground px-1 rounded-sm" : "px-1"}
                   layout
-                  animate={isSelecting ? { 
-                    backgroundColor: "rgba(59, 130, 246, 1)",
-                    color: "rgb(255, 255, 255)"
-                  } : {
-                    backgroundColor: "transparent",
-                    color: "inherit"
-                  }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
-                  style={{
-                    borderRadius: "4px",
-                    padding: isSelecting ? "2px 4px" : "0 4px",
-                  }}
+                  transition={{ duration: 0.2 }}
                 >
                   {text}
                 </motion.span>
