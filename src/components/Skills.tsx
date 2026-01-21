@@ -3,16 +3,16 @@ import { useRef } from "react";
 
 const skillCategories = [
   {
-    title: "Frontend",
-    skills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Framer Motion"],
+    title: "Languages",
+    skills: ["C/C++", "Python", "Java", "TypeScript", "JavaScript"],
   },
   {
-    title: "Backend",
-    skills: ["Node.js", "Python", "PostgreSQL", "GraphQL", "REST APIs"],
+    title: "Robotics & AI",
+    skills: ["ROS", "Gazebo", "OpenCV", "TensorFlow", "Computer Vision"],
   },
   {
-    title: "Tools",
-    skills: ["Git", "Docker", "Figma", "AWS", "Vercel"],
+    title: "Tools & Frameworks",
+    skills: ["Git", "React", "Node.js", "Docker", "Linux"],
   },
 ];
 
@@ -113,10 +113,10 @@ const Skills = () => {
             </h3>
             <div className="space-y-8 max-w-3xl mx-auto">
               {[
-                { name: "UI/UX Design", level: 95 },
-                { name: "Frontend Development", level: 90 },
-                { name: "Backend Development", level: 80 },
-                { name: "DevOps", level: 70 },
+                { name: "Algorithms & Data Structures", level: 90 },
+                { name: "Robotics & Simulation", level: 85 },
+                { name: "AI & Machine Learning", level: 80 },
+                { name: "Full-Stack Development", level: 75 },
               ].map((competency, index) => (
                 <div key={competency.name}>
                   <div className="flex justify-between text-xs mb-3">
@@ -127,9 +127,9 @@ const Skills = () => {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={isInView ? { width: `${competency.level}%` } : {}}
-                      transition={{ 
-                        delay: 0.8 + index * 0.15, 
-                        duration: 1.2, 
+                      transition={{
+                        delay: 0.8 + index * 0.15,
+                        duration: 1.2,
                         ease: "easeOut"
                       }}
                       className="h-full bg-gradient-to-r from-foreground/20 via-foreground/40 to-foreground/20 rounded-full"
