@@ -1,112 +1,272 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  const [text, setText] = useState("");
+  const fullText = "Building intelligent systems from robotics to AI";
+
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullText.length) {
+        setText(fullText.slice(0, index));
+        index++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 50);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
-      {/* Liquid background blobs */}
+      {/* Animated gradient background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-1/4 -left-48 w-[500px] h-[500px] bg-foreground/[0.03] animate-morph animate-pulse-glow"
+        <motion.div
+          className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
         />
-        <div
-          className="absolute bottom-1/4 -right-48 w-[600px] h-[600px] bg-foreground/[0.02] animate-morph-slow animate-pulse-glow"
-          style={{ animationDelay: "-7s" }}
-        />
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-foreground/[0.015] animate-morph animate-float"
-          style={{ animationDelay: "-3s" }}
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
+          }}
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -80, 0],
+            y: [0, 60, 0],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
         />
       </div>
 
-      {/* Subtle grid */}
+      {/* Floating code snippets */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute text-muted-foreground/10 font-mono text-xs md:text-sm"
+            style={{
+              left: `${10 + i * 12}%`,
+              top: `${20 + (i % 3) * 25}%`,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 5 + i,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.5,
+            }}
+          >
+            {["</>", "{}", "[]", "fn()", "=>", "&&", "||", "!="][i]}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Grid pattern */}
       <div
-        className="absolute inset-0 opacity-[0.015]"
+        className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, hsl(0 0% 50%) 1px, transparent 0)`,
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
           backgroundSize: "50px 50px",
         }}
       />
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+      <motion.div
+        className="container mx-auto px-6 relative z-10"
+        style={{ y, opacity }}
+      >
+        <div className="max-w-6xl mx-auto text-center">
+          {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-8"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-10"
           >
-            <span className="inline-block px-5 py-2 text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground border border-border/50 rounded-full backdrop-blur-sm">
+            <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase glass rounded-full border border-border/30 cursor-hover">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-foreground"></span>
+              </span>
               ETH Zürich Student
             </span>
           </motion.div>
 
+          {/* Main Heading with Gradient Animation */}
           <motion.h1
-            initial={{ opacity: 0, y: 50, filter: "blur(20px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[0.9]"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[0.95]"
           >
             <motion.span
-              className="text-gradient block"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/80 to-foreground"
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "linear",
+              }}
+              style={{
+                backgroundSize: "200% 200%",
+              }}
             >
               Robotics
             </motion.span>
             <motion.span
-              className="text-foreground/90 block"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="block mt-2 bg-clip-text text-transparent"
+              style={{
+                backgroundImage: "linear-gradient(135deg, #fff 0%, #888 50%, #fff 100%)",
+                backgroundSize: "200% 200%",
+              }}
+              animate={{
+                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 0.5,
+              }}
             >
               & AI Engineer
             </motion.span>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-14 leading-relaxed"
-          >
-            Computer Science student at ETH Zürich, building intelligent systems
-            from robotics simulations to AI-powered applications.
-          </motion.p>
-
+          {/* Typewriter Subtitle */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mb-12 min-h-[3rem] flex items-center justify-center"
+          >
+            <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono">
+              <span className="text-foreground/60">{">"}</span> {text}
+              <motion.span
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+                className="inline-block w-2 h-5 bg-foreground/60 ml-1"
+              />
+            </p>
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col sm:flex-row items-center justify-center gap-5"
           >
             <motion.a
               href="#projects"
-              className="group relative px-10 py-4 bg-foreground text-background font-medium rounded-full overflow-hidden transition-all duration-500"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="group relative px-10 py-4 bg-foreground text-background font-semibold rounded-full overflow-hidden cursor-hover"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10">View My Work</span>
+              <span className="relative z-10 flex items-center gap-2">
+                View My Work
+                <svg
+                  className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-foreground via-muted-foreground to-foreground"
+                className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground to-foreground/80"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
                 transition={{ duration: 0.6, ease: "easeInOut" }}
               />
             </motion.a>
+
             <motion.a
               href="#about"
-              className="px-10 py-4 border border-border/50 text-foreground/80 font-medium rounded-full hover:border-foreground/30 hover:text-foreground transition-all duration-500"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="group relative px-10 py-4 glass border border-border/50 text-foreground font-semibold rounded-full overflow-hidden cursor-hover"
+              whileHover={{ scale: 1.05, borderColor: "rgba(255,255,255,0.3)" }}
+              whileTap={{ scale: 0.95 }}
             >
-              Learn More
+              <span className="relative z-10 flex items-center gap-2">
+                Learn More
+                <svg
+                  className="w-4 h-4 group-hover:rotate-90 transition-transform duration-300"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M19 9l-7 7-7-7" />
+                </svg>
+              </span>
             </motion.a>
           </motion.div>
+
+          {/* Scroll Indicator */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.5 }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          >
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="flex flex-col items-center gap-2 text-muted-foreground/50"
+            >
+              <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </motion.div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
 
 export default Hero;
+

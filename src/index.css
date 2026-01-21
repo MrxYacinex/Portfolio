@@ -59,6 +59,13 @@
     font-family: 'Inter', sans-serif;
   }
 
+  /* Hide default cursor on desktop */
+  @media (min-width: 768px) {
+    * {
+      cursor: none !important;
+    }
+  }
+
   h1,
   h2,
   h3,
