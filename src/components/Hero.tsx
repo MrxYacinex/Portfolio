@@ -25,6 +25,7 @@ const Hero = () => {
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
+    let animationFrame: number;
 
     const handleType = () => {
       const currentMessage = messages[loopNum % messages.length];
@@ -34,25 +35,41 @@ const Hero = () => {
         setIsSelecting(false);
         setText(""); // Delete all text at once
         setLoopNum(loopNum + 1);
+        // Start typing new message immediately after deletion
+        animationFrame = requestAnimationFrame(() => {
+          timeout = setTimeout(handleType, 50);
+        });
       } else {
         // Typing phase
         if (text.length < currentMessage.length) {
           setText(currentMessage.slice(0, text.length + 1));
+          // Variable delay for more natural typing: faster for regular chars, slower for punctuation
+          const char = currentMessage[text.length];
+          const isPunctuation = /[.,!?;:—]/.test(char);
+          const isSpace = char === ' ';
+          const delay = isPunctuation ? 200 : isSpace ? 100 : 40;
+          animationFrame = requestAnimationFrame(() => {
+            timeout = setTimeout(handleType, delay);
+          });
         } else {
           // Finished typing, start selection phase
           timeout = setTimeout(() => {
             setIsSelecting(true);
+            timeout = setTimeout(handleType, 800);
           }, 2000);
         }
       }
     };
 
-    // Dynamic timing based on state
-    let delay = 100;
-    if (isSelecting) delay = 800; // Show selection for 800ms before deleting
+    // Start the animation
+    animationFrame = requestAnimationFrame(() => {
+      timeout = setTimeout(handleType, 50);
+    });
 
-    timeout = setTimeout(handleType, delay);
-    return () => clearTimeout(timeout);
+    return () => {
+      clearTimeout(timeout);
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+    };
   }, [text, isSelecting, loopNum, messages]);
 
   return (
@@ -204,15 +221,19 @@ const Hero = () => {
             <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center">
               <span className="text-foreground/60 mr-3 text-2xl flex-shrink-0">{">"}</span>
               <span className="relative inline-flex items-center">
-                <span
+                <motion.span
                   className={`inline-block ${isSelecting ? "bg-foreground/20 text-foreground px-1 rounded-sm" : "px-1"}`}
                   style={{
                     whiteSpace: "nowrap",
                     textRendering: "optimizeLegibility",
+                    fontSmooth: "always",
+                    WebkitFontSmoothing: "antialiased",
+                    MozOsxFontSmoothing: "grayscale",
                   }}
+                  initial={false}
                 >
                   {text || "\u00A0"}
-                </span>
+                </motion.span>
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
