@@ -7,20 +7,51 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const [text, setText] = useState("");
-  const fullText = "Building intelligent systems from robotics to AI";
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSelecting, setIsSelecting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+
+  const messages = [
+    "Building intelligent systems from robotics to AI",
+    "Creating innovative solutions with code",
+    "Exploring the future of technology"
+  ];
 
   useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index <= fullText.length) {
-        setText(fullText.slice(0, index));
-        index++;
+    let timeout: NodeJS.Timeout;
+
+    const handleType = () => {
+      const currentMessage = messages[loopNum % messages.length];
+
+      if (isSelecting) {
+        // Selection phase - highlight text then wait
+        timeout = setTimeout(() => {
+          setIsSelecting(false);
+          setIsDeleting(true);
+        }, 800);
+      } else if (isDeleting) {
+        // Instant delete phase
+        setText("");
+        setIsDeleting(false);
+        setLoopNum(loopNum + 1);
+        timeout = setTimeout(handleType, 500);
       } else {
-        clearInterval(timer);
+        // Typing phase
+        if (text.length < currentMessage.length) {
+          setText(currentMessage.slice(0, text.length + 1));
+          timeout = setTimeout(handleType, 50);
+        } else {
+          // Finished typing, start selection phase
+          timeout = setTimeout(() => {
+            setIsSelecting(true);
+          }, 2000);
+        }
       }
-    }, 50);
-    return () => clearInterval(timer);
-  }, []);
+    };
+
+    timeout = setTimeout(handleType, 100);
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, isSelecting, loopNum]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
@@ -161,20 +192,28 @@ const Hero = () => {
             </motion.span>
           </motion.h1>
 
-          {/* Typewriter Subtitle */}
+          {/* Enhanced Typewriter Subtitle */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mb-12 min-h-[3rem] flex items-center justify-center"
+            className="mb-16 min-h-[4rem] flex items-center justify-center"
           >
-            <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono">
-              <span className="text-foreground/60">{">"}</span> {text}
-              <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-                className="inline-block w-2 h-5 bg-foreground/60 ml-1"
-              />
+            <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center">
+              <span className="text-foreground/60 mr-3 text-2xl">{">"}</span>
+              <span className="relative inline-flex items-center h-8">
+                <motion.span
+                  className={isSelecting ? "bg-foreground/20 text-foreground px-1" : "px-1"}
+                  layout
+                >
+                  {text}
+                </motion.span>
+                <motion.span
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  className="inline-block w-[3px] h-6 bg-foreground/60 ml-1"
+                />
+              </span>
             </p>
           </motion.div>
 
@@ -183,7 +222,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-5"
+            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20"
           >
             <motion.a
               href="#projects"
@@ -236,21 +275,21 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Scroll Indicator */}
+          {/* Scroll Indicator - Moved down and properly centered */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2"
+            className="absolute bottom-12 left-1/2 -translate-x-1/2"
           >
             <motion.div
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="flex flex-col items-center gap-2 text-muted-foreground/50"
+              className="flex flex-col items-center gap-2 text-muted-foreground/40"
             >
-              <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
+              <span className="text-[10px] font-medium tracking-[0.2em] uppercase">Scroll</span>
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"

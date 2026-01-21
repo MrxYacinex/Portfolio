@@ -61,7 +61,16 @@
 
   /* Hide default cursor on desktop */
   @media (min-width: 768px) {
-    * {
+
+    html,
+    body,
+    #root,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    [role="button"] {
       cursor: none !important;
     }
   }
