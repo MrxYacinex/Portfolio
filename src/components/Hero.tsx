@@ -11,13 +11,13 @@ const Hero = () => {
   const [loopNum, setLoopNum] = useState(0);
 
   const messages = [
-    "The important thing is not to stop questioning. - Albert Einstein",
-    "We can only see a short distance ahead, but we can see plenty there that needs to be done. - Alan Turing",
-    "Somewhere, something incredible is waiting to be known. - Carl Sagan",
-    "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
-    "Imagination is more important than knowledge. - Albert Einstein",
-    "The computer was born to solve problems that did not exist before. - Bill Gates",
-    "Science is a way of thinking much more than it is a body of knowledge. - Carl Sagan"
+    "The important thing is not to stop questioning - Albert Einstein",
+    "We can only see a short distance ahead, but we can see plenty there that needs to be done - Alan Turing",
+    "Somewhere, something incredible is waiting to be known - Carl Sagan",
+    "The future belongs to those who believe in the beauty of their dreams - Eleanor Roosevelt",
+    "Imagination is more important than knowledge - Albert Einstein",
+    "The computer was born to solve problems that did not exist before - Bill Gates",
+    "Science is a way of thinking much more than it is a body of knowledge - Carl Sagan"
   ];
 
   // Calculate the longest message for consistent width
