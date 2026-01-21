@@ -3,59 +3,104 @@ import { useRef } from "react";
 
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-150px" });
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
+        staggerChildren: 0.12,
+        delayChildren: 0.2,
       },
     },
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 40, filter: "blur(10px)" },
+    hidden: {
+      opacity: 0,
+      y: 30,
+      scale: 0.95,
+      filter: "blur(8px)"
+    },
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       filter: "blur(0px)",
-      transition: { duration: 0.8, ease: "easeOut" },
+      transition: {
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1] // Custom easing for smoother animation
+      },
+    },
+  };
+
+  const statsVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8,
+      filter: "blur(6px)"
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1]
+      },
+    },
+  };
+
+  const visualVariants: Variants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.9,
+      rotate: -5,
+      filter: "blur(10px)"
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0,
+      filter: "blur(0px)",
+      transition: {
+        duration: 0.9,
+        ease: [0.22, 1, 0.36, 1]
+      },
     },
   };
 
   return (
-    <section id="about" className="py-40 relative">
-      <div className="container mx-auto px-6">
+    <section id="about" className="py-32 md:py-40 relative overflow-hidden">
+      {/* Background gradient accent */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" />
+
+      <div className="container mx-auto px-6 relative">
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-6xl mx-auto"
+          className="max-w-7xl mx-auto"
         >
-          <div className="grid lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <motion.span
-                variants={itemVariants}
-                className="text-muted-foreground/60 text-xs font-medium tracking-[0.3em] uppercase mb-6 block"
-              >
-                About Me
-              </motion.span>
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            {/* Content Column */}
+            <div className="space-y-8">
+              <motion.div variants={itemVariants} className="space-y-4">
+                <span className="inline-block text-muted-foreground/70 text-xs font-semibold tracking-[0.25em] uppercase">
+                  About Me
+                </span>
 
-              <motion.h2
-                variants={itemVariants}
-                className="font-display text-4xl md:text-6xl font-bold mb-8 leading-[1.1]"
-              >
-                Building the future with
-                <span className="text-gradient block mt-2">code & algorithms</span>
-              </motion.h2>
+                <h2 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
+                  Building the future with
+                  <span className="text-gradient block mt-3">code & algorithms</span>
+                </h2>
+              </motion.div>
 
               <motion.div
                 variants={itemVariants}
-                className="space-y-5 text-muted-foreground leading-relaxed"
+                className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed max-w-xl"
               >
                 <p>
                   Currently studying Computer Science at ETH Zürich, I'm passionate about
@@ -67,47 +112,105 @@ const About = () => {
                 </p>
               </motion.div>
 
+              {/* Stats Grid */}
               <motion.div
                 variants={itemVariants}
-                className="mt-12 grid grid-cols-3 gap-8"
+                className="pt-8"
               >
-                {[
-                  { value: "13+", label: "Repositories" },
-                  { value: "ETH", label: "Zürich" },
-                  { value: "C/C++", label: "Favorite" },
-                ].map((stat) => (
-                  <div key={stat.label}>
-                    <div className="font-display text-4xl font-bold text-foreground mb-1">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs text-muted-foreground/60 tracking-wider uppercase">
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
+                <div className="grid grid-cols-3 gap-6 lg:gap-10">
+                  {[
+                    { value: "13+", label: "Repositories" },
+                    { value: "ETH", label: "Zürich" },
+                    { value: "C/C++", label: "Favorite" },
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={stat.label}
+                      variants={statsVariants}
+                      className="text-center lg:text-left group"
+                    >
+                      <div className="font-display text-4xl lg:text-5xl font-bold text-foreground mb-2 group-hover:text-gradient transition-all duration-300">
+                        {stat.value}
+                      </div>
+                      <div className="text-xs text-muted-foreground/70 tracking-[0.15em] uppercase font-medium">
+                        {stat.label}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
             </div>
 
+            {/* Visual Column */}
             <motion.div
-              variants={itemVariants}
-              className="relative"
+              variants={visualVariants}
+              className="relative lg:h-[600px] flex items-center justify-center"
             >
-              <div className="aspect-square rounded-3xl glass overflow-hidden relative">
-                {/* Liquid animated shapes */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-48 h-48 bg-foreground/[0.03] animate-morph animate-float" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="w-32 h-32 border border-foreground/10 animate-morph-slow animate-float-delayed"
-                    style={{ animationDelay: "-5s" }}
-                  />
+              <div className="relative w-full max-w-md lg:max-w-lg aspect-square">
+                {/* Main glass container */}
+                <div className="absolute inset-0 rounded-[2.5rem] glass overflow-hidden">
+                  {/* Animated gradient orbs */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      className="w-64 h-64 bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.02] rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 90, 0],
+                      }}
+                      transition={{
+                        duration: 20,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  </div>
+
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      className="w-40 h-40 border-2 border-foreground/10 rounded-full"
+                      animate={{
+                        scale: [1, 0.8, 1],
+                        rotate: [0, -180, 0],
+                      }}
+                      transition={{
+                        duration: 25,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: 1
+                      }}
+                    />
+                  </div>
+
+                  {/* Floating particles */}
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-2 h-2 bg-foreground/20 rounded-full"
+                      style={{
+                        left: `${20 + i * 15}%`,
+                        top: `${30 + (i % 3) * 20}%`,
+                      }}
+                      animate={{
+                        y: [0, -30, 0],
+                        opacity: [0.2, 0.5, 0.2],
+                        scale: [1, 1.5, 1],
+                      }}
+                      transition={{
+                        duration: 4 + i,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: i * 0.5,
+                      }}
+                    />
+                  ))}
+
+                  {/* Glowing accents */}
+                  <div className="absolute top-12 left-12 w-3 h-3 bg-foreground/40 rounded-full blur-sm" />
+                  <div className="absolute bottom-20 right-20 w-4 h-4 bg-foreground/30 rounded-full blur-md" />
+                  <div className="absolute top-1/2 right-12 w-2 h-2 bg-foreground/25 rounded-full blur-sm" />
                 </div>
 
-                {/* Decorative dots */}
-                <div className="absolute top-10 left-10 w-1 h-1 bg-foreground/30 rounded-full animate-pulse-glow" />
-                <div className="absolute bottom-16 right-16 w-1.5 h-1.5 bg-foreground/20 rounded-full animate-pulse-glow" style={{ animationDelay: "-2s" }} />
-                <div className="absolute top-1/2 right-10 w-1 h-1 bg-foreground/15 rounded-full animate-pulse-glow" style={{ animationDelay: "-4s" }} />
+                {/* Outer glow ring */}
+                <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-foreground/5 to-transparent blur-2xl opacity-50" />
               </div>
             </motion.div>
           </div>
