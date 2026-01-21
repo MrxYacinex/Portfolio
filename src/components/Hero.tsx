@@ -5,21 +5,21 @@ const Hero = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
       {/* Liquid background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
+        <div
           className="absolute top-1/4 -left-48 w-[500px] h-[500px] bg-foreground/[0.03] animate-morph animate-pulse-glow"
         />
-        <div 
+        <div
           className="absolute bottom-1/4 -right-48 w-[600px] h-[600px] bg-foreground/[0.02] animate-morph-slow animate-pulse-glow"
           style={{ animationDelay: "-7s" }}
         />
-        <div 
+        <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-foreground/[0.015] animate-morph animate-float"
           style={{ animationDelay: "-3s" }}
         />
       </div>
 
       {/* Subtle grid */}
-      <div 
+      <div
         className="absolute inset-0 opacity-[0.015]"
         style={{
           backgroundImage: `radial-gradient(circle at 1px 1px, hsl(0 0% 50%) 1px, transparent 0)`,
@@ -46,7 +46,7 @@ const Hero = () => {
             transition={{ duration: 1.2, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[0.9]"
           >
-            <motion.span 
+            <motion.span
               className="text-gradient block"
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -54,7 +54,7 @@ const Hero = () => {
             >
               Creative
             </motion.span>
-            <motion.span 
+            <motion.span
               className="text-foreground/90 block"
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -70,7 +70,7 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-14 leading-relaxed"
           >
-            Crafting digital experiences that feel alive. 
+            Crafting digital experiences that feel alive.
             Focused on seamless interfaces and fluid interactions.
           </motion.p>
 
@@ -87,7 +87,7 @@ const Hero = () => {
               whileTap={{ scale: 0.98 }}
             >
               <span className="relative z-10">View My Work</span>
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-foreground via-muted-foreground to-foreground"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
@@ -110,7 +110,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-16 left-1/2 -translate-x-1/2"
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20"
         >
           <motion.div
             animate={{ y: [0, 12, 0] }}
