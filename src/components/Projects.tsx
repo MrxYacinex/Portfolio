@@ -4,28 +4,32 @@ import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
-    title: "NeuroLink Dashboard",
-    category: "Web Application",
-    description: "A futuristic analytics dashboard with real-time data visualization and AI-powered insights.",
-    tech: ["React", "TypeScript", "D3.js"],
+    title: "Crater Simulation (Gazebo)",
+    category: "Robotics & Simulation",
+    description: "Advanced crater simulation environment using Gazebo for robotics research and testing.",
+    tech: ["C++", "Gazebo", "ROS"],
+    link: "https://github.com/MrxYacinex/crater_sim_gazebo"
   },
   {
-    title: "Quantum Commerce",
-    category: "E-Commerce",
-    description: "Next-generation shopping experience with immersive 3D product views and seamless checkout.",
-    tech: ["Next.js", "Three.js", "Stripe"],
+    title: "AI Game Bot",
+    category: "Computer Vision & AI",
+    description: "Intelligent bot using computer vision and machine learning to play Clash Royale autonomously.",
+    tech: ["Python", "OpenCV", "TensorFlow"],
+    link: "https://github.com/MrxYacinex/MegaGay"
   },
   {
-    title: "SynthWave Studio",
-    category: "Creative Tool",
-    description: "Browser-based music production suite with real-time collaboration and cloud sync.",
-    tech: ["Web Audio API", "WebRTC", "Node.js"],
+    title: "ETH Algorithms & Data Structures",
+    category: "Academic Project",
+    description: "Implementation of fundamental algorithms and data structures from ETH Zürich coursework.",
+    tech: ["Java", "Algorithms", "Data Structures"],
+    link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures"
   },
   {
-    title: "MetaVerse Gallery",
-    category: "NFT Platform",
-    description: "Virtual gallery space for digital art with immersive VR viewing experience.",
-    tech: ["WebGL", "Ethereum", "IPFS"],
+    title: "Emol Web Platform",
+    category: "Full-Stack Application",
+    description: "Modern web application with TypeScript backend and interactive frontend features.",
+    tech: ["TypeScript", "React", "Node.js"],
+    link: "https://github.com/MrxYacinex/emol_marc"
   },
 ];
 
@@ -79,10 +83,13 @@ const Projects = () => {
             className="grid md:grid-cols-2 gap-6"
           >
             {projects.map((project) => (
-              <motion.article
+              <motion.a
                 key={project.title}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 variants={itemVariants}
-                className="group relative glass rounded-2xl p-10 cursor-pointer overflow-hidden transition-all duration-700 hover:bg-foreground/[0.03]"
+                className="group relative glass rounded-2xl p-10 cursor-pointer overflow-hidden transition-all duration-700 hover:bg-foreground/[0.03] block"
                 whileHover={{ y: -5 }}
               >
                 {/* Animated border glow on hover */}
@@ -92,7 +99,7 @@ const Projects = () => {
                     background: "linear-gradient(135deg, transparent, hsl(0 0% 100% / 0.03), transparent)",
                   }}
                 />
-                
+
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-8">
                     <span className="text-[10px] text-muted-foreground/60 font-medium tracking-[0.2em] uppercase">
@@ -109,7 +116,7 @@ const Projects = () => {
                   <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 transition-colors duration-500 group-hover:text-foreground">
                     {project.title}
                   </h3>
-                  
+
                   <p className="text-muted-foreground/70 text-sm leading-relaxed mb-8">
                     {project.description}
                   </p>
@@ -125,7 +132,7 @@ const Projects = () => {
                     ))}
                   </div>
                 </div>
-              </motion.article>
+              </motion.a>
             ))}
           </motion.div>
         </div>

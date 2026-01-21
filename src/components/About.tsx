@@ -44,13 +44,13 @@ const About = () => {
               >
                 About Me
               </motion.span>
-              
+
               <motion.h2
                 variants={itemVariants}
                 className="font-display text-4xl md:text-6xl font-bold mb-8 leading-[1.1]"
               >
-                Turning ideas into
-                <span className="text-gradient block mt-2">digital reality</span>
+                Building the future with
+                <span className="text-gradient block mt-2">code & algorithms</span>
               </motion.h2>
 
               <motion.div
@@ -58,13 +58,12 @@ const About = () => {
                 className="space-y-5 text-muted-foreground leading-relaxed"
               >
                 <p>
-                  With over 5 years of experience in web development, I specialize 
-                  in creating immersive digital experiences that push the boundaries 
-                  of what's possible on the web.
+                  Currently studying Computer Science at ETH Zürich, I'm passionate about
+                  robotics, artificial intelligence, and building systems that solve real-world problems.
                 </p>
                 <p>
-                  My approach combines technical excellence with design thinking, 
-                  ensuring every project creates an emotional connection with users.
+                  From crater simulation in Gazebo to AI-powered game bots, I love exploring
+                  the intersection of algorithms, data structures, and practical applications.
                 </p>
               </motion.div>
 
@@ -73,9 +72,9 @@ const About = () => {
                 className="mt-12 grid grid-cols-3 gap-8"
               >
                 {[
-                  { value: "50+", label: "Projects" },
-                  { value: "5+", label: "Years" },
-                  { value: "30+", label: "Clients" },
+                  { value: "13+", label: "Repositories" },
+                  { value: "ETH", label: "Zürich" },
+                  { value: "C++", label: "Python" },
                 ].map((stat) => (
                   <div key={stat.label}>
                     <div className="font-display text-4xl font-bold text-foreground mb-1">
@@ -99,12 +98,12 @@ const About = () => {
                   <div className="w-48 h-48 bg-foreground/[0.03] animate-morph animate-float" />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div 
+                  <div
                     className="w-32 h-32 border border-foreground/10 animate-morph-slow animate-float-delayed"
                     style={{ animationDelay: "-5s" }}
                   />
                 </div>
-                
+
                 {/* Decorative dots */}
                 <div className="absolute top-10 left-10 w-1 h-1 bg-foreground/30 rounded-full animate-pulse-glow" />
                 <div className="absolute bottom-16 right-16 w-1.5 h-1.5 bg-foreground/20 rounded-full animate-pulse-glow" style={{ animationDelay: "-2s" }} />

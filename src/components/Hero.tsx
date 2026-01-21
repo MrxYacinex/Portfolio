@@ -36,7 +36,7 @@ const Hero = () => {
             className="mb-8"
           >
             <span className="inline-block px-5 py-2 text-xs font-medium tracking-[0.2em] uppercase text-muted-foreground border border-border/50 rounded-full backdrop-blur-sm">
-              Available for Work
+              ETH Zürich Student
             </span>
           </motion.div>
 
@@ -52,7 +52,7 @@ const Hero = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             >
-              Creative
+              Robotics
             </motion.span>
             <motion.span
               className="text-foreground/90 block"
@@ -60,7 +60,7 @@ const Hero = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              Developer
+              & AI Engineer
             </motion.span>
           </motion.h1>
 
@@ -70,8 +70,8 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-14 leading-relaxed"
           >
-            Crafting digital experiences that feel alive.
-            Focused on seamless interfaces and fluid interactions.
+            Computer Science student at ETH Zürich, building intelligent systems
+            from robotics simulations to AI-powered applications.
           </motion.p>
 
           <motion.div
