@@ -7,7 +7,6 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const [text, setText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
   const [isSelecting, setIsSelecting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
 
@@ -24,19 +23,10 @@ const Hero = () => {
       const currentMessage = messages[loopNum % messages.length];
 
       if (isSelecting) {
-        // Selection phase - highlight text then wait
-        timeout = setTimeout(() => {
-          setIsSelecting(false);
-          setIsDeleting(true);
-        }, 1000);
-      } else if (isDeleting) {
-        // Deleting phase - character by character
-        if (text.length > 0) {
-          setText(currentMessage.slice(0, text.length - 1));
-        } else {
-          setIsDeleting(false);
-          setLoopNum(loopNum + 1);
-        }
+        // Selection phase - delete all text at once after showing selection
+        setIsSelecting(false);
+        setText(""); // Delete all text at once
+        setLoopNum(loopNum + 1);
       } else {
         // Typing phase
         if (text.length < currentMessage.length) {
@@ -52,12 +42,11 @@ const Hero = () => {
 
     // Dynamic timing based on state
     let delay = 100;
-    if (isDeleting) delay = 30; // Faster deleting
-    if (isSelecting) delay = 100; // Initial delay before selection processing
+    if (isSelecting) delay = 800; // Show selection for 800ms before deleting
 
     timeout = setTimeout(handleType, delay);
     return () => clearTimeout(timeout);
-  }, [text, isDeleting, isSelecting, loopNum]);
+  }, [text, isSelecting, loopNum, messages]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
@@ -209,8 +198,9 @@ const Hero = () => {
               <span className="text-foreground/60 mr-3 text-2xl">{">"}</span>
               <span className="relative inline-flex items-center h-8">
                 <motion.span
-                  className={isSelecting ? "bg-foreground/20 text-foreground px-1" : "px-1"}
+                  className={isSelecting ? "bg-blue-600 text-white px-1 rounded-sm" : "px-1"}
                   layout
+                  transition={{ duration: 0.2 }}
                 >
                   {text}
                 </motion.span>
