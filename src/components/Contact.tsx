@@ -4,9 +4,9 @@ import { useRef } from "react";
 import { Mail, Github, Linkedin, Twitter, ArrowUpRight } from "lucide-react";
 
 const socialLinks = [
-  { icon: Github, label: "GitHub", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", href: "#" },
-  { icon: Twitter, label: "Twitter", href: "#" },
+  { icon: Github, label: "GitHub", href: "https://github.com/MrxYacinex" },
+  { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/yacine-tadjine/" },
+  { icon: Twitter, label: "Twitter", href: "https://x.com/YacineTadjine4" },
 ];
 
 const Contact = () => {
@@ -41,13 +41,13 @@ const Contact = () => {
             className="mb-16"
           >
             <motion.a
-              href="mailto:hello@example.com"
+              href="mailto:ytadjine@ethz.ch"
               className="group inline-flex items-center gap-4 px-10 py-5 bg-foreground text-background font-medium rounded-full transition-all duration-500"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Mail className="w-5 h-5" />
-              hello@example.com
+              ytadjine@ethz.ch
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
             </motion.a>
           </motion.div>
