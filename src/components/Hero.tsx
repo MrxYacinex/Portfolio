@@ -16,6 +16,9 @@ const Hero = () => {
     "Exploring the future of technology"
   ];
 
+  // Calculate the longest message for consistent width
+  const longestMessage = messages.reduce((longest, msg) => msg.length > longest.length ? msg : longest, "");
+
   useEffect(() => {
     let timeout: NodeJS.Timeout;
 
@@ -195,19 +198,23 @@ const Hero = () => {
             className="mb-16 min-h-[4rem] flex items-center justify-center"
           >
             <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center">
-              <span className="text-foreground/60 mr-3 text-2xl">{">"}</span>
-              <span className="relative inline-flex items-center h-8">
-                <motion.span
-                  className={isSelecting ? "bg-foreground/20 text-foreground px-1 rounded-sm" : "px-1"}
-                  layout
-                  transition={{ duration: 0.2 }}
+              <span className="text-foreground/60 mr-3 text-2xl flex-shrink-0">{">"}</span>
+              <span className="relative inline-flex items-center">
+                <span
+                  className={`inline-block ${isSelecting ? "bg-foreground/20 text-foreground px-1 rounded-sm" : "px-1"}`}
+                  style={{
+                    width: `${longestMessage.length * 0.6}ch`,
+                    textAlign: "left",
+                    display: "inline-block",
+                    textRendering: "optimizeLegibility",
+                  }}
                 >
-                  {text}
-                </motion.span>
+                  {text || "\u00A0"}
+                </span>
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-[3px] h-6 bg-foreground/60 ml-1"
+                  className="inline-block w-[3px] h-6 bg-foreground/60 ml-1 flex-shrink-0"
                 />
               </span>
             </p>
