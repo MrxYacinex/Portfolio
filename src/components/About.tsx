@@ -74,7 +74,7 @@ const About = () => {
                 {[
                   { value: "13+", label: "Repositories" },
                   { value: "ETH", label: "Zürich" },
-                  { value: "C++", label: "Python" },
+                  { value: "C/C++", label: "Favorite" },
                 ].map((stat) => (
                   <div key={stat.label}>
                     <div className="font-display text-4xl font-bold text-foreground mb-1">
