@@ -59,7 +59,12 @@
     font-family: 'Inter', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Space Grotesk', sans-serif;
   }
 
@@ -97,17 +102,22 @@
 
   /* Liquid blob animation */
   @keyframes morph {
-    0%, 100% {
+
+    0%,
+    100% {
       border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
       transform: rotate(0deg) scale(1);
     }
+
     25% {
       border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
     }
+
     50% {
       border-radius: 50% 60% 30% 60% / 30% 40% 70% 50%;
       transform: rotate(180deg) scale(1.05);
     }
+
     75% {
       border-radius: 60% 40% 60% 30% / 70% 30% 50% 40%;
     }
@@ -123,9 +133,19 @@
 
   /* Floating animation */
   @keyframes float {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-15px) rotate(1deg); }
-    66% { transform: translateY(10px) rotate(-1deg); }
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    33% {
+      transform: translateY(-15px) rotate(1deg);
+    }
+
+    66% {
+      transform: translateY(10px) rotate(-1deg);
+    }
   }
 
   .animate-float {
@@ -139,8 +159,17 @@
 
   /* Pulse glow */
   @keyframes pulse-glow {
-    0%, 100% { opacity: 0.3; filter: blur(40px); }
-    50% { opacity: 0.6; filter: blur(60px); }
+
+    0%,
+    100% {
+      opacity: 0.3;
+      filter: blur(40px);
+    }
+
+    50% {
+      opacity: 0.6;
+      filter: blur(60px);
+    }
   }
 
   .animate-pulse-glow {
@@ -149,12 +178,13 @@
 
   /* Smooth reveal */
   @keyframes reveal {
-    from { 
+    from {
       opacity: 0;
       transform: translateY(40px) scale(0.98);
       filter: blur(10px);
     }
-    to { 
+
+    to {
       opacity: 1;
       transform: translateY(0) scale(1);
       filter: blur(0);
