@@ -28,18 +28,19 @@ const Hero = () => {
         timeout = setTimeout(() => {
           setIsSelecting(false);
           setIsDeleting(true);
-        }, 800);
+        }, 1000);
       } else if (isDeleting) {
-        // Instant delete phase
-        setText("");
-        setIsDeleting(false);
-        setLoopNum(loopNum + 1);
-        timeout = setTimeout(handleType, 500);
+        // Deleting phase - character by character
+        if (text.length > 0) {
+          setText(currentMessage.slice(0, text.length - 1));
+        } else {
+          setIsDeleting(false);
+          setLoopNum(loopNum + 1);
+        }
       } else {
         // Typing phase
         if (text.length < currentMessage.length) {
           setText(currentMessage.slice(0, text.length + 1));
-          timeout = setTimeout(handleType, 50);
         } else {
           // Finished typing, start selection phase
           timeout = setTimeout(() => {
@@ -49,7 +50,12 @@ const Hero = () => {
       }
     };
 
-    timeout = setTimeout(handleType, 100);
+    // Dynamic timing based on state
+    let delay = 100;
+    if (isDeleting) delay = 30; // Faster deleting
+    if (isSelecting) delay = 100; // Initial delay before selection processing
+
+    timeout = setTimeout(handleType, delay);
     return () => clearTimeout(timeout);
   }, [text, isDeleting, isSelecting, loopNum]);
 
