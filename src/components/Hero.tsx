@@ -203,9 +203,7 @@ const Hero = () => {
                 <span
                   className={`inline-block ${isSelecting ? "bg-foreground/20 text-foreground px-1 rounded-sm" : "px-1"}`}
                   style={{
-                    width: `${longestMessage.length * 0.6}ch`,
-                    textAlign: "left",
-                    display: "inline-block",
+                    whiteSpace: "nowrap",
                     textRendering: "optimizeLegibility",
                   }}
                 >
