@@ -186,11 +186,11 @@ const Hero = () => {
                     <motion.span
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
-                      transition={{ duration: 0.2, ease: "linear" }}
-                      className="absolute top-0 bottom-0 right-0 bg-[#0078D7]/50 -z-10"
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="absolute top-0 bottom-0 right-0 bg-emerald-500/20 -z-10"
                     />
                   )}
-                  <span className="inline-block px-1 relative z-10 selection:bg-[#0078D7]/30">
+                  <span className="inline-block px-1 relative z-10 selection:bg-emerald-500/30">
                     {text || "\u00A0"}
                   </span>
                 </span>
