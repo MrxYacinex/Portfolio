@@ -73,11 +73,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="pt-0 pb-16 md:pb-24 relative overflow-hidden">
-      {/* Circuit Connector from Hero */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-24 bg-gradient-to-b from-transparent via-emerald-500/50 to-transparent -translate-y-full">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-emerald-500 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-      </div>
+    <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Dynamic Background */}
       <TechBackground />
 
