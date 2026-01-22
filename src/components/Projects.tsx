@@ -1,6 +1,7 @@
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import ProjectCarousel from "./ProjectCarousel";
 
 const projects = [
   {
@@ -131,69 +132,9 @@ const Projects = () => {
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="grid md:grid-cols-2 gap-6"
+            className="w-full"
           >
-            {projects.map((project) => (
-              <motion.a
-                key={project.title}
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={itemVariants}
-                className="group relative glass rounded-2xl p-10 cursor-pointer overflow-hidden transition-all duration-700 hover:bg-foreground/[0.03] block"
-                whileHover={{ y: -5 }}
-              >
-                {/* Animated border glow on hover */}
-                <motion.div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-                  style={{
-                    background: "linear-gradient(135deg, transparent, hsl(0 0% 100% / 0.03), transparent)",
-                  }}
-                />
-
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between mb-8">
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[10px] text-muted-foreground/60 font-medium tracking-[0.2em] uppercase">
-                        {project.category}
-                      </span>
-                      {project.award && (
-                        <span className="text-[10px] text-foreground/80 font-semibold tracking-wider">
-                          🏆 {project.award}
-                        </span>
-                      )}
-                    </div>
-                    {project.link !== "#" && (
-                      <motion.div
-                        className="w-12 h-12 rounded-full border border-border/30 flex items-center justify-center transition-all duration-500 group-hover:border-foreground/20 group-hover:bg-foreground/5"
-                        whileHover={{ scale: 1.1, rotate: 45 }}
-                      >
-                        <ArrowUpRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors duration-500" />
-                      </motion.div>
-                    )}
-                  </div>
-
-                  <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 transition-colors duration-500 group-hover:text-foreground">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-muted-foreground/70 text-sm leading-relaxed mb-8">
-                    {project.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-4 py-1.5 text-[10px] tracking-wider uppercase bg-foreground/[0.03] border border-border/30 rounded-full text-muted-foreground/70"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.a>
-            ))}
+            <ProjectCarousel projects={projects} />
           </motion.div>
         </div>
       </div>
