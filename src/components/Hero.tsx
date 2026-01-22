@@ -180,23 +180,22 @@ const Hero = () => {
             className="mb-10 min-h-[3.5rem] flex items-center justify-center" // Reduced margin and height
           >
             <p className="text-base md:text-lg text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-1.5 px-4 rounded-lg border border-white/5 backdrop-blur-sm">
-              <span className="text-emerald-500 mr-2 text-xl flex-shrink-0">{">"}</span>
               <span className="relative inline-flex items-center">
                 <span className="relative">
                   {isSelecting && (
                     <motion.span
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="absolute top-0 bottom-0 right-0 bg-emerald-500/30 -z-10"
+                      transition={{ duration: 0.2, ease: "linear" }}
+                      className="absolute top-0 bottom-0 right-0 bg-[#0078D7]/50 -z-10"
                     />
                   )}
-                  <span className="inline-block px-1 relative z-10">
+                  <span className="inline-block px-1 relative z-10 selection:bg-[#0078D7]/30">
                     {text || "\u00A0"}
                   </span>
                 </span>
                 <motion.span
-                  animate={{ opacity: [1, 0, 1] }}
+                  animate={{ opacity: isSelecting ? 1 : [1, 0, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
                   className="inline-block w-[2px] h-4 bg-emerald-500 ml-1 flex-shrink-0"
                 />
@@ -209,7 +208,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16" // Reduced margin
+            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16"
           >
             <motion.a
               href="#projects"
