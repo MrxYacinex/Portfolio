@@ -259,6 +259,62 @@ const Hero = () => {
 
         </div>
       </motion.div>
+
+      {/* Scroll Indicator & Connecting Line */}
+      {/* Hero Footer / HUD Elements */}
+      <div className="absolute bottom-8 left-0 right-0 px-6 md:px-12 flex justify-between items-end pointer-events-none z-20">
+
+        {/* Bottom Left: Location Data */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/40 uppercase tracking-widest"
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-1.5 h-1.5 bg-emerald-500/50 rounded-full animate-pulse" />
+            <span>Loc: Zürich, CH</span>
+          </div>
+          <div>Lat: 47.3769° N</div>
+          <div>Lng: 08.5417° E</div>
+        </motion.div>
+
+        {/* Bottom Center: Scroll Chevron */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.8 }}
+          className="absolute left-1/2 -translate-x-1/2 bottom-8"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/50" />
+            </svg>
+          </motion.div>
+        </motion.div>
+
+        {/* Bottom Right: Version/Time */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 1.2, duration: 0.8 }}
+          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/40 uppercase tracking-widest text-right"
+        >
+          <div>System: Online</div>
+          <div>Ver: 2.4.0-rc</div>
+          <div className="flex items-center justify-end gap-2">
+            <span>Syncing</span>
+            <div className="flex gap-0.5">
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.0 }} className="w-0.5 bg-emerald-500/50" />
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }} className="w-0.5 bg-emerald-500/50" />
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }} className="w-0.5 bg-emerald-500/50" />
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };

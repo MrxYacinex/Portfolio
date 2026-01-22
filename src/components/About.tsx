@@ -82,7 +82,7 @@ const About = () => {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-7xl mx-auto"
+          className="max-w-7xl mx-auto pt-10"
         >
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             {/* Content Column */}
