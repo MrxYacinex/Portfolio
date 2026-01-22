@@ -23,7 +23,7 @@ export const projectsData: Project[] = [
         slug: "crater-rover",
         title: "CRATER – ETH Autonomous Rover",
         category: "Robotics & Autonomous Systems",
-        description: "Leading ETH's first modular autonomous rover for the European Rover Challenge. Implementing AI-based navigation, object detection, and motion planning using Python and ROS. Collaborating with interdisciplinary teams to integrate mechanical, electrical, and software systems.",
+        description: "ETH's first modular autonomous rover for the European Rover Challenge. AI-based navigation and object detection.",
         tech: ["Python", "ROS", "AI", "Computer Vision", "Motion Planning"],
         link: "#",
         award: "European Rover Challenge 2025",
@@ -48,7 +48,7 @@ export const projectsData: Project[] = [
         slug: "bubbe-ai",
         title: "Bubbe.Ai - Geopolitical Risk Intelligence",
         category: "AI & Machine Learning",
-        description: "AI-driven system combining multi-agent architectures and ML prediction models for real-time geopolitical risk analysis. Achieved 70%+ accuracy, outperforming SAP's baseline. Built with NLP and time-series forecasting for automated mitigation strategies.",
+        description: "Multi-agent AI system for real-time geopolitical risk analysis. Achieved 70%+ accuracy.",
         tech: ["Python", "NLP", "Multi-Agent AI", "Time-Series", "ML"],
         link: "#",
         award: "JiVS Hackathon 2025 - 1st Place",
@@ -73,7 +73,7 @@ export const projectsData: Project[] = [
         slug: "emol-learning",
         title: "EMOL - AI Learning Platform",
         category: "AI & Education Technology",
-        description: "AI-powered learning platform using real-time camera-based emotion and engagement detection to personalize educational content. Improved learning outcomes by 220%+ through computer vision, facial expression analysis, and adaptive learning algorithms.",
+        description: "AI-powered learning platform with real-time emotion detection to personalize educational content.",
         tech: ["Python", "Computer Vision", "TensorFlow", "OpenCV", "React"],
         link: "https://github.com/MrxYacinex/emol_marc"
     },
@@ -81,7 +81,7 @@ export const projectsData: Project[] = [
         slug: "crater-simulation",
         title: "Crater Simulation (Gazebo)",
         category: "Robotics & Simulation",
-        description: "Advanced crater simulation environment using Gazebo for robotics research and testing. Developed realistic terrain models and physics-based simulations for autonomous rover navigation testing.",
+        description: "Advanced crater simulation environment using Gazebo. Realistic terrain models and physics-based simulations.",
         tech: ["C++", "Gazebo", "ROS", "Simulation"],
         link: "https://github.com/MrxYacinex/crater_sim_gazebo"
     },
@@ -89,7 +89,7 @@ export const projectsData: Project[] = [
         slug: "ai-game-bot",
         title: "AI Game Bot",
         category: "Computer Vision & AI",
-        description: "Intelligent bot using computer vision and machine learning to play games autonomously. Implemented real-time screen capture, object detection, and decision-making algorithms for automated gameplay.",
+        description: "Intelligent bot using computer vision and machine learning to play games autonomously. Real-time screen capture and object detection.",
         tech: ["Python", "OpenCV", "TensorFlow", "Computer Vision"],
         link: "https://github.com/MrxYacinex/MegaGay"
     },
@@ -97,23 +97,15 @@ export const projectsData: Project[] = [
         slug: "eth-algorithms",
         title: "ETH Algorithms & Data Structures",
         category: "Academic & Competitive Programming",
-        description: "Comprehensive implementation of fundamental algorithms and data structures from ETH Zürich coursework. Includes advanced data structures, graph algorithms, dynamic programming, and optimization techniques used in competitive programming.",
+        description: "Implementation of algorithms and data structures from ETH Zürich. Graph algorithms and dynamic programming.",
         tech: ["Java", "Algorithms", "Data Structures", "Competitive Programming"],
         link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures"
-    },
-    {
-        slug: "leasyro",
-        title: "leasyro - Web Platform",
-        category: "Full-Stack Development",
-        description: "Developed and deployed web applications using Next.js and Vercel, improving load times and user experience. Integrated backend services and APIs to support dynamic features. Collaborated in a cross-functional startup environment to design scalable software architecture.",
-        tech: ["Next.js", "Vercel", "TypeScript", "React", "Node.js"],
-        link: "#"
     },
     {
         slug: "real-estate",
         title: "RealEstate Platform",
         category: "Full-Stack Development",
-        description: "Modern real estate platform built with TypeScript, featuring property listings, search functionality, and interactive user interfaces. Implemented responsive design and efficient data management for real estate transactions.",
+        description: "Modern real estate platform with TypeScript. Property listings, search functionality, and interactive interfaces.",
         tech: ["TypeScript", "React", "Node.js", "Full-Stack"],
         link: "https://github.com/MrxYacinex/RealEstate"
     },
@@ -121,7 +113,7 @@ export const projectsData: Project[] = [
         slug: "voter-app",
         title: "Voter Application",
         category: "Full-Stack Development",
-        description: "Interactive voting application built with TypeScript, enabling secure and efficient voting processes. Features include real-time updates, user authentication, and result visualization.",
+        description: "Interactive voting application with TypeScript. Secure voting processes with real-time updates.",
         tech: ["TypeScript", "React", "Node.js", "Web Application"],
         link: "https://github.com/MrxYacinex/Voter"
     },
@@ -129,7 +121,7 @@ export const projectsData: Project[] = [
         slug: "botgreen",
         title: "BotGreen - Automation Bot",
         category: "Automation & Python",
-        description: "Python-based automation bot designed for efficient task automation and workflow optimization. Implements intelligent decision-making algorithms and automated processes.",
+        description: "Python-based automation bot designed for efficient task automation and workflow optimization.",
         tech: ["Python", "Automation", "Bot Development"],
         link: "https://github.com/MrxYacinex/botgreen"
     },
@@ -137,8 +129,26 @@ export const projectsData: Project[] = [
         slug: "system-programming",
         title: "System Programming (C)",
         category: "Systems Programming",
-        description: "Advanced system programming projects in C, focusing on low-level system interactions, memory management, and efficient algorithms. Part of ETH Zürich coursework demonstrating mastery of systems programming concepts.",
-        tech: ["C", "Systems Programming", "Low-Level Programming"],
-        link: "https://github.com/MrxYacinex/SysProg-HW3"
+        description: "File system implementation from scratch in C. Directory management, file I/O, inode structures, and process scheduling.",
+        tech: ["C", "File Systems", "Operating Systems", "Low-Level Programming"],
+        link: "https://github.com/MrxYacinex/SysProg-3",
+        content: {
+            overview: "A comprehensive file system implementation built from the ground up in C, developed as part of TU Berlin's System Programming coursework. This project involved creating a fully functional file system with directory structures, file operations, and process scheduling capabilities.",
+            challenges: [
+                "Designing and implementing inode structures for efficient file metadata storage",
+                "Managing memory allocation and deallocation for file system blocks",
+                "Implementing directory traversal and path resolution algorithms",
+                "Creating robust file I/O operations with proper error handling",
+                "Implementing multiple CPU scheduling algorithms (FCFS, SJF, Round Robin)"
+            ],
+            solutions: [
+                "Designed a hierarchical inode structure supporting both files and directories",
+                "Implemented efficient block allocation using bitmap-based free space management",
+                "Created a robust path parsing and directory navigation system",
+                "Developed comprehensive test suite covering edge cases and error scenarios",
+                "Built modular architecture allowing easy extension with new scheduling strategies"
+            ],
+            results: "Successfully implemented a working file system with all core operations (create, read, write, delete, directory management). All tests passed, demonstrating correct implementation of file system internals and process scheduling algorithms. The project provided deep hands-on experience with operating system concepts and low-level C programming."
+        }
     },
 ];

@@ -1,9 +1,133 @@
-import { motion, useInView, Variants } from "framer-motion";
-import { useRef } from "react";
+import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+
+// Visible Dynamic Visualization
+const InteractiveJourney = () => {
+  return (
+    <div className="relative w-full h-full overflow-hidden">
+      {/* Multiple animated gradient orbs - more visible */}
+      <div className="absolute inset-0">
+        {[0, 1, 2].map((i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full blur-3xl"
+            style={{
+              width: `${400 + i * 120}px`,
+              height: `${400 + i * 120}px`,
+              background: `radial-gradient(circle, rgba(255,255,255,${0.05 + i * 0.02}) 0%, transparent 70%)`,
+              right: `${10 + i * 8}%`,
+              top: `${15 + i * 12}%`,
+            }}
+            animate={{
+              x: [0, 50, 0],
+              y: [0, -40, 0],
+              scale: [1, 1.25, 1],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 10 + i * 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 1.5,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Flowing curved paths - more visible */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none">
+        <defs>
+          <linearGradient id="pathGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0.15" />
+          </linearGradient>
+          <linearGradient id="pathGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0.12" />
+          </linearGradient>
+        </defs>
+        
+        {/* Curved path 1 */}
+        <motion.path
+          d="M 80% 20% Q 60% 40%, 70% 60% T 80% 80%"
+          fill="none"
+          stroke="url(#pathGrad1)"
+          strokeWidth="1.5"
+          className="text-foreground"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ 
+            pathLength: 1, 
+            opacity: 0.7,
+            d: [
+              "M 80% 20% Q 60% 40%, 70% 60% T 80% 80%",
+              "M 80% 25% Q 65% 35%, 72% 55% T 80% 75%",
+              "M 80% 20% Q 60% 40%, 70% 60% T 80% 80%",
+            ]
+          }}
+          transition={{ 
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* Curved path 2 */}
+        <motion.path
+          d="M 70% 30% Q 50% 50%, 60% 70%"
+          fill="none"
+          stroke="url(#pathGrad2)"
+          strokeWidth="1.5"
+          className="text-foreground"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ 
+            pathLength: 1, 
+            opacity: 0.6,
+            d: [
+              "M 70% 30% Q 50% 50%, 60% 70%",
+              "M 70% 35% Q 55% 45%, 62% 65%",
+              "M 70% 30% Q 50% 50%, 60% 70%",
+            ]
+          }}
+          transition={{ 
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+      </svg>
+
+      {/* More visible floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1.5 h-1.5 bg-foreground/40 rounded-full"
+            style={{
+              right: `${15 + (i % 5) * 12}%`,
+              top: `${25 + Math.floor(i / 5) * 18}%`,
+            }}
+            animate={{
+              y: [0, -50, 0],
+              x: [0, (i % 2 === 0 ? 1 : -1) * 25, 0],
+              opacity: [0, 0.6, 0],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 2,
+              repeat: Infinity,
+              delay: i * 0.3,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const About = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -75,6 +199,11 @@ const About = () => {
     <section id="about" className="py-16 md:py-24 relative overflow-hidden grain">
       {/* Background gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" />
+      
+      {/* Background Visualization */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <InteractiveJourney />
+      </div>
 
       <div className="container mx-auto px-6 relative z-10">
 
@@ -85,7 +214,7 @@ const About = () => {
           animate={isInView ? "visible" : "hidden"}
           className="max-w-7xl mx-auto pt-10"
         >
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="max-w-4xl">
             {/* Content Column */}
             <div className="space-y-8">
               <motion.div variants={itemVariants} className="space-y-4">
@@ -105,13 +234,12 @@ const About = () => {
               >
                 <p>
                   I'm a Computer Science student at <span className="text-foreground/90 font-semibold">ETH Zürich</span>,
-                  passionate about robotics, AI, and competitive programming. Currently leading the ETH Robotics Club
-                  team developing autonomous rover systems for the European Rover Challenge.
+                  passionate about robotics, AI, and competitive programming. I'm actively participating in <span className="text-foreground/90 font-semibold">Project CRATER</span>,
+                  developing autonomous rover systems for the European Rover Challenge.
                 </p>
                 <p>
-                  My journey includes leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span>
-                  (1st Place at JiVS Hackathon 2025), building AI-powered learning platforms that improve outcomes by 220%+,
-                  and developing full-stack applications at startups like leasyro.
+                  With over 6 years of coding experience, my journey includes building AI-powered learning platforms,
+                  developing full-stack applications, and working on award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span>.
                 </p>
                 <p>
                   Beyond code, I've managed sustainability projects raising $5,000+ for schools, winning the Berlin Senate's
@@ -127,9 +255,9 @@ const About = () => {
               >
                 <div className="grid grid-cols-3 gap-6 lg:gap-10">
                   {[
-                    { value: "2027", label: "Graduation" },
-                    { value: "1.1", label: "GPA (TU Berlin)" },
-                    { value: "220%", label: "Improvement" },
+                    { value: "2026", label: "Graduation" },
+                    { value: "6+", label: "Years Coding" },
+                    { value: "6.7k+", label: "Commits" },
                   ].map((stat, index) => (
                     <motion.div
                       key={stat.label}
@@ -147,80 +275,6 @@ const About = () => {
                 </div>
               </motion.div>
             </div>
-
-            {/* Visual Column */}
-            <motion.div
-              variants={visualVariants}
-              className="relative lg:h-[600px] flex items-center justify-center"
-            >
-              <div className="relative w-full max-w-md lg:max-w-lg aspect-square">
-                {/* Main glass container */}
-                <div className="absolute inset-0 rounded-[2.5rem] glass overflow-hidden">
-                  {/* Animated gradient orbs */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      className="w-64 h-64 bg-gradient-to-br from-foreground/[0.06] to-foreground/[0.02] rounded-full"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        rotate: [0, 90, 0],
-                      }}
-                      transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  </div>
-
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      className="w-40 h-40 border-2 border-foreground/10 rounded-full"
-                      animate={{
-                        scale: [1, 0.8, 1],
-                        rotate: [0, -180, 0],
-                      }}
-                      transition={{
-                        duration: 25,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1
-                      }}
-                    />
-                  </div>
-
-                  {/* Floating particles */}
-                  {[...Array(6)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-2 h-2 bg-foreground/20 rounded-full"
-                      style={{
-                        left: `${20 + i * 15}%`,
-                        top: `${30 + (i % 3) * 20}%`,
-                      }}
-                      animate={{
-                        y: [0, -30, 0],
-                        opacity: [0.2, 0.5, 0.2],
-                        scale: [1, 1.5, 1],
-                      }}
-                      transition={{
-                        duration: 4 + i,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: i * 0.5,
-                      }}
-                    />
-                  ))}
-
-                  {/* Glowing accents */}
-                  <div className="absolute top-12 left-12 w-3 h-3 bg-foreground/40 rounded-full blur-sm" />
-                  <div className="absolute bottom-20 right-20 w-4 h-4 bg-foreground/30 rounded-full blur-md" />
-                  <div className="absolute top-1/2 right-12 w-2 h-2 bg-foreground/25 rounded-full blur-sm" />
-                </div>
-
-                {/* Outer glow ring */}
-                <div className="absolute -inset-4 rounded-[3rem] bg-gradient-to-br from-foreground/5 to-transparent blur-2xl opacity-50" />
-              </div>
-            </motion.div>
           </div>
         </motion.div>
       </div>
