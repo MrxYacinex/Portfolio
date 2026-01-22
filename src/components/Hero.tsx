@@ -246,34 +246,7 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* New Creative Scroll Indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1 }}
-            className="absolute bottom-10 left-0 right-0 flex justify-center"
-          >
-            <motion.a
-              href="#about"
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="flex flex-col items-center gap-2 cursor-pointer group"
-            >
-              {/* Minimal Line Animation */}
-              <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-emerald-500/50 to-transparent relative overflow-hidden">
-                <motion.div
-                  className="absolute top-0 left-0 w-full h-1/2 bg-emerald-400 blur-[1px]"
-                  animate={{ y: ["-100%", "200%"] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </div>
-              <span className="text-[10px] tracking-[0.3em] font-medium text-muted-foreground/40 uppercase group-hover:text-emerald-500/70 transition-colors">
-                Explore
-              </span>
-            </motion.a>
-          </motion.div>
+
         </div>
       </motion.div>
     </section>
