@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
-import { motion, useAnimation, useMotionValue, useTransform, animate } from "framer-motion";
-import { Trophy, Github, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { ArrowUpRight, Github } from "lucide-react";
 
 export interface Project {
     title: string;
@@ -17,32 +16,29 @@ interface ProjectCarouselProps {
 }
 
 const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
-    // Duplicate projects multiple times for smoother marquee
+    // Duplicate for infinite loop
     const extendedProjects = [...projects, ...projects, ...projects, ...projects];
 
     return (
-        <div className="w-full relative py-10 overflow-hidden group bg-background">
-            {/* Gradient Overlays - Reduced width for cleaner edges */}
-            <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
+        <div className="w-full py-20 bg-background overflow-hidden relative">
+            {/* Subtle scanline/grid texture overlay */}
+            <div className="absolute inset-0 z-0 opacity-[0.03]"
+                style={{ backgroundImage: "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)", backgroundSize: "30px 30px" }} />
 
-            <div className="flex overflow-hidden">
+            <div className="flex">
                 <motion.div
-                    className="flex" // No gap, touching cards
-                    animate={{ x: ["0%", "-25%"] }} // Moving 1/4th (one set)
+                    className="flex gap-4 md:gap-8 px-4"
+                    animate={{ x: ["0%", "-50%"] }} // Adjust based on duplication count
                     transition={{
-                        duration: 60, // Slower, smoother
+                        duration: 50,
                         ease: "linear",
                         repeat: Infinity,
                         repeatType: "loop",
                     }}
-                    style={{
-                        width: "fit-content",
-                        minWidth: "400%",
-                    }}
+                    style={{ minWidth: "200%" }}
                 >
                     {extendedProjects.map((project, index) => (
-                        <ProjectCard key={`${project.title}-${index}`} project={project} />
+                        <SpotlightCard key={`${project.title}-${index}`} project={project} index={index % projects.length} />
                     ))}
                 </motion.div>
             </div>
@@ -50,68 +46,83 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
     );
 };
 
-const ProjectCard = ({ project }: { project: Project }) => {
-    // Use the link if available, otherwise just a div
-    const Component = project.link !== "#" ? "a" : "div";
+const SpotlightCard = ({ project, index }: { project: Project; index: number }) => {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+        const { left, top } = currentTarget.getBoundingClientRect();
+        mouseX.set(clientX - left);
+        mouseY.set(clientY - top);
+    }
+
+    const ProjectTag = project.link !== "#" ? "a" : "div";
     const props = project.link !== "#" ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
 
     return (
-        <Component
+        <ProjectTag
             {...props}
-            className="w-[80vw] md:w-[400px] h-[350px] flex-shrink-0 relative group border-t border-b border-r border-white/5 first:border-l bg-background hover:bg-zinc-900/50 transition-colors duration-500 cursor-pointer overflow-hidden"
+            className="group relative h-[400px] w-[300px] md:w-[350px] flex-shrink-0 bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-white/20"
+            onMouseMove={handleMouseMove}
         >
-            {/* Hover Reveal Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+            {/* Spotlight Effect */}
+            <motion.div
+                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+                style={{
+                    background: useMotionTemplate`
+                        radial-gradient(
+                          650px circle at ${mouseX}px ${mouseY}px,
+                          rgba(255, 255, 255, 0.1),
+                          transparent 80%
+                        )
+                    `,
+                }}
+            />
 
-            {/* Content Container */}
-            <div className="p-8 h-full flex flex-col relative z-10">
-                {/* Header */}
-                <div className="flex justify-between items-start mb-6">
-                    <span className="text-[10px] tracking-[0.2em] font-medium text-zinc-500 uppercase group-hover:text-indigo-400 transition-colors">
+            {/* Content Content - Industrial / Minimalist */}
+            <div className="h-full flex flex-col p-6 relative z-10 text-zinc-400 font-mono text-sm leading-relaxed">
+
+                {/* Top Section: ID & Category */}
+                <div className="flex justify-between items-start border-b border-white/5 pb-4 mb-4">
+                    <span className="text-zinc-600 font-bold tracking-tighter text-xs">
+                        {(index + 1).toString().padStart(2, '0')} // PROJECT
+                    </span>
+                    <span className="text-[10px] tracking-widest uppercase text-zinc-500 border border-zinc-800 px-2 rounded-full">
                         {project.category}
                     </span>
-                    {/* Subtle arrow indicator instead of box icon */}
-                    <div className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500">
-                        <ArrowRight className="w-4 h-4 text-indigo-400" />
-                    </div>
                 </div>
 
                 {/* Title */}
-                <h3 className="text-2xl font-display font-bold text-white mb-3 group-hover:translate-x-1 transition-transform duration-500">
+                <h3 className="text-2xl font-display font-bold text-white mb-2 leading-none group-hover:text-white transition-colors">
                     {project.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-zinc-500 text-sm leading-relaxed mb-6 line-clamp-3 group-hover:text-zinc-400 transition-colors flex-grow">
+                <p className="mt-2 text-zinc-500 line-clamp-4 text-xs md:text-sm">
                     {project.description}
                 </p>
 
-                {/* Award Highlight */}
-                {project.award && (
-                    <div className="mb-6 flex items-center gap-2 text-amber-500/80 text-xs">
-                        <Trophy className="w-3 h-3" />
-                        <span className="tracking-wide font-medium">{project.award}</span>
+                {/* Bottom Section */}
+                <div className="mt-auto pt-4 border-t border-white/5 flex flex-col gap-4">
+                    {/* Tech List as raw text or minimal pills */}
+                    <div className="flex flex-wrap gap-1">
+                        {project.tech.slice(0, 4).map((tech, i) => (
+                            <span key={i} className="text-[10px] text-zinc-600 font-mono">
+                                [{tech}]
+                            </span>
+                        ))}
                     </div>
-                )}
 
-                {/* Tech Stack - Minimal Dots/Tags */}
-                <div className="flex flex-wrap gap-2 mt-auto">
-                    {project.tech.slice(0, 3).map((t, i) => (
-                        <span key={i} className="text-[10px] text-zinc-600 border border-zinc-800 px-2 py-1 rounded-sm uppercase tracking-wider group-hover:border-zinc-700 group-hover:text-zinc-500 transition-colors">
-                            {t}
+                    {/* Action */}
+                    <div className="flex items-center justify-between text-zinc-600 group-hover:text-white transition-colors duration-300">
+                        <span className="text-[10px] tracking-widest uppercase">
+                            View Project
                         </span>
-                    ))}
-                    {project.tech.length > 3 && (
-                        <span className="text-[10px] text-zinc-600 border border-zinc-800 px-2 py-1 rounded-sm uppercase tracking-wider">
-                            +{project.tech.length - 3}
-                        </span>
-                    )}
+                        <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                    </div>
                 </div>
             </div>
-
-            {/* Bottom Active Line on Hover */}
-            <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-indigo-500 group-hover:w-full transition-all duration-700 ease-out" />
-        </Component>
+        </ProjectTag>
     );
 };
 
