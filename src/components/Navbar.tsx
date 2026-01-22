@@ -56,20 +56,18 @@ const Navbar = () => {
                     }}
                 >
                     <div className="flex items-center justify-between px-8">
-                        {/* Logo */}
+                        {/* Logo - Removed YT, using name instead */}
                         <motion.a
                             href="#"
-                            className="font-display text-2xl font-bold relative group cursor-hover"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }}
+                            className="font-display text-lg font-semibold relative group cursor-hover text-foreground/80 hover:text-foreground transition-colors"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
                         >
-                            <span className="relative z-10 text-gradient">YT</span>
-                            <motion.div
-                                className="absolute -inset-2 bg-foreground/5 rounded-lg -z-10"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileHover={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 0.2 }}
-                            />
+                            <span className="relative z-10">Yacine Tadjine</span>
                         </motion.a>
 
                         {/* Centered Navigation Links */}
@@ -78,6 +76,25 @@ const Navbar = () => {
                                 <motion.a
                                     key={item.name}
                                     href={item.href}
+                                    onClick={(e) => {
+                                        if (item.href !== '#') {
+                                            e.preventDefault();
+                                            const targetId = item.href.replace('#', '');
+                                            const targetElement = document.getElementById(targetId);
+                                            if (targetElement) {
+                                                const offset = 100;
+                                                const elementPosition = targetElement.getBoundingClientRect().top;
+                                                const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                                window.scrollTo({
+                                                    top: offsetPosition,
+                                                    behavior: 'smooth'
+                                                });
+                                            }
+                                        } else {
+                                            e.preventDefault();
+                                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        }
+                                    }}
                                     className="relative px-5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-hover"
                                     whileHover={{ y: -1 }}
                                     whileTap={{ scale: 0.95 }}
@@ -90,13 +107,6 @@ const Navbar = () => {
                                             transition={{ type: "spring", stiffness: 380, damping: 30 }}
                                         />
                                     )}
-                                    {activeSection === item.id && (
-                                        <motion.div
-                                            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-foreground rounded-full"
-                                            layoutId="activeDot"
-                                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                                        />
-                                    )}
                                 </motion.a>
                             ))}
                         </div>
@@ -104,6 +114,19 @@ const Navbar = () => {
                         {/* CTA Button */}
                         <motion.a
                             href="#contact"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const contactSection = document.getElementById('contact');
+                                if (contactSection) {
+                                    const offset = 100; // Offset for navbar
+                                    const elementPosition = contactSection.getBoundingClientRect().top;
+                                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                                    window.scrollTo({
+                                        top: offsetPosition,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }}
                             className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-sm font-semibold rounded-full hover:bg-foreground/90 transition-all cursor-hover relative overflow-hidden group"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

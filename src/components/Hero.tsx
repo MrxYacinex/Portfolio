@@ -135,64 +135,39 @@ const Hero = () => {
         style={{ y, opacity }}
       >
         <div className="max-w-6xl mx-auto text-center">
-          {/* Badge */}
+          {/* Personal Introduction */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-10"
+            className="mb-6"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase glass rounded-full border border-border/30 cursor-hover">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-foreground opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-foreground"></span>
-              </span>
-              ETH Zürich Student
+            <span className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground/70">
+              Computer Science Student
             </span>
           </motion.div>
 
-          {/* Main Heading with Gradient Animation */}
+          {/* Main Heading - More Personal */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.1]"
+          >
+            <span className="block">Hi, I'm</span>
+            <span className="block mt-2 text-gradient">Yacine Tadjine</span>
+          </motion.h1>
+
+          {/* Personal Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight mb-8 leading-[0.95]"
+            className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
           >
-            <motion.span
-              className="block bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/80 to-foreground"
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              style={{
-                backgroundSize: "200% 200%",
-              }}
-            >
-              Robotics
-            </motion.span>
-            <motion.span
-              className="block mt-2 bg-clip-text text-transparent"
-              style={{
-                backgroundImage: "linear-gradient(135deg, #fff 0%, #888 50%, #fff 100%)",
-                backgroundSize: "200% 200%",
-              }}
-              animate={{
-                backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-                delay: 0.5,
-              }}
-            >
-              & AI Engineer
-            </motion.span>
-          </motion.h1>
+            Building autonomous systems, exploring AI frontiers, and solving complex problems through code.
+            Currently at <span className="text-foreground/90">ETH Zürich</span>, leading robotics projects and competing in programming contests.
+          </motion.p>
 
           {/* Enhanced Typewriter Subtitle */}
           <motion.div
@@ -287,17 +262,31 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Scroll Indicator - Moved down and properly centered */}
+          {/* Scroll Indicator - Fixed position */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="absolute bottom-12 left-1/2 -translate-x-1/2"
+            transition={{ duration: 1, delay: 1 }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2"
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
+            <motion.a
+              href="#about"
+              onClick={(e) => {
+                e.preventDefault();
+                const aboutSection = document.getElementById('about');
+                if (aboutSection) {
+                  const offset = 100;
+                  const elementPosition = aboutSection.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - offset;
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              animate={{ y: [0, 8, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="flex flex-col items-center gap-2 text-muted-foreground/40"
+              className="flex flex-col items-center gap-2 text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors cursor-pointer"
             >
               <span className="text-[10px] font-medium tracking-[0.2em] uppercase">Scroll</span>
               <svg
@@ -311,7 +300,7 @@ const Hero = () => {
               >
                 <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
-            </motion.div>
+            </motion.a>
           </motion.div>
         </div>
       </motion.div>

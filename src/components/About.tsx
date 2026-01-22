@@ -93,8 +93,8 @@ const About = () => {
                 </span>
 
                 <h2 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight">
-                  Building the future with
-                  <span className="text-gradient block mt-3">code & algorithms</span>
+                  From competitive programming
+                  <span className="text-gradient block mt-3">to autonomous robotics</span>
                 </h2>
               </motion.div>
 
@@ -103,12 +103,18 @@ const About = () => {
                 className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed max-w-xl"
               >
                 <p>
-                  Currently studying Computer Science at ETH Zürich, I'm passionate about
-                  robotics, artificial intelligence, and building systems that solve real-world problems.
+                  I'm a Computer Science student at <span className="text-foreground/90 font-semibold">ETH Zürich</span>, 
+                  passionate about robotics, AI, and competitive programming. Currently leading the ETH Robotics Club 
+                  team developing autonomous rover systems for the European Rover Challenge.
                 </p>
                 <p>
-                  From crater simulation in Gazebo to AI-powered game bots, I love exploring
-                  the intersection of algorithms, data structures, and practical applications.
+                  My journey includes winning <span className="text-foreground/90 font-semibold">1st Place at ICPC ETH Swiss Subregional</span> 
+                  (solving all 12 problems), leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span>, 
+                  and building AI-powered learning platforms that improve outcomes by 220%+.
+                </p>
+                <p>
+                  Beyond code, I've won <span className="text-foreground/90 font-semibold">Jugend forscht 2024</span> in Space Technology 
+                  with an autonomous rocket control system, and managed sustainability projects raising $5,000+ for schools.
                 </p>
               </motion.div>
 
@@ -119,9 +125,9 @@ const About = () => {
               >
                 <div className="grid grid-cols-3 gap-6 lg:gap-10">
                   {[
-                    { value: "13+", label: "Repositories" },
-                    { value: "ETH", label: "Zürich" },
-                    { value: "C/C++", label: "Favorite" },
+                    { value: "1st", label: "ICPC ETH" },
+                    { value: "2027", label: "Graduation" },
+                    { value: "1.1", label: "GPA (TU Berlin)" },
                   ].map((stat, index) => (
                     <motion.div
                       key={stat.label}

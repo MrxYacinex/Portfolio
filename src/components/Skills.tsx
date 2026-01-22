@@ -3,16 +3,16 @@ import { useRef } from "react";
 
 const skillCategories = [
   {
-    title: "Languages",
-    skills: ["C/C++", "Python", "Java", "TypeScript", "JavaScript"],
+    title: "Programming Languages",
+    skills: ["Java", "Python", "JavaScript", "HTML/CSS", "C++", "C", "GoLang", "ROS2"],
   },
   {
-    title: "Robotics & AI",
-    skills: ["ROS", "Gazebo", "OpenCV", "TensorFlow", "Computer Vision"],
+    title: "Frameworks & Libraries",
+    skills: ["React.js", "Next.js", "Node.js", "Express.js", "Bootstrap", "Spring Boot", "TensorFlow", "PyTorch", "scikit-learn", "MATLAB", "NLP", "Computer Vision"],
   },
   {
-    title: "Tools & Frameworks",
-    skills: ["Git", "React", "Node.js", "Docker", "Linux"],
+    title: "Tools & Platforms",
+    skills: ["Vercel", "Git", "Jupyter Notebook", "IntelliJ IDEA", "PyCharm", "Eclipse", "Android Studio"],
   },
 ];
 
@@ -113,10 +113,12 @@ const Skills = () => {
             </h3>
             <div className="space-y-8 max-w-3xl mx-auto">
               {[
-                { name: "Algorithms & Data Structures", level: 90 },
-                { name: "Robotics & Simulation", level: 85 },
-                { name: "AI & Machine Learning", level: 80 },
-                { name: "Full-Stack Development", level: 75 },
+                { name: "Algorithms & Data Structures", level: 95 },
+                { name: "Robotics & Autonomous Systems", level: 90 },
+                { name: "AI & Machine Learning", level: 85 },
+                { name: "Competitive Programming", level: 95 },
+                { name: "Full-Stack Development", level: 80 },
+                { name: "Software Engineering", level: 85 },
               ].map((competency, index) => (
                 <div key={competency.name}>
                   <div className="flex justify-between text-xs mb-3">
