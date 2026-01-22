@@ -1,11 +1,11 @@
 import { motion, useInView, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useRef, useState, useMemo } from "react";
-import CuteRobot from "./CuteRobot";
+
 
 // Nature-inspired Breathing Visualization
 const InteractiveJourney = () => {
   const shouldReduceMotion = useReducedMotion();
-  
+
   // Memoize particle data to avoid recalculating on every render
   const particleData = useMemo(() => {
     // Reduce particles on mobile and for reduced motion
@@ -19,7 +19,7 @@ const InteractiveJourney = () => {
       const randomX = (Math.random() - 0.5) * 50;
       const randomScale = 1.2 + Math.random() * 0.3;
       const randomDuration = 4 + Math.random() * 3;
-      
+
       return {
         id: i,
         baseX,
@@ -37,18 +37,18 @@ const InteractiveJourney = () => {
   // Memoize blob configurations - reduce on mobile
   const blobConfigs = useMemo(() => {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    
+
     if (shouldReduceMotion) {
       return []; // No blobs for reduced motion
     }
-    
+
     if (isMobile) {
       return [
         { size: 400, x: 70, y: 25, delay: 0, duration: 8 },
         { size: 350, x: 80, y: 75, delay: 4, duration: 9 },
       ];
     }
-    
+
     return [
       { size: 600, x: 70, y: 25, delay: 0, duration: 8 },
       { size: 450, x: 60, y: 60, delay: 2, duration: 10 },
@@ -108,7 +108,7 @@ const InteractiveJourney = () => {
             </feMerge>
           </filter>
         </defs>
-        
+
         {/* Organic flowing path 1 - vine-like */}
         <motion.path
           d="M 60% 30% Q 75% 35%, 80% 50% T 75% 70% Q 70% 80%, 65% 85%"
@@ -133,7 +133,7 @@ const InteractiveJourney = () => {
           }}
           style={{ filter: "url(#softGlow)", willChange: "d, opacity, pathLength" }}
         />
-        
+
         {/* Organic flowing path 2 - branch-like */}
         <motion.path
           d="M 55% 40% Q 70% 45%, 78% 60% T 72% 80%"
@@ -311,7 +311,7 @@ const About = () => {
     <section id="about" className="py-16 md:py-24 relative overflow-hidden grain">
       {/* Background gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" />
-      
+
       {/* Background Visualization */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <InteractiveJourney />
@@ -387,16 +387,8 @@ const About = () => {
                 </div>
               </motion.div>
             </div>
-            
-            {/* Robot Column - Right Side */}
-            <motion.div
-              variants={visualVariants}
-              className="relative h-full min-h-[300px] md:min-h-[400px] lg:min-h-[500px] lg:sticky lg:top-24 flex items-end justify-center"
-            >
-              <div className="w-full h-[350px] md:h-[400px] mt-auto">
-                <CuteRobot />
-              </div>
-            </motion.div>
+
+            {/* Robot Column removed */}
           </div>
         </motion.div>
       </div>
