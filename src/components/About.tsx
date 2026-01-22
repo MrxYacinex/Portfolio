@@ -1,4 +1,3 @@
-import TechBackground from "./TechBackground";
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
 
@@ -74,9 +73,6 @@ const About = () => {
 
   return (
     <section id="about" className="py-16 md:py-24 relative overflow-hidden">
-      {/* Dynamic Background */}
-      <TechBackground />
-
       {/* Background gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" />
 
