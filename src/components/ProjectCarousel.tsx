@@ -1,15 +1,8 @@
 import React, { useRef, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
-
-export interface Project {
-    title: string;
-    category: string;
-    description: string;
-    tech: string[];
-    link: string;
-    award?: string;
-}
+import { Link } from "react-router-dom";
+import { Project } from "@/data/projects";
 
 interface ProjectCarouselProps {
     projects: Project[];
@@ -56,12 +49,9 @@ const SpotlightCard = ({ project, index }: { project: Project; index: number }) 
         mouseY.set(clientY - top);
     }
 
-    const ProjectTag = project.link !== "#" ? "a" : "div";
-    const props = project.link !== "#" ? { href: project.link, target: "_blank", rel: "noopener noreferrer" } : {};
-
     return (
-        <ProjectTag
-            {...props}
+        <Link
+            to={`/projects/${project.slug}`}
             className="group relative h-[400px] w-[300px] md:w-[350px] flex-shrink-0 bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-white/20"
             onMouseMove={handleMouseMove}
         >
@@ -122,7 +112,7 @@ const SpotlightCard = ({ project, index }: { project: Project; index: number }) 
                     </div>
                 </div>
             </div>
-        </ProjectTag>
+        </Link>
     );
 };
 

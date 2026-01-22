@@ -253,36 +253,6 @@ const Hero = () => {
               </span>
             </motion.a>
           </motion.div>
-
-          {/* Logo Bar (Integrated) */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="mt-20 sm:mt-24"
-          >
-            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/40 mb-8 text-center mx-auto">
-              Trusted by & Affiliated with
-            </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 transition-opacity duration-500">
-              {[
-                { name: "ETH Zürich", src: "/logos/eth.png", className: "h-6 md:h-8 invert opacity-80 hover:opacity-100" },
-                { name: "TU Berlin", src: "/logos/tub.png", className: "h-6 md:h-8" },
-                { name: "HU Berlin", src: "/logos/hu.png", className: "h-10 md:h-12 rounded-full" }, // Rounded to crop white corners
-                { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
-                { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 hover:opacity-100" },
-                { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-8 md:h-10 hover:opacity-100" },
-                { name: "Google Developers", src: "/logos/gdg.png", className: "h-6 md:h-8 opacity-90 hover:opacity-100" },
-              ].map((logo) => (
-                <img
-                  key={logo.name}
-                  src={logo.src}
-                  alt={logo.name}
-                  className={`w-auto object-contain transition-all duration-300 ${logo.className}`}
-                />
-              ))}
-            </div>
-          </motion.div>
         </div>
       </motion.div>
 

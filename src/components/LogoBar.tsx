@@ -2,13 +2,12 @@ import { motion } from "framer-motion";
 
 const logos = [
     { name: "ETH Zürich", src: "/logos/eth.png", className: "h-6 md:h-8 invert opacity-80 hover:opacity-100" },
-    { name: "TU Berlin", src: "/logos/tub.png", className: "h-8 md:h-12 opacity-80 hover:opacity-100" },
-    { name: "HU Berlin", src: "/logos/hu.png", className: "h-8 md:h-10 invert opacity-80 hover:opacity-100" },
-    { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-10 md:h-12 opacity-80 hover:opacity-100" },
-    { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
-    { name: "VIS ETH", src: "/logos/vis.png", className: "h-8 md:h-10 brightness-0 invert opacity-80 hover:opacity-100" },
-    { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-10 md:h-12 opacity-80 hover:opacity-100" },
-    { name: "Google Developers", src: "/logos/gdg.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
+    { name: "TU Berlin", src: "/logos/tub.png", className: "h-6 md:h-8" },
+    { name: "HU Berlin", src: "/logos/hu.png", className: "h-10 md:h-12 rounded-full" },
+    { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
+    { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 hover:opacity-100" },
+    { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-8 md:h-10 hover:opacity-100" },
+    { name: "Google Developers", src: "/logos/gdg.png", className: "h-6 md:h-8 opacity-90 hover:opacity-100" },
 ];
 
 const LogoBar = () => {
