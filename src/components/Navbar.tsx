@@ -14,7 +14,13 @@ const Navbar = () => {
             // Update active section based on scroll position
             const sections = ["home", "about", "projects", "skills", "contact"];
             const scrollPosition = window.scrollY + 150; // Offset for navbar
-            
+
+            // Check if user has scrolled to the bottom of the page
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
+                setActiveSection("contact");
+                return;
+            }
+
             // Check each section to find which one is currently in view
             let currentSection = "home";
             for (let i = sections.length - 1; i >= 0; i--) {
@@ -62,8 +68,8 @@ const Navbar = () => {
             <div className="container mx-auto px-6 py-6">
                 <motion.div
                     className={`relative transition-all duration-500 ${scrolled
-                            ? "glass rounded-full shadow-2xl shadow-foreground/5"
-                            : "bg-transparent"
+                        ? "glass rounded-full shadow-2xl shadow-foreground/5"
+                        : "bg-transparent"
                         }`}
                     animate={{
                         paddingTop: scrolled ? "0.75rem" : "1rem",

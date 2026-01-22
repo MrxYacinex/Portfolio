@@ -42,7 +42,7 @@ const Skills = () => {
   };
 
   return (
-    <section id="skills" className="py-40 relative">
+    <section id="skills" className="py-20 relative">
       {/* Background blob */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-foreground/[0.01] animate-morph-slow animate-pulse-glow" />

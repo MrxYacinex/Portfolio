@@ -111,7 +111,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-40 relative">
+    <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto" ref={ref}>
           <motion.div

@@ -10,14 +10,15 @@ const Hero = () => {
   const [isSelecting, setIsSelecting] = useState(false);
   const [loopNum, setLoopNum] = useState(0);
 
+  // Shortened quotes, single line, no names
   const messages = [
-    "The important thing is not to stop questioning - Albert Einstein",
-    "We can only see a short distance ahead, but we can see plenty there that needs to be done - Alan Turing",
-    "Somewhere, something incredible is waiting to be known - Carl Sagan",
-    "The future belongs to those who believe in the beauty of their dreams - Eleanor Roosevelt",
-    "Imagination is more important than knowledge - Albert Einstein",
-    "The computer was born to solve problems that did not exist before - Bill Gates",
-    "Science is a way of thinking much more than it is a body of knowledge - Carl Sagan"
+    "The important thing is not to stop questioning",
+    "We can only see a short distance ahead",
+    "Somewhere, something incredible is waiting to be known",
+    "The future belongs to those who believe in their dreams",
+    "Imagination is more important than knowledge",
+    "The computer was born to solve problems that did not exist",
+    "Science is a way of thinking much more than a body of knowledge"
   ];
 
   useEffect(() => {
@@ -50,7 +51,7 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
-      {/* Animated gradient background (Restored) */}
+      {/* Animated gradient background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
@@ -87,7 +88,7 @@ const Hero = () => {
         />
       </div>
 
-      {/* Floating code snippets (Restored) */}
+      {/* Floating code snippets */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(8)].map((_, i) => (
           <motion.div
@@ -129,12 +130,12 @@ const Hero = () => {
       >
         <div className="max-w-6xl mx-auto text-center">
 
-          {/* Enhanced Tag - Added Pulse */}
+          {/* Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-6 flex justify-center"
+            className="mb-4 flex justify-center" // Reduced margin
           >
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
               <span className="relative flex h-2 w-2">
@@ -147,50 +148,39 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Main Heading - With Subtle Hover Glitch */}
+          {/* Main Heading - Clean, No Glitch */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-6 relative group inline-block"
+            className="mb-4 relative group inline-block" // Reduced margin
           >
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-              <span className="block text-xl md:text-2xl font-normal text-muted-foreground mb-2 tracking-normal">Hi, I'm</span>
+              <span className="block text-xl md:text-2xl font-normal text-muted-foreground mb-1 tracking-normal">Hi, I'm</span>
               <span className="block text-gradient relative z-10">Yacine Tadjine</span>
             </h1>
-
-            {/* Glitch Layers - Only visible on hover */}
-            <div className="absolute top-[40%] left-0 w-full opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-red-500/30 absolute left-[2px] top-0 blur-[1px]">
-                <span className="block text-xl md:text-2xl font-normal text-transparent mb-2">Hi, I'm</span>
-                Yacine Tadjine
-              </h1>
-              <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] text-blue-500/30 absolute -left-[2px] top-0 blur-[1px]">
-                <span className="block text-xl md:text-2xl font-normal text-transparent mb-2">Hi, I'm</span>
-                Yacine Tadjine
-              </h1>
-            </div>
           </motion.div>
 
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
+            className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed" // Reduced margin
           >
             Building autonomous systems, exploring AI frontiers, and solving complex problems through code.
             Currently at <span className="text-foreground/90 font-semibold border-b border-white/20 pb-0.5">ETH Zürich</span>.
           </motion.p>
 
-          {/* Typewriter Subtitle (Restored) */}
+          {/* Typewriter Subtitle - Cleaned and Reduced Margin */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mb-16 min-h-[4rem] flex items-center justify-center"
+            className="mb-10 min-h-[3.5rem] flex items-center justify-center" // Reduced margin and height
           >
-            <p className="text-lg md:text-xl text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-2 px-6 rounded-lg border border-white/5 backdrop-blur-sm">
-              <span className="text-emerald-500 mr-3 text-2xl flex-shrink-0">{">"}</span>
+            <p className="text-base md:text-lg text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-1.5 px-4 rounded-lg border border-white/5 backdrop-blur-sm">
+              <span className="text-emerald-500 mr-2 text-xl flex-shrink-0">{">"}</span>
               <span className="relative inline-flex items-center">
                 <span className="inline-block px-1">
                   {text || "\u00A0"}
@@ -198,18 +188,18 @@ const Hero = () => {
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
-                  className="inline-block w-[2px] h-5 bg-emerald-500 ml-1 flex-shrink-0 shadow-[0_0_8px_rgba(16,185,129,0.8)]"
+                  className="inline-block w-[2px] h-4 bg-emerald-500 ml-1 flex-shrink-0"
                 />
               </span>
             </p>
           </motion.div>
 
-          {/* CTA Buttons (Restored) */}
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-20"
+            className="flex flex-col sm:flex-row items-center justify-center gap-5 mb-16" // Reduced margin
           >
             <motion.a
               href="#projects"
@@ -256,44 +246,32 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-          {/* Scroll Indicator (Restored) */}
+          {/* New Creative Scroll Indicator */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
+            className="absolute bottom-10 left-0 right-0 flex justify-center"
           >
             <motion.a
               href="#about"
               onClick={(e) => {
                 e.preventDefault();
-                const aboutSection = document.getElementById('about');
-                if (aboutSection) {
-                  const offset = 100;
-                  const elementPosition = aboutSection.getBoundingClientRect().top;
-                  const offsetPosition = elementPosition + window.pageYOffset - offset;
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  });
-                }
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
               }}
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="flex flex-col items-center gap-2 text-muted-foreground/50 hover:text-muted-foreground/70 transition-colors cursor-pointer"
+              className="flex flex-col items-center gap-2 cursor-pointer group"
             >
-              <span className="text-[10px] font-medium tracking-[0.2em] uppercase">Scroll</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
+              {/* Minimal Line Animation */}
+              <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-emerald-500/50 to-transparent relative overflow-hidden">
+                <motion.div
+                  className="absolute top-0 left-0 w-full h-1/2 bg-emerald-400 blur-[1px]"
+                  animate={{ y: ["-100%", "200%"] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+              <span className="text-[10px] tracking-[0.3em] font-medium text-muted-foreground/40 uppercase group-hover:text-emerald-500/70 transition-colors">
+                Explore
+              </span>
             </motion.a>
           </motion.div>
         </div>

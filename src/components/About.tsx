@@ -72,7 +72,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="py-32 md:py-40 relative overflow-hidden">
+    <section id="about" className="py-16 md:py-24 relative overflow-hidden">
       {/* Background gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-foreground/[0.02] to-transparent pointer-events-none" />
 
@@ -103,18 +103,18 @@ const About = () => {
                 className="space-y-6 text-muted-foreground/90 text-base md:text-lg leading-relaxed max-w-xl"
               >
                 <p>
-                  I'm a Computer Science student at <span className="text-foreground/90 font-semibold">ETH Zürich</span>, 
-                  passionate about robotics, AI, and competitive programming. Currently leading the ETH Robotics Club 
+                  I'm a Computer Science student at <span className="text-foreground/90 font-semibold">ETH Zürich</span>,
+                  passionate about robotics, AI, and competitive programming. Currently leading the ETH Robotics Club
                   team developing autonomous rover systems for the European Rover Challenge.
                 </p>
                 <p>
-                  My journey includes leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span> 
-                  (1st Place at JiVS Hackathon 2025), building AI-powered learning platforms that improve outcomes by 220%+, 
+                  My journey includes leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span>
+                  (1st Place at JiVS Hackathon 2025), building AI-powered learning platforms that improve outcomes by 220%+,
                   and developing full-stack applications at startups like leasyro.
                 </p>
                 <p>
-                  Beyond code, I've managed sustainability projects raising $5,000+ for schools, winning the Berlin Senate's 
-                  "Championing Sustainability" $20,000 Award, and actively participating in competitive programming training 
+                  Beyond code, I've managed sustainability projects raising $5,000+ for schools, winning the Berlin Senate's
+                  "Championing Sustainability" $20,000 Award, and actively participating in competitive programming training
                   and Model United Nations.
                 </p>
               </motion.div>
