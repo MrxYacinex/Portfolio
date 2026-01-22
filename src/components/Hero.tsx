@@ -177,23 +177,21 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="mb-10 min-h-[3.5rem] flex items-center justify-center" // Reduced margin and height
+            className="mb-10 min-h-[3.5rem] flex items-center justify-center"
           >
             <p className="text-base md:text-lg text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-1.5 px-4 rounded-lg border border-white/5 backdrop-blur-sm">
               <span className="text-emerald-500 mr-2 font-bold">&gt;</span>
               <span className="relative inline-flex items-center">
-                <span className="relative">
+                <span className="relative inline-block">
                   {isSelecting && (
                     <motion.span
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
                       transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute inset-0 bg-emerald-500/20 -z-10"
+                      className="absolute inset-0 bg-emerald-500/30 rounded-sm"
                     />
                   )}
-                  <span className="inline-block px-1 relative z-10">
-                    {text || "\u00A0"}
-                  </span>
+                  <span className="relative z-10 px-1">{text || "\u00A0"}</span>
                 </span>
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
@@ -256,27 +254,54 @@ const Hero = () => {
             </motion.a>
           </motion.div>
 
-
+          {/* Logo Bar (Integrated) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="mt-20 sm:mt-24"
+          >
+            <p className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground/40 mb-8 text-center mx-auto">
+              Trusted by & Affiliated with
+            </p>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 transition-opacity duration-500">
+              {[
+                { name: "ETH Zürich", src: "/logos/eth.png", className: "h-6 md:h-8 invert opacity-80 hover:opacity-100" },
+                { name: "TU Berlin", src: "/logos/tub.png", className: "h-6 md:h-8" },
+                { name: "HU Berlin", src: "/logos/hu.png", className: "h-10 md:h-12 rounded-full" }, // Rounded to crop white corners
+                { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
+                { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 hover:opacity-100" },
+                { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-8 md:h-10 hover:opacity-100" },
+                { name: "Google Developers", src: "/logos/gdg.png", className: "h-6 md:h-8 opacity-90 hover:opacity-100" },
+              ].map((logo) => (
+                <img
+                  key={logo.name}
+                  src={logo.src}
+                  alt={logo.name}
+                  className={`w-auto object-contain transition-all duration-300 ${logo.className}`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll Indicator & Connecting Line */}
-      {/* Hero Footer / HUD Elements */}
-      <div className="absolute bottom-8 left-0 right-0 px-6 md:px-12 flex justify-between items-end pointer-events-none z-20">
+      {/* Hero Footer / HUD Elements - Positioned absolutely at bottom */}
+      <div className="absolute bottom-10 left-0 right-0 px-6 md:px-12 flex justify-between items-end pointer-events-none z-20">
 
         {/* Bottom Left: Location Data */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/40 uppercase tracking-widest"
+          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest"
         >
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 bg-emerald-500/50 rounded-full animate-pulse" />
+            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
             <span>Loc: Zürich, CH</span>
           </div>
-          <div>Lat: 47.3769° N</div>
-          <div>Lng: 08.5417° E</div>
+          <div className="text-muted-foreground/40">Lat: 47.3769° N</div>
+          <div className="text-muted-foreground/40">Lng: 08.5417° E</div>
         </motion.div>
 
         {/* Bottom Center: Scroll Chevron */}
@@ -284,14 +309,14 @@ const Hero = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
-          className="absolute left-1/2 -translate-x-1/2 bottom-8"
+          className="absolute left-1/2 -translate-x-1/2 bottom-0"
         >
           <motion.div
             animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/50" />
+              <path d="M7 13L12 18L17 13M7 6L12 11L17 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground/70" />
             </svg>
           </motion.div>
         </motion.div>
@@ -301,16 +326,16 @@ const Hero = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/40 uppercase tracking-widest text-right"
+          className="hidden md:flex flex-col gap-1 font-mono text-[10px] text-muted-foreground/60 uppercase tracking-widest text-right"
         >
           <div>System: Online</div>
-          <div>Ver: 2.4.0-rc</div>
-          <div className="flex items-center justify-end gap-2">
+          <div className="text-muted-foreground/40">Ver: 2.4.0-rc</div>
+          <div className="flex items-center justify-end gap-2 text-emerald-500/80">
             <span>Syncing</span>
             <div className="flex gap-0.5">
-              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.0 }} className="w-0.5 bg-emerald-500/50" />
-              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }} className="w-0.5 bg-emerald-500/50" />
-              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }} className="w-0.5 bg-emerald-500/50" />
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.0 }} className="w-0.5 bg-emerald-500/80" />
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }} className="w-0.5 bg-emerald-500/80" />
+              <motion.div animate={{ height: [2, 8, 2] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }} className="w-0.5 bg-emerald-500/80" />
             </div>
           </div>
         </motion.div>
