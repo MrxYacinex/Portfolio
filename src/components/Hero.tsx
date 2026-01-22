@@ -182,8 +182,18 @@ const Hero = () => {
             <p className="text-base md:text-lg text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-1.5 px-4 rounded-lg border border-white/5 backdrop-blur-sm">
               <span className="text-emerald-500 mr-2 text-xl flex-shrink-0">{">"}</span>
               <span className="relative inline-flex items-center">
-                <span className="inline-block px-1">
-                  {text || "\u00A0"}
+                <span className="relative">
+                  {isSelecting && (
+                    <motion.span
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      className="absolute inset-0 bg-emerald-500/20 -z-10"
+                    />
+                  )}
+                  <span className="inline-block px-1 relative z-10">
+                    {text || "\u00A0"}
+                  </span>
                 </span>
                 <motion.span
                   animate={{ opacity: [1, 0, 1] }}
