@@ -75,7 +75,7 @@ const CustomCursor = () => {
         <>
             {/* Core Cursor (Dot) */}
             <motion.div
-                className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block mix-blend-difference"
+                className="fixed top-0 left-0 pointer-events-none z-[10001] hidden md:block mix-blend-difference"
                 style={{
                     x: cursorXSpring,
                     y: cursorYSpring,
@@ -95,7 +95,7 @@ const CustomCursor = () => {
 
             {/* Trailing Ring */}
             <motion.div
-                className="fixed top-0 left-0 pointer-events-none z-[9998] hidden md:block mix-blend-difference"
+                className="fixed top-0 left-0 pointer-events-none z-[10000] hidden md:block mix-blend-difference"
                 style={{
                     x: cursorXSpringRing,
                     y: cursorYSpringRing,

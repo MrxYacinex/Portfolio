@@ -78,7 +78,11 @@
     input,
     select,
     textarea,
-    [role="button"] {
+    [role="button"],
+    pre,
+    code,
+    pre *,
+    code * {
       cursor: none !important;
     }
   }
@@ -320,5 +324,186 @@
     .animate-spin {
       animation: none;
     }
+  }
+
+  /* Prism.js Syntax Highlighting - Custom dark theme (VS Code style) */
+  code[class*="language-"],
+  pre[class*="language-"] {
+    color: #d4d4d4 !important;
+    background: transparent !important;
+    text-shadow: none;
+    font-family: 'Courier New', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+    font-size: 1em;
+    text-align: left;
+    white-space: pre !important;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+    tab-size: 4;
+    hyphens: none;
+  }
+
+  pre[class*="language-"] {
+    padding: 1em;
+    margin: 0;
+    overflow: auto;
+  }
+
+  /* Custom scrollbar for code blocks - modern design with glow effect */
+  pre[class*="language-"] {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+    cursor: none !important;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0 8px;
+    cursor: none !important;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      rgba(255, 255, 255, 0.3) 50%, 
+      rgba(255, 255, 255, 0.1) 100%);
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    cursor: none !important;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.2) 0%, 
+      rgba(255, 255, 255, 0.5) 50%, 
+      rgba(255, 255, 255, 0.2) 100%);
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    transform: scaleY(1.2);
+    cursor: none !important;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar-thumb:active {
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.3) 0%, 
+      rgba(255, 255, 255, 0.6) 50%, 
+      rgba(255, 255, 255, 0.3) 100%);
+    cursor: none !important;
+  }
+
+  pre[class*="language-"]::-webkit-scrollbar-corner {
+    background: transparent;
+    cursor: none !important;
+  }
+
+  :not(pre) > code[class*="language-"] {
+    padding: 0.1em 0.3em;
+    border-radius: 0.3em;
+    white-space: normal;
+  }
+
+  /* Java-specific tokens - VS Code Dark+ theme colors */
+  /* Higher specificity to override any conflicting styles */
+  code.language-java .token.comment,
+  code.language-java .token.prolog,
+  code.language-java .token.doctype,
+  code.language-java .token.cdata,
+  pre.language-java .token.comment,
+  pre.language-java .token.prolog,
+  pre.language-java .token.doctype,
+  pre.language-java .token.cdata {
+    color: #6a9955 !important;
+    font-style: italic;
+  }
+
+  code.language-java .token.punctuation,
+  pre.language-java .token.punctuation {
+    color: #d4d4d4 !important;
+  }
+
+  code.language-java .token.property,
+  code.language-java .token.tag,
+  code.language-java .token.boolean,
+  code.language-java .token.number,
+  code.language-java .token.constant,
+  code.language-java .token.symbol,
+  code.language-java .token.deleted,
+  pre.language-java .token.property,
+  pre.language-java .token.tag,
+  pre.language-java .token.boolean,
+  pre.language-java .token.number,
+  pre.language-java .token.constant,
+  pre.language-java .token.symbol,
+  pre.language-java .token.deleted {
+    color: #b5cea8 !important;
+  }
+
+  code.language-java .token.selector,
+  code.language-java .token.attr-name,
+  code.language-java .token.string,
+  code.language-java .token.char,
+  code.language-java .token.builtin,
+  code.language-java .token.inserted,
+  pre.language-java .token.selector,
+  pre.language-java .token.attr-name,
+  pre.language-java .token.string,
+  pre.language-java .token.char,
+  pre.language-java .token.builtin,
+  pre.language-java .token.inserted {
+    color: #ce9178 !important;
+  }
+
+  code.language-java .token.operator,
+  code.language-java .token.entity,
+  code.language-java .token.url,
+  pre.language-java .token.operator,
+  pre.language-java .token.entity,
+  pre.language-java .token.url {
+    color: #d4d4d4 !important;
+  }
+
+  code.language-java .token.atrule,
+  code.language-java .token.attr-value,
+  code.language-java .token.keyword,
+  pre.language-java .token.atrule,
+  pre.language-java .token.attr-value,
+  pre.language-java .token.keyword {
+    color: #c792ea !important;
+  }
+
+  code.language-java .token.function,
+  code.language-java .token.class-name,
+  pre.language-java .token.function,
+  pre.language-java .token.class-name {
+    color: #4ec9b0 !important;
+  }
+
+  code.language-java .token.regex,
+  code.language-java .token.important,
+  code.language-java .token.variable,
+  pre.language-java .token.regex,
+  pre.language-java .token.important,
+  pre.language-java .token.variable {
+    color: #9cdcfe !important;
+  }
+
+  .token.important,
+  .token.bold {
+    font-weight: bold;
+  }
+
+  .token.italic {
+    font-style: italic;
+  }
+
+  .token.entity {
+    cursor: help;
   }
 }

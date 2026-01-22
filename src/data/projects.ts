@@ -97,9 +97,25 @@ export const projectsData: Project[] = [
         slug: "eth-algorithms",
         title: "ETH Algorithms & Data Structures",
         category: "Academic & Competitive Programming",
-        description: "Implementation of algorithms and data structures from ETH Zürich. Graph algorithms and dynamic programming.",
-        tech: ["Java", "Algorithms", "Data Structures", "Competitive Programming"],
-        link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures"
+        description: "Comprehensive collection of fundamental algorithms and data structures implemented in Java. Covers sorting, graph algorithms, dynamic programming, and more.",
+        tech: ["1", "Algorithms", "Data Structures", "Competitive Programming"],
+        link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures",
+        content: {
+            overview: "A comprehensive repository of algorithms and data structures implemented in Java, covering the core topics taught in ETH Zürich's computer science curriculum. This collection features clean, minimal, and educational implementations designed for understanding and study purposes.",
+            challenges: [
+                "Implementing algorithms correctly while maintaining code readability and educational value",
+                "Ensuring optimal time and space complexity for each algorithm",
+                "Organizing code structure to be intuitive and easy to navigate",
+                "Balancing between minimal code and comprehensive functionality"
+            ],
+            solutions: [
+                "Organized code by categories (basics, sorting, graphs, DP, etc.) for easy navigation",
+                "Included detailed complexity analysis in documentation",
+                "Implemented algorithms with clear variable names and comments",
+                "Created standalone implementations that can be run independently"
+            ],
+            results: "Successfully implemented 50+ algorithms and data structures covering all major categories. The repository serves as a comprehensive study resource for algorithms and data structures, with clear complexity analysis and educational implementations."
+        }
     },
     {
         slug: "real-estate",
