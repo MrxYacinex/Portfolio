@@ -13,15 +13,30 @@ const Navbar = () => {
 
             // Update active section based on scroll position
             const sections = ["home", "about", "projects", "skills", "contact"];
-            const current = sections.find(section => {
-                const element = document.getElementById(section === "home" ? "" : section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    return rect.top <= 100 && rect.bottom >= 100;
+            const scrollPosition = window.scrollY + 150; // Offset for navbar
+            
+            // Check each section to find which one is currently in view
+            let currentSection = "home";
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = sections[i];
+                if (section === "home") {
+                    if (window.scrollY < 100) {
+                        currentSection = "home";
+                        break;
+                    }
+                } else {
+                    const element = document.getElementById(section);
+                    if (element) {
+                        const elementTop = element.offsetTop;
+                        const elementBottom = elementTop + element.offsetHeight;
+                        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+                            currentSection = section;
+                            break;
+                        }
+                    }
                 }
-                return false;
-            });
-            if (current) setActiveSection(current);
+            }
+            setActiveSection(currentSection);
         };
 
         window.addEventListener("scroll", handleScroll);

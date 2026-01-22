@@ -27,12 +27,32 @@ const projects = [
     link: "https://github.com/MrxYacinex/emol_marc"
   },
   {
-    title: "StratosFlare - Autonomous Rocket Control",
-    category: "Aerospace & Embedded Systems",
-    description: "Automatic thrust vector control system for model rockets optimizing flight trajectory in real-time. Designed sensor-based hardware and software for flight course correction against disturbances like crosswinds. Independently handled hardware setup, software programming, and organized authorized test launches.",
-    tech: ["C/C++", "Embedded Systems", "Sensors", "Control Systems"],
-    link: "#",
-    award: "Jugend forscht 2024 - 1st Place, Space Technology"
+    title: "Crater Simulation (Gazebo)",
+    category: "Robotics & Simulation",
+    description: "Advanced crater simulation environment using Gazebo for robotics research and testing. Developed realistic terrain models and physics-based simulations for autonomous rover navigation testing.",
+    tech: ["C++", "Gazebo", "ROS", "Simulation"],
+    link: "https://github.com/MrxYacinex/crater_sim_gazebo"
+  },
+  {
+    title: "AI Game Bot",
+    category: "Computer Vision & AI",
+    description: "Intelligent bot using computer vision and machine learning to play games autonomously. Implemented real-time screen capture, object detection, and decision-making algorithms for automated gameplay.",
+    tech: ["Python", "OpenCV", "TensorFlow", "Computer Vision"],
+    link: "https://github.com/MrxYacinex/MegaGay"
+  },
+  {
+    title: "ETH Algorithms & Data Structures",
+    category: "Academic & Competitive Programming",
+    description: "Comprehensive implementation of fundamental algorithms and data structures from ETH Zürich coursework. Includes advanced data structures, graph algorithms, dynamic programming, and optimization techniques used in competitive programming.",
+    tech: ["Java", "Algorithms", "Data Structures", "Competitive Programming"],
+    link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures"
+  },
+  {
+    title: "leasyro - Web Platform",
+    category: "Full-Stack Development",
+    description: "Developed and deployed web applications using Next.js and Vercel, improving load times and user experience. Integrated backend services and APIs to support dynamic features. Collaborated in a cross-functional startup environment to design scalable software architecture.",
+    tech: ["Next.js", "Vercel", "TypeScript", "React", "Node.js"],
+    link: "#"
   },
 ];
 

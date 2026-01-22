@@ -108,13 +108,14 @@ const About = () => {
                   team developing autonomous rover systems for the European Rover Challenge.
                 </p>
                 <p>
-                  My journey includes winning <span className="text-foreground/90 font-semibold">1st Place at ICPC ETH Swiss Subregional</span> 
-                  (solving all 12 problems), leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span>, 
-                  and building AI-powered learning platforms that improve outcomes by 220%+.
+                  My journey includes leading award-winning hackathon projects like <span className="text-foreground/90 font-semibold">Bubbe.Ai</span> 
+                  (1st Place at JiVS Hackathon 2025), building AI-powered learning platforms that improve outcomes by 220%+, 
+                  and developing full-stack applications at startups like leasyro.
                 </p>
                 <p>
-                  Beyond code, I've won <span className="text-foreground/90 font-semibold">Jugend forscht 2024</span> in Space Technology 
-                  with an autonomous rocket control system, and managed sustainability projects raising $5,000+ for schools.
+                  Beyond code, I've managed sustainability projects raising $5,000+ for schools, winning the Berlin Senate's 
+                  "Championing Sustainability" $20,000 Award, and actively participating in competitive programming training 
+                  and Model United Nations.
                 </p>
               </motion.div>
 
@@ -125,9 +126,9 @@ const About = () => {
               >
                 <div className="grid grid-cols-3 gap-6 lg:gap-10">
                   {[
-                    { value: "1st", label: "ICPC ETH" },
                     { value: "2027", label: "Graduation" },
                     { value: "1.1", label: "GPA (TU Berlin)" },
+                    { value: "220%", label: "Improvement" },
                   ].map((stat, index) => (
                     <motion.div
                       key={stat.label}

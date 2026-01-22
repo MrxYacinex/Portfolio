@@ -38,25 +38,17 @@ const Contact = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="mb-16 space-y-4"
+            className="mb-16"
           >
             <motion.a
-              href="mailto:yacine.tadjine@gmx.de"
+              href="mailto:ytadjine@ethz.ch"
               className="group inline-flex items-center gap-4 px-10 py-5 bg-foreground text-background font-medium rounded-full transition-all duration-500 block mx-auto w-fit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Mail className="w-5 h-5" />
-              yacine.tadjine@gmx.de
+              ytadjine@ethz.ch
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
-            </motion.a>
-            <motion.a
-              href="tel:+4915566080602"
-              className="group inline-flex items-center gap-4 px-10 py-5 glass border border-border/30 text-foreground font-medium rounded-full transition-all duration-500 block mx-auto w-fit"
-              whileHover={{ scale: 1.02, borderColor: "rgba(255,255,255,0.3)" }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <span className="text-sm">(+49) 155 66080602</span>
             </motion.a>
           </motion.div>
 
