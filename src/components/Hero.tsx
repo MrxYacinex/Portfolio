@@ -187,8 +187,8 @@ const Hero = () => {
                     <motion.span
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
-                      className="absolute inset-0 bg-emerald-500/20 -z-10"
+                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      className="absolute top-0 bottom-0 right-0 bg-emerald-500/30 -z-10"
                     />
                   )}
                   <span className="inline-block px-1 relative z-10">
