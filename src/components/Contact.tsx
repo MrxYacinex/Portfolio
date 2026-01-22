@@ -42,13 +42,14 @@ const Contact = () => {
           >
             <motion.a
               href="mailto:ytadjine@ethz.ch"
-              className="group inline-flex items-center gap-4 px-10 py-5 bg-foreground text-background font-medium rounded-full transition-all duration-500 block mx-auto w-fit"
+              className="group inline-flex items-center gap-4 px-10 py-5 bg-foreground text-background font-medium rounded-full transition-all duration-500 block mx-auto w-fit focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
+              aria-label="Send email to ytadjine@ethz.ch"
             >
-              <Mail className="w-5 h-5" />
-              ytadjine@ethz.ch
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+              <Mail className="w-5 h-5" aria-hidden="true" />
+              <span>ytadjine@ethz.ch</span>
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" aria-hidden="true" />
             </motion.a>
           </motion.div>
 
@@ -62,15 +63,17 @@ const Contact = () => {
               <motion.a
                 key={social.label}
                 href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: 0.6 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="w-14 h-14 glass rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all duration-500"
+                className="w-14 h-14 glass rounded-full flex items-center justify-center text-muted-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:ring-offset-background"
                 whileHover={{ scale: 1.1, y: -3 }}
                 whileTap={{ scale: 0.95 }}
-                aria-label={social.label}
+                aria-label={`Visit ${social.label} profile (opens in new tab)`}
               >
-                <social.icon className="w-5 h-5" />
+                <social.icon className="w-5 h-5" aria-hidden="true" />
               </motion.a>
             ))}
           </motion.div>

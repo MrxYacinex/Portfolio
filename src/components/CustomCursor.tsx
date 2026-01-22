@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const CustomCursor = () => {
+    const [isMobile, setIsMobile] = useState(false);
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
@@ -18,7 +19,23 @@ const CustomCursor = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isClicking, setIsClicking] = useState(false);
 
+    // Check if device is mobile/touch
     useEffect(() => {
+        const checkMobile = () => {
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            const isSmallScreen = window.innerWidth < 768;
+            setIsMobile(isTouchDevice || isSmallScreen);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    useEffect(() => {
+        // Don't set up cursor on mobile/touch devices
+        if (isMobile) return;
+
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
@@ -52,7 +69,7 @@ const CustomCursor = () => {
                 el.removeEventListener("mouseleave", handleMouseLeave);
             });
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, isMobile]);
 
     return (
         <>

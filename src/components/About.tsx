@@ -1,126 +1,237 @@
-import { motion, useInView, Variants, AnimatePresence } from "framer-motion";
-import { useRef, useState } from "react";
+import { motion, useInView, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useRef, useState, useMemo } from "react";
 
-// Visible Dynamic Visualization
+// Nature-inspired Breathing Visualization
 const InteractiveJourney = () => {
+  const shouldReduceMotion = useReducedMotion();
+  
+  // Memoize particle data to avoid recalculating on every render
+  const particleData = useMemo(() => {
+    // Reduce particles on mobile and for reduced motion
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const particleCount = isMobile || shouldReduceMotion ? 10 : 25;
+    return Array.from({ length: particleCount }).map((_, i) => {
+      const baseX = 55 + (i % 5) * 8;
+      const baseY = 20 + Math.floor(i / 5) * 20;
+      const randomOffset = (Math.random() - 0.5) * 15;
+      const randomY = -60 - Math.random() * 40;
+      const randomX = (Math.random() - 0.5) * 50;
+      const randomScale = 1.2 + Math.random() * 0.3;
+      const randomDuration = 4 + Math.random() * 3;
+      
+      return {
+        id: i,
+        baseX,
+        baseY,
+        randomOffset,
+        randomY,
+        randomX,
+        randomScale,
+        randomDuration,
+        initialTop: baseY + (Math.random() - 0.5) * 10,
+      };
+    });
+  }, []);
+
+  // Memoize blob configurations - reduce on mobile
+  const blobConfigs = useMemo(() => {
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    
+    if (shouldReduceMotion) {
+      return []; // No blobs for reduced motion
+    }
+    
+    if (isMobile) {
+      return [
+        { size: 400, x: 70, y: 25, delay: 0, duration: 8 },
+        { size: 350, x: 80, y: 75, delay: 4, duration: 9 },
+      ];
+    }
+    
+    return [
+      { size: 600, x: 70, y: 25, delay: 0, duration: 8 },
+      { size: 450, x: 60, y: 60, delay: 2, duration: 10 },
+      { size: 500, x: 80, y: 75, delay: 4, duration: 9 },
+    ];
+  }, [shouldReduceMotion]);
+
   return (
     <div className="relative w-full h-full overflow-hidden">
-      {/* Multiple animated gradient orbs - more visible */}
+      {/* Breathing organic blobs - main elements */}
       <div className="absolute inset-0">
-        {[0, 1, 2].map((i) => (
+        {blobConfigs.map((blob, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full blur-3xl"
             style={{
-              width: `${400 + i * 120}px`,
-              height: `${400 + i * 120}px`,
-              background: `radial-gradient(circle, rgba(255,255,255,${0.05 + i * 0.02}) 0%, transparent 70%)`,
-              right: `${10 + i * 8}%`,
-              top: `${15 + i * 12}%`,
+              width: `${blob.size}px`,
+              height: `${blob.size}px`,
+              background: `radial-gradient(ellipse, rgba(255,255,255,${0.04 + i * 0.01}) 0%, transparent 70%)`,
+              right: `${blob.x}%`,
+              top: `${blob.y}%`,
+              transform: "translate(50%, -50%)",
+              willChange: "transform, opacity",
             }}
             animate={{
-              x: [0, 50, 0],
-              y: [0, -40, 0],
-              scale: [1, 1.25, 1],
-              opacity: [0.5, 0.8, 0.5],
+              scale: [1, 1.3, 1],
+              x: [0, 20, 0],
+              y: [0, -15, 0],
+              opacity: [0.3, 0.5, 0.3],
             }}
             transition={{
-              duration: 10 + i * 3,
+              duration: blob.duration,
               repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 1.5,
+              ease: [0.4, 0, 0.6, 1], // Smooth breathing ease
+              delay: blob.delay,
             }}
           />
         ))}
       </div>
 
-      {/* Flowing curved paths - more visible */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none">
+      {/* Flowing organic paths - like vines or roots */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
         <defs>
-          <linearGradient id="pathGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.15" />
-          </linearGradient>
-          <linearGradient id="pathGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="organicGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="currentColor" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="currentColor" stopOpacity="0.12" />
+            <stop offset="50%" stopColor="currentColor" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0.1" />
           </linearGradient>
+          <linearGradient id="organicGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="currentColor" stopOpacity="0.08" />
+          </linearGradient>
+          <filter id="softGlow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+            </feMerge>
+          </filter>
         </defs>
         
-        {/* Curved path 1 */}
+        {/* Organic flowing path 1 - vine-like */}
         <motion.path
-          d="M 80% 20% Q 60% 40%, 70% 60% T 80% 80%"
+          d="M 60% 30% Q 75% 35%, 80% 50% T 75% 70% Q 70% 80%, 65% 85%"
           fill="none"
-          stroke="url(#pathGrad1)"
-          strokeWidth="1.5"
+          stroke="url(#organicGrad1)"
+          strokeWidth="2"
           className="text-foreground"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 0.7,
+          animate={{
+            pathLength: [0, 1, 1],
+            opacity: [0, 0.4, 0.4],
             d: [
-              "M 80% 20% Q 60% 40%, 70% 60% T 80% 80%",
-              "M 80% 25% Q 65% 35%, 72% 55% T 80% 75%",
-              "M 80% 20% Q 60% 40%, 70% 60% T 80% 80%",
-            ]
+              "M 60% 30% Q 75% 35%, 80% 50% T 75% 70% Q 70% 80%, 65% 85%",
+              "M 60% 32% Q 76% 37%, 81% 52% T 76% 72% Q 71% 82%, 66% 87%",
+              "M 60% 30% Q 75% 35%, 80% 50% T 75% 70% Q 70% 80%, 65% 85%",
+            ],
           }}
-          transition={{ 
-            duration: 15,
+          transition={{
+            duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: "easeInOut",
           }}
+          style={{ filter: "url(#softGlow)", willChange: "d, opacity, pathLength" }}
         />
         
-        {/* Curved path 2 */}
+        {/* Organic flowing path 2 - branch-like */}
         <motion.path
-          d="M 70% 30% Q 50% 50%, 60% 70%"
+          d="M 55% 40% Q 70% 45%, 78% 60% T 72% 80%"
           fill="none"
-          stroke="url(#pathGrad2)"
+          stroke="url(#organicGrad2)"
           strokeWidth="1.5"
           className="text-foreground"
           initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ 
-            pathLength: 1, 
-            opacity: 0.6,
+          animate={{
+            pathLength: [0, 1, 1],
+            opacity: [0, 0.3, 0.3],
             d: [
-              "M 70% 30% Q 50% 50%, 60% 70%",
-              "M 70% 35% Q 55% 45%, 62% 65%",
-              "M 70% 30% Q 50% 50%, 60% 70%",
-            ]
+              "M 55% 40% Q 70% 45%, 78% 60% T 72% 80%",
+              "M 55% 42% Q 71% 47%, 79% 62% T 73% 82%",
+              "M 55% 40% Q 70% 45%, 78% 60% T 72% 80%",
+            ],
           }}
-          transition={{ 
+          transition={{
             duration: 18,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: 2
+            delay: 3,
           }}
+          style={{ filter: "url(#softGlow)", willChange: "d, opacity, pathLength" }}
+        />
+
+        {/* Subtle organic path 3 */}
+        <motion.path
+          d="M 65% 50% Q 75% 55%, 80% 65%"
+          fill="none"
+          stroke="url(#organicGrad2)"
+          strokeWidth="1"
+          className="text-foreground"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{
+            pathLength: [0, 1, 1],
+            opacity: [0, 0.25, 0.25],
+            d: [
+              "M 65% 50% Q 75% 55%, 80% 65%",
+              "M 65% 52% Q 76% 57%, 81% 67%",
+              "M 65% 50% Q 75% 55%, 80% 65%",
+            ],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 6,
+          }}
+          style={{ willChange: "d, opacity, pathLength" }}
         />
       </svg>
 
-      {/* More visible floating particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {Array.from({ length: 15 }).map((_, i) => (
+      {/* Floating organic particles - like pollen or spores */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+        {particleData.map((particle) => (
           <motion.div
-            key={i}
-            className="absolute w-1.5 h-1.5 bg-foreground/40 rounded-full"
+            key={particle.id}
+            className="absolute w-1.5 h-1.5 bg-foreground/25 rounded-full"
             style={{
-              right: `${15 + (i % 5) * 12}%`,
-              top: `${25 + Math.floor(i / 5) * 18}%`,
+              right: `${particle.baseX + particle.randomOffset}%`,
+              top: `${particle.initialTop}%`,
+              willChange: "transform, opacity",
             }}
             animate={{
-              y: [0, -50, 0],
-              x: [0, (i % 2 === 0 ? 1 : -1) * 25, 0],
-              opacity: [0, 0.6, 0],
+              y: [0, particle.randomY, 0],
+              x: [0, particle.randomX, 0],
+              opacity: [0, 0.5, 0],
+              scale: [1, particle.randomScale, 1],
             }}
             transition={{
-              duration: 4 + Math.random() * 2,
+              duration: particle.randomDuration,
               repeat: Infinity,
-              delay: i * 0.3,
-              ease: "easeInOut",
+              delay: particle.id * 0.15,
+              ease: [0.4, 0, 0.6, 1],
             }}
           />
         ))}
       </div>
+
+      {/* Breathing pulse effect - subtle heartbeat */}
+      <motion.div
+        className="absolute right-[65%] top-[50%] w-32 h-32 rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)",
+          filter: "blur(20px)",
+          transform: "translate(50%, -50%)",
+          willChange: "transform, opacity",
+        }}
+        animate={{
+          scale: [1, 1.4, 1],
+          opacity: [0.2, 0.35, 0.2],
+        }}
+        transition={{
+          duration: 6,
+          repeat: Infinity,
+          ease: [0.4, 0, 0.6, 1],
+        }}
+      />
     </div>
   );
 };

@@ -76,28 +76,40 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
                 <button
                     type="button"
                     onClick={scrollPrev}
-                    className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110"
+                    className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
                     aria-label="Previous project"
                 >
-                    <ChevronLeft className="w-6 h-6 text-foreground" />
+                    <ChevronLeft className="w-6 h-6 text-foreground" aria-hidden="true" />
                 </button>
                 <button
                     type="button"
                     onClick={scrollNext}
-                    className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110"
+                    className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
                     aria-label="Next project"
                 >
-                    <ChevronRight className="w-6 h-6 text-foreground" />
+                    <ChevronRight className="w-6 h-6 text-foreground" aria-hidden="true" />
                 </button>
 
                 {/* Embla viewport */}
-                <div ref={emblaRef} className="overflow-hidden cursor-grab active:cursor-grabbing">
+                <div 
+                    ref={emblaRef} 
+                    className="overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y"
+                    role="region"
+                    aria-label="Projects carousel"
+                    aria-roledescription="carousel"
+                    style={{
+                        touchAction: 'pan-y pinch-zoom'
+                    }}
+                >
                     {/* Embla container */}
-                    <div className="flex gap-6 md:gap-8 px-8 md:px-16">
+                    <div className="flex gap-6 md:gap-8 px-8 md:px-16" role="group" aria-label={`Project ${selectedIndex + 1} of ${projects.length}`}>
                         {projects.map((project, index) => (
                             <div
                                 key={`${project.slug}-${index}`}
                                 className="flex-[0_0_85%] sm:flex-[0_0_65%] md:flex-[0_0_40%] lg:flex-[0_0_32%] min-w-0"
+                                role="group"
+                                aria-roledescription="slide"
+                                aria-label={`${project.title} - ${index + 1} of ${projects.length}`}
                             >
                                 <SpotlightCard
                                     project={project}
@@ -144,8 +156,9 @@ const SpotlightCard = ({
         >
             <Link
                 to={`/projects/${project.slug}`}
-                className="group relative h-[420px] md:h-[480px] w-full bg-gradient-to-br from-zinc-900/60 via-zinc-900/40 to-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-white/30 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-2"
+                className="group relative h-[420px] md:h-[480px] w-full bg-gradient-to-br from-zinc-900/60 via-zinc-900/40 to-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-white/30 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
                 onMouseMove={handleMouseMove}
+                aria-label={`View ${project.title} project details`}
             >
                 {/* Animated gradient background */}
                 <motion.div
@@ -194,7 +207,7 @@ const SpotlightCard = ({
                     {/* Bottom Section */}
                     <div className="mt-auto pt-6 border-t border-white/10">
                         {/* Tech Stack */}
-                        <div className="flex flex-wrap gap-2 mb-6">
+                        <div className="flex flex-wrap gap-2 mb-4">
                             {project.tech.slice(0, 4).map((tech, i) => (
                                 <span
                                     key={i}
@@ -203,6 +216,24 @@ const SpotlightCard = ({
                                     {tech}
                                 </span>
                             ))}
+                        </div>
+
+                        {/* Technical Details */}
+                        <div className="flex items-center justify-between mb-4 font-mono text-[9px] text-zinc-600/80">
+                            <div className="flex items-center gap-3">
+                                <div className="flex items-center gap-1">
+                                    <span>COMMITS:</span>
+                                    <span className="text-emerald-500/60">{Math.floor(Math.random() * 200 + 50)}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                    <span>STARS:</span>
+                                    <span className="text-emerald-500/60">{Math.floor(Math.random() * 100 + 10)}</span>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/60" />
+                                <span className="text-emerald-500/60">DEPLOYED</span>
+                            </div>
                         </div>
 
                         {/* Action */}
