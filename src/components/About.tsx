@@ -1,5 +1,6 @@
 import { motion, useInView, Variants, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useRef, useState, useMemo } from "react";
+import CuteRobot from "./CuteRobot";
 
 // Nature-inspired Breathing Visualization
 const InteractiveJourney = () => {
@@ -325,7 +326,7 @@ const About = () => {
           animate={isInView ? "visible" : "hidden"}
           className="max-w-7xl mx-auto pt-10"
         >
-          <div className="max-w-4xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             {/* Content Column */}
             <div className="space-y-8">
               <motion.div variants={itemVariants} className="space-y-4">
@@ -386,6 +387,16 @@ const About = () => {
                 </div>
               </motion.div>
             </div>
+            
+            {/* Robot Column - Right Side */}
+            <motion.div
+              variants={visualVariants}
+              className="relative h-full min-h-[300px] md:min-h-[400px] lg:min-h-[500px] lg:sticky lg:top-24 flex items-end justify-center"
+            >
+              <div className="w-full h-[350px] md:h-[400px] mt-auto">
+                <CuteRobot />
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
