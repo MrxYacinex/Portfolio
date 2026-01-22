@@ -54,6 +54,34 @@ const projects = [
     tech: ["Next.js", "Vercel", "TypeScript", "React", "Node.js"],
     link: "#"
   },
+  {
+    title: "RealEstate Platform",
+    category: "Full-Stack Development",
+    description: "Modern real estate platform built with TypeScript, featuring property listings, search functionality, and interactive user interfaces. Implemented responsive design and efficient data management for real estate transactions.",
+    tech: ["TypeScript", "React", "Node.js", "Full-Stack"],
+    link: "https://github.com/MrxYacinex/RealEstate"
+  },
+  {
+    title: "Voter Application",
+    category: "Full-Stack Development",
+    description: "Interactive voting application built with TypeScript, enabling secure and efficient voting processes. Features include real-time updates, user authentication, and result visualization.",
+    tech: ["TypeScript", "React", "Node.js", "Web Application"],
+    link: "https://github.com/MrxYacinex/Voter"
+  },
+  {
+    title: "BotGreen - Automation Bot",
+    category: "Automation & Python",
+    description: "Python-based automation bot designed for efficient task automation and workflow optimization. Implements intelligent decision-making algorithms and automated processes.",
+    tech: ["Python", "Automation", "Bot Development"],
+    link: "https://github.com/MrxYacinex/botgreen"
+  },
+  {
+    title: "System Programming (C)",
+    category: "Systems Programming",
+    description: "Advanced system programming projects in C, focusing on low-level system interactions, memory management, and efficient algorithms. Part of ETH Zürich coursework demonstrating mastery of systems programming concepts.",
+    tech: ["C", "Systems Programming", "Low-Level Programming"],
+    link: "https://github.com/MrxYacinex/SysProg-HW3"
+  },
 ];
 
 const Projects = () => {
