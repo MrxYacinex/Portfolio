@@ -155,7 +155,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="mb-4 relative group inline-block" // Reduced margin
           >
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
               <span className="block text-xl md:text-2xl font-normal text-muted-foreground mb-1 tracking-normal">Hi, I'm</span>
               <span className="block text-gradient relative z-10">Yacine Tadjine</span>
             </h1>
@@ -180,6 +180,7 @@ const Hero = () => {
             className="mb-10 min-h-[3.5rem] flex items-center justify-center" // Reduced margin and height
           >
             <p className="text-base md:text-lg text-muted-foreground/90 max-w-2xl mx-auto font-mono flex items-center justify-center bg-white/5 py-1.5 px-4 rounded-lg border border-white/5 backdrop-blur-sm">
+              <span className="text-emerald-500 mr-2 font-bold">&gt;</span>
               <span className="relative inline-flex items-center">
                 <span className="relative">
                   {isSelecting && (

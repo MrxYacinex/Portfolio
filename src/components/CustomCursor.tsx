@@ -5,12 +5,18 @@ const CustomCursor = () => {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
-    const springConfig = { damping: 25, stiffness: 300 };
-    const cursorXSpring = useSpring(cursorX, springConfig);
-    const cursorYSpring = useSpring(cursorY, springConfig);
+    // Fast spring for the core dot (instant feedback)
+    const springConfigDot = { damping: 20, stiffness: 450, mass: 0.5 };
+    // Smooth, laggy spring for the trailing ring (elegance)
+    const springConfigRing = { damping: 25, stiffness: 200, mass: 0.8 };
+
+    const cursorXSpring = useSpring(cursorX, springConfigDot);
+    const cursorYSpring = useSpring(cursorY, springConfigDot);
+    const cursorXSpringRing = useSpring(cursorX, springConfigRing);
+    const cursorYSpringRing = useSpring(cursorY, springConfigRing);
 
     const [isHovering, setIsHovering] = useState(false);
-    const [cursorVariant, setCursorVariant] = useState("default");
+    const [isClicking, setIsClicking] = useState(false);
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
@@ -18,22 +24,18 @@ const CustomCursor = () => {
             cursorY.set(e.clientY);
         };
 
-        const handleMouseEnter = () => {
-            setIsHovering(true);
-            setCursorVariant("hover");
-        };
+        const handleMouseEnter = () => setIsHovering(true);
+        const handleMouseLeave = () => setIsHovering(false);
+        const handleMouseDown = () => setIsClicking(true);
+        const handleMouseUp = () => setIsClicking(false);
 
-        const handleMouseLeave = () => {
-            setIsHovering(false);
-            setCursorVariant("default");
-        };
-
-        // Add cursor movement
         window.addEventListener("mousemove", moveCursor);
+        window.addEventListener("mousedown", handleMouseDown);
+        window.addEventListener("mouseup", handleMouseUp);
 
-        // Add hover listeners to interactive elements
+        // Targeted interactive elements
         const interactiveElements = document.querySelectorAll(
-            'a, button, [role="button"], .cursor-hover'
+            'a, button, [role="button"], .cursor-hover, input, textarea, select'
         );
 
         interactiveElements.forEach((el) => {
@@ -43,6 +45,8 @@ const CustomCursor = () => {
 
         return () => {
             window.removeEventListener("mousemove", moveCursor);
+            window.removeEventListener("mousedown", handleMouseDown);
+            window.removeEventListener("mouseup", handleMouseUp);
             interactiveElements.forEach((el) => {
                 el.removeEventListener("mouseenter", handleMouseEnter);
                 el.removeEventListener("mouseleave", handleMouseLeave);
@@ -50,49 +54,53 @@ const CustomCursor = () => {
         };
     }, [cursorX, cursorY]);
 
-    const variants = {
-        default: {
-            scale: 1,
-            mixBlendMode: "difference" as const,
-        },
-        hover: {
-            scale: 1.5,
-            mixBlendMode: "difference" as const,
-        },
-    };
-
     return (
         <>
-            {/* Main cursor dot */}
+            {/* Core Cursor (Dot) */}
             <motion.div
-                className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full pointer-events-none z-[9999] hidden md:block"
+                className="fixed top-0 left-0 pointer-events-none z-[9999] hidden md:block mix-blend-difference"
                 style={{
                     x: cursorXSpring,
                     y: cursorYSpring,
                     translateX: "-50%",
                     translateY: "-50%",
                 }}
-                variants={variants}
-                animate={cursorVariant}
-                transition={{ type: "spring", stiffness: 500, damping: 28 }}
-            />
+            >
+                <motion.div
+                    className="bg-white rounded-full"
+                    animate={{
+                        width: isHovering ? 8 : 8,
+                        height: isHovering ? 8 : 8,
+                        scale: isClicking ? 0.8 : 1,
+                    }}
+                />
+            </motion.div>
 
-            {/* Outer cursor ring */}
+            {/* Trailing Ring */}
             <motion.div
-                className="fixed top-0 left-0 w-10 h-10 border-2 border-white/40 rounded-full pointer-events-none z-[9998] hidden md:block"
+                className="fixed top-0 left-0 pointer-events-none z-[9998] hidden md:block mix-blend-difference"
                 style={{
-                    x: cursorXSpring,
-                    y: cursorYSpring,
+                    x: cursorXSpringRing,
+                    y: cursorYSpringRing,
                     translateX: "-50%",
                     translateY: "-50%",
-                    mixBlendMode: "difference",
                 }}
-                animate={{
-                    scale: isHovering ? 2 : 1,
-                    opacity: isHovering ? 0.6 : 0.3,
-                }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            />
+            >
+                <motion.div
+                    className="border border-white rounded-full"
+                    animate={{
+                        width: isHovering ? 64 : 24,
+                        height: isHovering ? 64 : 24,
+                        opacity: isHovering ? 1 : 0.6,
+                        borderWidth: isHovering ? "1px" : "1.5px",
+                    }}
+                    transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 25
+                    }}
+                />
+            </motion.div>
         </>
     );
 };
