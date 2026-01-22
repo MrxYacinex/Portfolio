@@ -208,7 +208,7 @@ const Navbar = () => {
                                     e.preventDefault();
                                     handleNavClick('#');
                                 }}
-                                className="font-display text-lg font-semibold relative group cursor-hover text-foreground/80 hover:text-foreground transition-colors z-50 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:rounded-md focus:px-2 focus:py-1"
+                                className="font-display text-lg font-semibold relative group cursor-hover text-foreground/80 hover:text-foreground transition-colors z-50 focus:outline-none"
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                                 aria-label="Yacine Tadjine - Go to homepage"

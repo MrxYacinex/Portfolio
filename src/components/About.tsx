@@ -366,7 +366,7 @@ const About = () => {
               >
                 <div className="grid grid-cols-3 gap-6 lg:gap-10">
                   {[
-                    { value: "2026", label: "Graduation" },
+                    { value: "2028", label: "Graduation" },
                     { value: "6+", label: "Years Coding" },
                     { value: "6.7k+", label: "Commits" },
                   ].map((stat, index) => (

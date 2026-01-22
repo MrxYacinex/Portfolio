@@ -33,15 +33,23 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
     useEffect(() => {
         if (!emblaApi) return;
 
-        const onSelect = () => {
-            setSelectedIndex(emblaApi.selectedScrollSnap());
+        const updateSelectedIndex = () => {
+            const newIndex = emblaApi.selectedScrollSnap();
+            setSelectedIndex(newIndex);
         };
 
-        emblaApi.on("select", onSelect);
-        onSelect();
+        // Update on selection and when scrolling settles
+        emblaApi.on("select", updateSelectedIndex);
+        emblaApi.on("settle", updateSelectedIndex);
+        emblaApi.on("reInit", updateSelectedIndex);
+        
+        // Initial update
+        updateSelectedIndex();
 
         return () => {
-            emblaApi.off("select", onSelect);
+            emblaApi.off("select", updateSelectedIndex);
+            emblaApi.off("settle", updateSelectedIndex);
+            emblaApi.off("reInit", updateSelectedIndex);
         };
     }, [emblaApi]);
 
@@ -76,7 +84,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
                 <button
                     type="button"
                     onClick={scrollPrev}
-                    className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
+                    className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none"
                     aria-label="Previous project"
                 >
                     <ChevronLeft className="w-6 h-6 text-foreground" aria-hidden="true" />
@@ -84,7 +92,7 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
                 <button
                     type="button"
                     onClick={scrollNext}
-                    className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
+                    className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 h-12 w-12 items-center justify-center rounded-full bg-background/80 backdrop-blur-sm border border-white/10 hover:bg-background hover:border-white/20 transition-all shadow-lg hover:scale-110 focus:outline-none"
                     aria-label="Next project"
                 >
                     <ChevronRight className="w-6 h-6 text-foreground" aria-hidden="true" />
@@ -103,21 +111,25 @@ const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
                 >
                     {/* Embla container */}
                     <div className="flex gap-6 md:gap-8 px-8 md:px-16" role="group" aria-label={`Project ${selectedIndex + 1} of ${projects.length}`}>
-                        {projects.map((project, index) => (
-                            <div
-                                key={`${project.slug}-${index}`}
-                                className="flex-[0_0_85%] sm:flex-[0_0_65%] md:flex-[0_0_40%] lg:flex-[0_0_32%] min-w-0"
-                                role="group"
-                                aria-roledescription="slide"
-                                aria-label={`${project.title} - ${index + 1} of ${projects.length}`}
-                            >
-                                <SpotlightCard
-                                    project={project}
-                                    index={index}
-                                    isActive={index === selectedIndex}
-                                />
-                            </div>
-                        ))}
+                        {projects.map((project, index) => {
+                            // Use strict equality check and ensure we're comparing the correct indices
+                            const isCardActive = index === selectedIndex;
+                            return (
+                                <div
+                                    key={`${project.slug}-${index}`}
+                                    className="flex-[0_0_85%] sm:flex-[0_0_65%] md:flex-[0_0_40%] lg:flex-[0_0_32%] min-w-0"
+                                    role="group"
+                                    aria-roledescription="slide"
+                                    aria-label={`${project.title} - ${index + 1} of ${projects.length}`}
+                                >
+                                    <SpotlightCard
+                                        project={project}
+                                        index={index}
+                                        isActive={isCardActive}
+                                    />
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
@@ -156,7 +168,7 @@ const SpotlightCard = ({
         >
             <Link
                 to={`/projects/${project.slug}`}
-                className="group relative h-[420px] md:h-[480px] w-full bg-gradient-to-br from-zinc-900/60 via-zinc-900/40 to-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-white/30 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-2 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                className="group relative h-[420px] md:h-[480px] w-full bg-gradient-to-br from-zinc-900/60 via-zinc-900/40 to-zinc-900/60 border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 hover:border-white/30 hover:shadow-2xl hover:shadow-emerald-500/10 hover:-translate-y-2 focus:outline-none"
                 onMouseMove={handleMouseMove}
                 aria-label={`View ${project.title} project details`}
             >
@@ -184,12 +196,12 @@ const SpotlightCard = ({
 
                 {/* Content */}
                 <div className="h-full flex flex-col p-6 md:p-8 relative z-10">
-                    {/* Top Section: ID & Category */}
-                    <div className="flex justify-between items-center mb-6">
+                    {/* Top Section: Project Number & Category */}
+                    <div className="flex justify-between items-center mb-6 gap-4">
                         <span className="text-emerald-500/60 font-bold tracking-tighter text-sm font-mono">
-                            {(index + 1).toString().padStart(2, "0")} // PROJECT
+                            {`${(index + 1).toString().padStart(2, "0")} // PROJECT`}
                         </span>
-                        <span className="text-[10px] tracking-widest uppercase text-zinc-400 border border-zinc-700/50 px-3 py-1 rounded-full bg-zinc-800/30 backdrop-blur-sm">
+                        <span className="text-[10px] tracking-widest uppercase text-zinc-400 border border-zinc-700/50 px-3 py-1 rounded-full bg-zinc-800/30 backdrop-blur-sm flex-shrink-0">
                             {project.category}
                         </span>
                     </div>
