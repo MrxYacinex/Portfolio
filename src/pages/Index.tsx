@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Navbar from "@/components/Navbar";
@@ -21,6 +21,7 @@ const SectionLoader = () => (
 
 const Index = () => {
   const navigate = useNavigate();
+  const { hash } = useLocation();
 
   useEffect(() => {
     // Check if system is offline
@@ -29,6 +30,46 @@ const Index = () => {
       navigate("/404");
     }
   }, [navigate]);
+
+  useEffect(() => {
+    if (hash) {
+      // Small delay to allow components to mount/suspense to resolve
+      const timeout = setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 100; // Match Navbar offset
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 500); // 500ms delay should be enough for initial render + suspense start. 
+      // Ideally use a mutation observer but this is simpler.
+
+      // Retry mechanism if 500ms wasn't enough (e.g. slow network for lazy chunk)
+      const interval = setInterval(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 100;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+          clearInterval(interval);
+        }
+      }, 1000);
+
+      const cleanup = setTimeout(() => clearInterval(interval), 5000); // Stop retrying after 5s
+
+      return () => {
+        clearTimeout(timeout);
+        clearInterval(interval);
+        clearTimeout(cleanup);
+      };
+    }
+  }, [hash]);
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">

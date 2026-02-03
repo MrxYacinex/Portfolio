@@ -169,7 +169,7 @@ const Hero = () => {
             className="text-lg md:text-xl text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed" // Reduced margin
           >
             Building autonomous systems, exploring AI frontiers, and solving complex problems through code.
-            Currently at <span className="text-foreground/90 font-semibold border-b border-white/20 pb-0.5">ETH Zürich</span>.
+            Currently at <a href="https://ethz.ch" target="_blank" rel="noopener noreferrer" className="text-foreground/90 font-semibold border-b border-white/20 pb-0.5 hover:border-emerald-500 transition-colors">ETH Zürich</a>.
           </motion.p>
 
           {/* Typewriter Subtitle - Cleaned and Reduced Margin */}

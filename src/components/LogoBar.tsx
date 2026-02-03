@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 
 const logos = [
-    { name: "ETH Zürich", src: "/logos/eth.png", className: "h-6 md:h-8 invert opacity-80 hover:opacity-100" },
-    { name: "TU Berlin", src: "/logos/tub.png", className: "h-6 md:h-8" },
-    { name: "HU Berlin", src: "/logos/hu.png", className: "h-10 md:h-12 rounded-full" },
-    { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100" },
-    { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 hover:opacity-100" },
-    { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-8 md:h-10 hover:opacity-100" },
-    { name: "Google Developers", src: "/logos/gdg.png", className: "h-6 md:h-8 opacity-90 hover:opacity-100" },
+    { name: "ETH Zürich", src: "/logos/eth.png", className: "h-6 md:h-8 invert opacity-80 hover:opacity-100", url: "https://ethz.ch" },
+    { name: "TU Berlin", src: "/logos/tub.png", className: "h-6 md:h-8", url: "https://www.tu.berlin" },
+    { name: "HU Berlin", src: "/logos/hu.png", className: "h-10 md:h-12 rounded-full", url: "https://www.hu-berlin.de" },
+    { name: "ETH Robotics Club", src: "/logos/erc.png", className: "h-8 md:h-10 opacity-80 hover:opacity-100", url: "https://ethrobotics.ch" },
+    { name: "CRATER", src: "/logos/crater.png", className: "h-8 md:h-10 hover:opacity-100", url: "https://ethrover.com" },
+    { name: "Analytics Club ETH", src: "/logos/ace.png", className: "h-8 md:h-10 hover:opacity-100", url: "https://analytics-club.org" },
+    { name: "Google Developers", src: "/logos/gdg.png", className: "h-6 md:h-8 opacity-90 hover:opacity-100", url: "https://gdgzurich.com" },
 ];
 
 const LogoBar = () => {
@@ -25,7 +25,6 @@ const LogoBar = () => {
                     Trusted by & Affiliated with
                 </motion.p>
 
-                {/* Logo Grid */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -34,8 +33,11 @@ const LogoBar = () => {
                     className="flex flex-wrap justify-center items-center gap-x-12 gap-y-10 md:gap-x-20"
                 >
                     {logos.map((logo, index) => (
-                        <motion.div
+                        <motion.a
                             key={logo.name}
+                            href={logo.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
@@ -54,7 +56,7 @@ const LogoBar = () => {
                                     {logo.name}
                                 </span>
                             </div>
-                        </motion.div>
+                        </motion.a>
                     ))}
                 </motion.div>
             </div>

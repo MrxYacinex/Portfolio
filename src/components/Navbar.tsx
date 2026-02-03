@@ -77,29 +77,29 @@ const Navbar = () => {
 
     const handleNavClick = (href: string) => {
         setMobileMenuOpen(false);
-        
+
         // Clear any existing timeout
         if (scrollTimeoutRef.current) {
             clearTimeout(scrollTimeoutRef.current);
         }
-        
+
         // Set target section immediately to prevent jumping
         if (href !== '#') {
             const targetId = href.replace('#', '');
             setActiveSection(targetId);
             isScrollingRef.current = true;
-            
+
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
                 const offset = 100;
                 const elementPosition = targetElement.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - offset;
-                
+
                 window.scrollTo({
                     top: offsetPosition,
                     behavior: 'smooth'
                 });
-                
+
                 // Re-enable scroll detection after scroll completes
                 scrollTimeoutRef.current = setTimeout(() => {
                     isScrollingRef.current = false;
@@ -217,7 +217,7 @@ const Navbar = () => {
                             </motion.a>
 
                             {/* Desktop Navigation Links */}
-                            <ul className="absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-1 bg-background/40 backdrop-blur-sm rounded-full px-2 py-1.5 border border-border/30" role="menubar" aria-label="Main navigation menu">
+                            <ul className="absolute left-1/2 -translate-x-1/2 hidden lg:flex items-center gap-1 bg-background/40 backdrop-blur-sm rounded-full px-2 py-1.5 border border-border/30" role="menubar" aria-label="Main navigation menu">
                                 {navItems.map((item) => (
                                     <li key={item.name} role="none">
                                         <motion.a
@@ -257,7 +257,7 @@ const Navbar = () => {
                                     e.preventDefault();
                                     handleNavClick('#contact');
                                 }}
-                                className="hidden md:flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-sm font-semibold rounded-full hover:bg-foreground/90 transition-all cursor-hover relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
+                                className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-foreground text-background text-sm font-semibold rounded-full hover:bg-foreground/90 transition-all cursor-hover relative overflow-hidden group focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 aria-label="Get in touch - Navigate to contact section"
@@ -286,10 +286,11 @@ const Navbar = () => {
 
                             {/* Mobile Menu Button */}
                             <motion.button
-                                className="md:hidden p-2 text-muted-foreground hover:text-foreground cursor-hover relative z-50 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:rounded-md"
+                                className="lg:hidden p-2 text-muted-foreground hover:text-foreground cursor-hover relative z-50 focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:rounded-md"
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+
                                 aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
                                 aria-expanded={mobileMenuOpen}
                                 aria-controls="mobile-menu"
@@ -322,7 +323,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
                         transition={{ duration: 0.3 }}
-                        className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl pt-28 px-6 md:hidden flex flex-col items-center justify-start gap-8"
+                        className="fixed inset-0 z-40 bg-background/95 backdrop-blur-3xl pt-28 px-6 lg:hidden flex flex-col items-center justify-start gap-8"
                         id="mobile-menu"
                         role="menu"
                         aria-label="Mobile navigation menu"
