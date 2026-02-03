@@ -37,9 +37,9 @@ const Projects = () => {
             initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
             animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-20"
+            className="text-center mb-6"
           >
-            <span className="text-muted-foreground/60 text-xs font-medium tracking-[0.3em] uppercase mb-6 block">
+            <span className="text-muted-foreground/60 text-xs font-medium tracking-[0.3em] uppercase mb-1 block">
               Selected Work
             </span>
             <h2 className="font-display text-4xl md:text-6xl font-bold">
