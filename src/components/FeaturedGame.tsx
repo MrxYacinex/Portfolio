@@ -35,7 +35,7 @@ const FeaturedGame = () => (
         <h2 className="font-display text-3xl font-bold tracking-tight md:text-4xl">NumCS Quest</h2>
         <p className="mt-4 leading-relaxed text-muted-foreground">
           A pixel-art study game for ETH's Numerical Methods for Computer Science course. Python runs right in the page
-          through WebAssembly, so you write real code and get graded like on CodeExpert.
+          through WebAssembly, so you write real code and get graded like on CodeExpert. Available in English and German.
         </p>
         <ul className="mt-6 space-y-2.5 text-[15px] text-foreground/85">
           {facts.map((f) => (

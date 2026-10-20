@@ -71,7 +71,7 @@ export const projectsData: Project[] = [
     },
     {
         slug: "numcs-quest",
-        title: "NumCS Quest – Numerik-Lernspiel",
+        title: "NumCS Quest – Numerical Methods Study Game",
         category: "Education & Scientific Computing",
         description: "Browser game for ETH's Numerical Methods course: 366 quiz questions and 73 coding challenges with real Python, NumPy, SciPy and SymPy running in the browser, auto-graded by tests.",
         tech: ["Python", "Pyodide", "WebAssembly", "NumPy", "SciPy", "Web Audio"],

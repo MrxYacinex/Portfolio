@@ -7,12 +7,14 @@ self.fetch = (u, o) => {
   return _fetch(s, o);
 };
 importScripts('pyodide/pyodide.js');
+const EN = new URL(self.location.href).searchParams.get('lang') === 'en';
+const L = (de, en) => EN ? en : de;
 
 let py = null;
 const loaded = new Set();
 const send = (type, data) => self.postMessage(Object.assign({ type }, data || {}));
 
-const HARNESS = String.raw`
+const HARNESS_SRC = String.raw`
 import sys, os, io, base64, traceback, tempfile, warnings
 os.environ['MPLBACKEND'] = 'Agg'
 import matplotlib
@@ -82,16 +84,17 @@ def _run(code, tests, pre):
     plt.close('all')
     return res
 `;
+const HARNESS = EN ? HARNESS_SRC.replace(/Zeile/g, 'line').replace('Test fehlgeschlagen', 'Test failed') : HARNESS_SRC;
 
 async function init() {
   const t0 = Date.now();
-  send('status', { text: 'Python wird geladen …' });
+  send('status', { text: L('Python wird geladen …', 'Loading Python …') });
   py = await loadPyodide({
     indexURL: new URL('pyodide/', self.location).href,
     stdout: s => send('stdout', { text: s }),
     stderr: s => send('stderr', { text: s }),
   });
-  send('status', { text: 'NumPy & matplotlib werden geladen …' });
+  send('status', { text: L('NumPy & matplotlib werden geladen …', 'Loading NumPy & matplotlib …') });
   await py.loadPackage(['numpy', 'matplotlib'], { messageCallback: () => {} , errorCallback: m => send('stderr', { text: m }) });
   await py.runPythonAsync(HARNESS);
   send('ready', { ms: Date.now() - t0 });
@@ -114,7 +117,7 @@ async function handle(m) {
     if (/\bscipy\b/.test(src) && !loaded.has('scipy')) want.push('scipy');
     if (/\bsympy\b/.test(src) && !loaded.has('sympy')) want.push('sympy');
     if (want.length) {
-      send('status', { text: (want.includes('scipy') ? 'SciPy' : '') + (want.length > 1 ? ' & ' : '') + (want.includes('sympy') ? 'SymPy' : '') + ' wird geladen (einmalig) …' });
+      send('status', { text: (want.includes('scipy') ? 'SciPy' : '') + (want.length > 1 ? ' & ' : '') + (want.includes('sympy') ? 'SymPy' : '') + L(' wird geladen (einmalig) …', ' loading (one time) …') });
       try { await py.loadPackage(want, { messageCallback: () => {} }); want.forEach(p => loaded.add(p)); }
       finally { send('ready', { ms: 0 }); }
     }
