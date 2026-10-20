@@ -8,7 +8,7 @@ import "prismjs/components/prism-java";
 import RuntimeSimulation from "@/components/RuntimeSimulation";
 import { projectsData } from "@/data/projects";
 import Footer from "@/components/Footer";
-import CustomCursor from "@/components/CustomCursor";
+import Navbar from "@/components/Navbar";
 
 
 
@@ -2279,263 +2279,128 @@ const ProjectDetail = () => {
     const { slug } = useParams<{ slug: string }>();
     const navigate = useNavigate();
 
-    // Ensure we always start at the top when opening a project detail
     useEffect(() => {
         window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
-    }, []);
+    }, [slug]);
 
     const project = projectsData.find((p) => p.slug === slug);
 
     if (!project) {
         return (
-            <div className="min-h-screen bg-background overflow-x-hidden">
-                <CustomCursor />
-                <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-                    {/* Animated gradient background - matching Homepage */}
-                    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                        <motion.div
-                            className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
-                            style={{
-                                background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-                            }}
-                            animate={{
-                                scale: [1, 1.2, 1],
-                                x: [0, 100, 0],
-                                y: [0, -50, 0],
-                            }}
-                            transition={{
-                                duration: 20,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                            }}
-                        />
-                        <motion.div
-                            className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full"
-                            style={{
-                                background: "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
-                            }}
-                            animate={{
-                                scale: [1, 1.3, 1],
-                                x: [0, -80, 0],
-                                y: [0, 60, 0],
-                            }}
-                            transition={{
-                                duration: 25,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                delay: 1,
-                            }}
-                        />
-                    </div>
-                    <div className="text-center relative z-10">
-                        <h1 className="font-display text-4xl md:text-6xl font-bold mb-6">
-                            Project <span className="text-gradient">Not Found</span>
-                        </h1>
-                        <motion.button
-                            onClick={() => navigate("/")}
-                            className="px-8 py-4 bg-foreground text-background font-semibold rounded-full hover:bg-foreground/90 transition-all cursor-hover focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Return Home
-                        </motion.button>
-                    </div>
-                </div>
+            <div className="min-h-screen bg-background">
+                <Navbar />
+                <main className="mx-auto flex min-h-[70vh] max-w-5xl flex-col items-start justify-center px-5">
+                    <h1 className="font-display text-4xl font-bold tracking-tight md:text-5xl">This project doesn't exist</h1>
+                    <p className="mt-4 text-muted-foreground">The link may be outdated. All projects are listed on the home page.</p>
+                    <button
+                        onClick={() => navigate("/#work")}
+                        className="mt-8 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                    >
+                        Show all projects
+                    </button>
+                </main>
                 <Footer />
             </div>
         );
     }
 
+    const c = project.content;
+    const isGame = project.slug === "numcs-quest";
+
     return (
         <div className="min-h-screen bg-background overflow-x-hidden">
-            <CustomCursor />
-            <div className="relative min-h-screen pt-20 pb-20 overflow-hidden">
-                {/* Animated gradient background - matching Homepage */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <motion.div
-                        className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full"
-                        style={{
-                            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-                        }}
-                        animate={{
-                            scale: [1, 1.2, 1],
-                            x: [0, 100, 0],
-                            y: [0, -50, 0],
-                        }}
-                        transition={{
-                            duration: 20,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                        }}
-                    />
-                    <motion.div
-                        className="absolute bottom-0 right-1/4 w-[500px] h-[500px] rounded-full"
-                        style={{
-                            background: "radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%)",
-                        }}
-                        animate={{
-                            scale: [1, 1.3, 1],
-                            x: [0, -80, 0],
-                            y: [0, 60, 0],
-                        }}
-                        transition={{
-                            duration: 25,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: 1,
-                        }}
-                    />
-                </div>
-                
-                <div className="container mx-auto px-6 relative z-10">
-                    <div className="max-w-6xl mx-auto">
-                        {/* Back Button */}
-                        <motion.button
-                            initial={{ opacity: 0, x: -20, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                            onClick={() => navigate("/#projects")}
-                            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-12 group cursor-hover focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:rounded-md focus:px-2 focus:py-1"
-                        >
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                            <span>Back to Projects</span>
-                        </motion.button>
+            <Navbar />
+            <main className="mx-auto max-w-5xl px-5 pb-24 pt-28 md:pt-36">
+                <button
+                    onClick={() => navigate("/#work")}
+                    className="group mb-10 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                    <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+                    All projects
+                </button>
 
-                        {/* Project Header */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-                            className="mb-12"
-                        >
-                            <span className="text-muted-foreground/60 text-xs font-medium tracking-[0.3em] uppercase mb-6 block">
-                                {project.category}
-                            </span>
-                            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tight mb-6">
-                                {project.title}
-                            </h1>
-                            {project.award && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: 0.3 }}
-                                    className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full border border-emerald-500/20 text-emerald-400 text-sm mb-8"
-                                >
-                                    <span>🏆</span>
-                                    <span>{project.award}</span>
-                                </motion.div>
-                            )}
-                        </motion.div>
+                <motion.header
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                    <p className="text-sm text-muted-foreground">{project.category}</p>
+                    <h1 className="mt-3 max-w-[18ch] font-display text-4xl font-bold leading-[1.05] tracking-[-0.02em] md:text-6xl">
+                        {project.title}
+                    </h1>
+                    {project.award && <p className="mt-5 text-base font-medium text-foreground/90">{project.award}</p>}
+                    <p className="mt-6 max-w-[40rem] text-lg leading-relaxed text-muted-foreground">{project.description}</p>
 
-                        {/* Tech Stack */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-                            className="flex flex-wrap gap-3 mb-12"
-                        >
-                            {project.tech.map((tech) => (
-                                <span
-                                    key={tech}
-                                    className="px-4 py-2 glass rounded-full border border-white/10 text-xs text-muted-foreground/80 hover:text-foreground hover:border-white/20 transition-all"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </motion.div>
-
-                        {/* Description */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
-                            className="mb-12"
-                        >
-                            <p className="text-lg md:text-xl text-muted-foreground/90 leading-relaxed max-w-3xl">
-                                {project.description}
-                            </p>
-                        </motion.div>
-
-                        {/* Links */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
-                            className="flex flex-wrap gap-4 mb-16"
-                        >
-                            {project.link && project.link !== "#" && (
-                                <motion.a
-                                    href={project.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background font-semibold rounded-full hover:bg-foreground/90 transition-all cursor-hover focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <Github className="w-5 h-5" />
-                                    <span>View on GitHub</span>
-                                </motion.a>
-                            )}
-                            {project.liveLink && (
-                                <motion.a
-                                    href={project.liveLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group inline-flex items-center gap-3 px-8 py-4 glass border border-white/10 font-semibold rounded-full hover:bg-white/5 transition-all cursor-hover focus:outline-none focus:ring-2 focus:ring-foreground focus:ring-offset-2"
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.98 }}
-                                >
-                                    <ExternalLink className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                                    <span>Live Demo</span>
-                                </motion.a>
-                            )}
-                        </motion.div>
-
-                        {/* Detailed Content Section */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30, filter: "blur(10px)" }}
-                            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.5 }}
-                            className="space-y-16"
-                        >
-                            {project.content?.overview && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                                    className="glass rounded-2xl p-8 md:p-10"
-                                >
-                                    <h2 className="font-display text-3xl md:text-4xl font-bold mb-6">
-                                        <span className="text-gradient">Overview</span>
-                                    </h2>
-                                    <p className="text-muted-foreground/90 text-base md:text-lg leading-relaxed">
-                                        {project.content.overview}
-                                    </p>
-                                </motion.div>
-                            )}
-
-                            {/* Algorithms & runtimes visualisation for ETH Algorithms project */}
-                            {project.slug === "eth-algorithms" && (
-                                <>
-                                    <RuntimeSimulation />
-                                    <AlgorithmsOverview />
-                                </>
-                            )}
-
-                            {/* File System visualisation for System Programming project */}
-                            {project.slug === "system-programming" && (
-                                <>
-                                    <FileSystemSimulation />
-                                    <div className="mt-8">
-                                        <ProcessSchedulingSimulation />
-                                    </div>
-                                </>
-                            )}
-
-                        </motion.div>
+                    <div className="mt-8 flex flex-wrap items-center gap-3">
+                        {project.liveLink && (
+                            <a
+                                href={project.liveLink}
+                                className="inline-flex items-center gap-2.5 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition-opacity hover:opacity-90"
+                            >
+                                {isGame ? <Play className="h-4 w-4 fill-current" /> : <ExternalLink className="h-4 w-4" />}
+                                {isGame ? "Play in your browser" : "Open live demo"}
+                            </a>
+                        )}
+                        {project.link && project.link !== "#" && (
+                            <a
+                                href={project.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-semibold transition-colors ${project.liveLink ? "border border-white/15 hover:border-white/40" : "bg-foreground text-background hover:opacity-90"}`}
+                            >
+                                <Github className="h-4 w-4" />
+                                View on GitHub
+                            </a>
+                        )}
                     </div>
-                </div>
-            </div>
+                    <p className="mt-6 text-sm text-muted-foreground/80">{project.tech.join(", ")}</p>
+                </motion.header>
+
+                {isGame && (
+                    <a href={project.liveLink} className="mt-12 block overflow-hidden rounded-lg border border-white/10" aria-label="Play NumCS Quest">
+                        <img src="/numcs-quest/preview.webp" width={1920} height={1200} alt="NumCS Quest home screen" className="block h-auto w-full" />
+                    </a>
+                )}
+
+                {c?.overview && (
+                    <section className="mt-16 grid gap-6 border-t border-white/10 pt-8 md:grid-cols-[12rem_1fr]">
+                        <h2 className="font-display text-lg font-semibold">Overview</h2>
+                        <p className="max-w-[42rem] leading-relaxed text-muted-foreground">{c.overview}</p>
+                    </section>
+                )}
+                {c?.challenges && c?.solutions && (
+                    <section className="mt-12 grid gap-6 border-t border-white/10 pt-8 md:grid-cols-[12rem_1fr]">
+                        <h2 className="font-display text-lg font-semibold">Problems and how I solved them</h2>
+                        <ul className="max-w-[42rem] space-y-6">
+                            {c.challenges.map((ch, i) => (
+                                <li key={ch}>
+                                    <p className="font-medium text-foreground/90">{ch}</p>
+                                    {c.solutions![i] && <p className="mt-1.5 leading-relaxed text-muted-foreground">{c.solutions![i]}</p>}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
+                )}
+                {c?.results && (
+                    <section className="mt-12 grid gap-6 border-t border-white/10 pt-8 md:grid-cols-[12rem_1fr]">
+                        <h2 className="font-display text-lg font-semibold">Result</h2>
+                        <p className="max-w-[42rem] leading-relaxed text-muted-foreground">{c.results}</p>
+                    </section>
+                )}
+
+                {project.slug === "eth-algorithms" && (
+                    <div className="mt-16 space-y-16">
+                        <RuntimeSimulation />
+                        <AlgorithmsOverview />
+                    </div>
+                )}
+                {project.slug === "system-programming" && (
+                    <div className="mt-16 space-y-8">
+                        <FileSystemSimulation />
+                        <ProcessSchedulingSimulation />
+                    </div>
+                )}
+            </main>
             <Footer />
         </div>
     );

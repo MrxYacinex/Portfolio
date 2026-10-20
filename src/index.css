@@ -58,6 +58,7 @@
   /* Hide scrollbar for IE, Edge and Firefox */
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
@@ -65,26 +66,6 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
-  }
-
-  /* Hide default cursor on desktop */
-  @media (min-width: 768px) {
-
-    html,
-    body,
-    #root,
-    a,
-    button,
-    input,
-    select,
-    textarea,
-    [role="button"],
-    pre,
-    code,
-    pre *,
-    code * {
-      cursor: none !important;
-    }
   }
 
   h1,
@@ -359,13 +340,11 @@
   pre[class*="language-"]::-webkit-scrollbar {
     height: 6px;
     width: 6px;
-    cursor: none !important;
   }
 
   pre[class*="language-"]::-webkit-scrollbar-track {
     background: transparent;
     margin: 0 8px;
-    cursor: none !important;
   }
 
   pre[class*="language-"]::-webkit-scrollbar-thumb {
@@ -377,7 +356,6 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(4px);
-    cursor: none !important;
   }
 
   pre[class*="language-"]::-webkit-scrollbar-thumb:hover {
@@ -387,7 +365,6 @@
       rgba(255, 255, 255, 0.2) 100%);
     box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
     transform: scaleY(1.2);
-    cursor: none !important;
   }
 
   pre[class*="language-"]::-webkit-scrollbar-thumb:active {
@@ -395,12 +372,10 @@
       rgba(255, 255, 255, 0.3) 0%, 
       rgba(255, 255, 255, 0.6) 50%, 
       rgba(255, 255, 255, 0.3) 100%);
-    cursor: none !important;
   }
 
   pre[class*="language-"]::-webkit-scrollbar-corner {
     background: transparent;
-    cursor: none !important;
   }
 
   :not(pre) > code[class*="language-"] {

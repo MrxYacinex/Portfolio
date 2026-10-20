@@ -122,7 +122,7 @@ export const projectsData: Project[] = [
         title: "ETH Algorithms & Data Structures",
         category: "Academic & Competitive Programming",
         description: "Comprehensive collection of fundamental algorithms and data structures implemented in Java. Covers sorting, graph algorithms, dynamic programming, and more.",
-        tech: ["1", "Algorithms", "Data Structures", "Competitive Programming"],
+        tech: ["Java", "Algorithms", "Data Structures", "Competitive Programming"],
         link: "https://github.com/MrxYacinex/ETH_Algorithms_DataStructures",
         content: {
             overview: "A comprehensive repository of algorithms and data structures implemented in Java, covering the core topics taught in ETH Zürich's computer science curriculum. This collection features clean, minimal, and educational implementations designed for understanding and study purposes.",
