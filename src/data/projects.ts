@@ -70,6 +70,30 @@ export const projectsData: Project[] = [
         }
     },
     {
+        slug: "numcs-quest",
+        title: "NumCS Quest – Numerik-Lernspiel",
+        category: "Education & Scientific Computing",
+        description: "Browser game for ETH's Numerical Methods course: 366 quiz questions and 73 coding challenges with real Python, NumPy, SciPy and SymPy running in the browser, auto-graded by tests.",
+        tech: ["Python", "Pyodide", "WebAssembly", "NumPy", "SciPy", "Web Audio"],
+        liveLink: "/numcs-quest/index.html",
+        content: {
+            overview: "NumCS Quest turns the Numerical Methods for Computer Science course at ETH Zürich into a pixel-art game. Eleven worlds follow the lecture script – rounding errors, interpolation, FFT, splines, quadrature – plus a toolbox for numpy.linalg, scipy and sympy. Quiz rooms train the Moodle style, code rooms work like CodeExpert: write Python, run it, and hidden tests grade the solution.",
+            challenges: [
+                "Running a full scientific Python stack (NumPy, SciPy, matplotlib, SymPy) without a server",
+                "Grading student code safely and giving feedback that actually helps beginners",
+                "Keeping 439 questions and tasks correct across library versions",
+                "Making exam preparation feel like a game instead of a worksheet"
+            ],
+            solutions: [
+                "Pyodide (CPython compiled to WebAssembly) in a Web Worker, with SciPy and SymPy loaded on demand and a timeout for endless loops",
+                "Hidden assertion tests per task, a German error tutor for common tracebacks, and matplotlib figures rendered from ./cx_out like in CodeExpert",
+                "Every quiz output and every reference solution is executed in the same in-browser Python during the build; templates must fail, solutions must pass",
+                "Chiptune music and sound effects synthesized with the Web Audio API, boss fights where each passing test is a hit, badges, streaks and a timed mock exam"
+            ],
+            results: "A single static page that runs fully offline-capable in the browser: 11 worlds, 366 quiz questions, 73 auto-graded coding tasks, 11 boss fights and a mock exam modeled on the real Moodle + CodeExpert format."
+        }
+    },
+    {
         slug: "emol-learning",
         title: "EMOL - AI Learning Platform",
         category: "AI & Education Technology",
