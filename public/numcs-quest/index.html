@@ -757,6 +757,70 @@ button.st:hover { box-shadow: inset 0 0 0 2px var(--yellow); }
 .bcard.locked { opacity: 0.55; }
 .bcard.locked b { color: var(--muted); }
 
+/* ---------- v6 polish: motion & layout ---------- */
+#stars { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; image-rendering: pixelated; }
+.hud, .wrap, footer { position: relative; z-index: 1; }
+
+@keyframes viewin { from { opacity: 0; transform: translateY(10px); } }
+@keyframes stagin { from { opacity: 0; transform: translateY(14px) scale(0.97); } }
+@keyframes popx { 0% { transform: scale(1); } 35% { transform: scale(1.35); color: var(--yellow); } 100% { transform: scale(1); } }
+@keyframes slidein { from { opacity: 0; transform: translateX(-12px); } }
+@keyframes walk { 0% { left: 0; transform: scaleX(1); } 49.9% { left: calc(100% - 32px); transform: scaleX(1); } 50% { left: calc(100% - 32px); transform: scaleX(-1); } 100% { left: 0; transform: scaleX(-1); } }
+@keyframes hop { 50% { transform: translateY(-4px); } }
+@keyframes coin { 0%, 100% { transform: translateY(0) scaleX(1); } 25% { transform: translateY(-3px) scaleX(0.4); } 50% { transform: translateY(0) scaleX(1); } 75% { transform: translateY(-3px) scaleX(0.4); } }
+@keyframes skull { 50% { transform: translateY(-3px); } }
+@keyframes bob { 50% { transform: translateY(-5px); } }
+
+.enter > * { animation: viewin 0.28s cubic-bezier(0.2, 0.8, 0.3, 1) backwards; }
+.stag { animation: stagin 0.32s steps(5) backwards; animation-delay: var(--d, 0ms); }
+.hud .stat.lv.popx b { display: inline-block; animation: popx 0.6s steps(6); }
+.feedback { animation: slidein 0.22s steps(4); }
+.bob { animation: bob 1.2s steps(2) infinite; }
+
+/* hero walkway: tiny looping scene under the title */
+.walkway { position: relative; height: 40px; margin-top: 22px; max-width: 46ch; border-bottom: 4px solid var(--navy); box-shadow: 0 4px 0 var(--black); }
+.walkway .walker { position: absolute; bottom: 0; width: 32px; height: 32px; animation: walk 9s linear infinite; }
+.walkway .walker img { width: 32px; height: 32px; animation: hop 0.3s steps(2) infinite; }
+.walkway .coin { position: absolute; bottom: 10px; width: 10px; height: 10px; background: var(--yellow); border: 2px solid var(--black); box-shadow: inset -2px -2px 0 var(--orange); animation: coin 1.4s steps(4) infinite; }
+.walkway .coin:nth-child(2) { animation-delay: 0.35s; } .walkway .coin:nth-child(3) { animation-delay: 0.7s; }
+.walkway .skull { position: absolute; right: -40px; bottom: 2px; width: 28px; height: 28px; opacity: 0.85; animation: skull 1s steps(2) infinite; }
+
+/* continue card progress */
+.cprog { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-family: var(--f-pixel); font-size: 0.62rem; color: var(--muted); }
+.cprog .wbar { flex: 1; max-width: 220px; }
+.cprog .wbar i { transition: width 0.6s steps(10); }
+
+/* group headers get a count chip */
+.grouphead { align-items: center; }
+.gcount { font-family: var(--f-pixel); font-size: 0.58rem; color: var(--black); background: var(--yellow); padding: 3px 7px; border: 2px solid var(--black); }
+.grouphead p { flex-basis: 100%; }
+
+/* equal-height world cards; bar + footer pinned to bottom */
+.wcard { display: flex; flex-direction: column; gap: 10px; }
+.wcard .pips { min-height: 15px; }
+.wcard .wbar { margin-top: auto; }
+.wcard:active { transform: translateY(1px); box-shadow: inset 0 0 0 2px var(--wc), 2px 2px 0 var(--black); }
+
+/* stat tiles: consistent stack */
+.st { display: flex; flex-direction: column; justify-content: flex-start; gap: 2px; }
+.st .xpbar { margin-top: auto; padding-top: 0; }
+
+/* micro interactions */
+.opt { transition: transform 0.08s steps(2), box-shadow 0.08s; }
+.opt:hover:not([disabled]) { transform: translateY(-2px); }
+.rrow { transition: transform 0.08s steps(2); }
+.rrow:hover { transform: translateX(3px); }
+.btn:active:not([disabled]) { transform: translate(2px, 2px); }
+.victory .vic { width: 40px; height: 40px; display: block; margin: 0 auto 8px; }
+
+@media (max-width: 960px) {
+  .walkway { max-width: none; margin-right: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .walkway .walker, .walkway .walker img, .walkway .coin, .walkway .skull, .bob { animation: none; }
+  .walkway .walker { left: 0; }
+}
+
 @media (max-width: 960px) {
   .hero2 { grid-template-columns: 1fr; gap: 18px; }
   .statrow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1146,6 +1210,74 @@ function pumpBadges() {
   }, 700);
 }
 
+
+/* ---------------- POLISH: starfield, entrance motion, HUD tweening ---------------- */
+const STARS = {
+  cv: null, g: null, list: [], t: 0, timer: null,
+  init() {
+    if (RM || this.cv) return;
+    const cv = document.createElement('canvas'); cv.id = 'stars'; cv.setAttribute('aria-hidden', 'true');
+    document.body.prepend(cv); this.cv = cv; this.g = cv.getContext('2d');
+    const cols = ['#C2C3C7', '#29ADFF', '#83769C', '#FFF1E8', '#FFCCAA', '#FFEC27'];
+    for (let i = 0; i < 90; i++) this.list.push({ x: Math.random(), y: Math.random(), z: 1 + (i % 3), c: cols[i % cols.length], p: Math.random() * 6.28, sp: 0.6 + Math.random() * 1.4 });
+    const size = () => { const d = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.floor(innerWidth * d); cv.height = Math.floor(innerHeight * d); this.d = d; };
+    size(); addEventListener('resize', size);
+    const loop = () => { if (!document.hidden) this.draw(); };
+    this.timer = setInterval(loop, 1000 / 15);
+  },
+  draw() {
+    const g = this.g, W = this.cv.width, H = this.cv.height, d = this.d;
+    this.t += 1 / 15; g.clearRect(0, 0, W, H);
+    for (const s of this.list) {
+      s.y += 0.00018 * s.z; s.x -= 0.00006 * s.z; if (s.y > 1) s.y -= 1; if (s.x < 0) s.x += 1;
+      const tw = 0.5 + 0.5 * Math.sin(this.t * s.sp + s.p);
+      if (tw < 0.15) continue;
+      g.globalAlpha = 0.25 + 0.55 * tw * (s.z / 3);
+      g.fillStyle = s.c;
+      const px = Math.round(s.z === 3 && tw > 0.85 ? 3 : 2) * d;
+      g.fillRect(Math.round(s.x * W), Math.round(s.y * H), px, px);
+    }
+    g.globalAlpha = 1;
+  },
+};
+let VIEWCHG = true;
+function animateIn() {
+  if (RM) return;
+  if (!VIEWCHG) { app.querySelectorAll('.opts > *, .feedback, .lesson').forEach((el, i) => { el.style.setProperty('--d', (Math.min(i, 8) * 35) + 'ms'); el.classList.add('stag'); }); return; }
+  VIEWCHG = false;
+  app.classList.remove('enter'); void app.offsetWidth; app.classList.add('enter');
+  ['.wgrid > *', '.statrow > *', '.modes > *', '.rlist > li', '.opts > *', '.bgrid > *', '.wpath > .tile', '.cgrid > *', '.examlist > *']
+    .forEach(sel => app.querySelectorAll(sel).forEach((el, i) => { el.style.setProperty('--d', (Math.min(i, 18) * 35 + 60) + 'ms'); el.classList.add('stag'); }));
+}
+new MutationObserver(() => { clearTimeout(animateIn._t); animateIn._t = setTimeout(animateIn, 0); }).observe(app, { childList: true });
+let HUDPREV = null;
+function tweenHud(lv) {
+  const bar = document.querySelector('.hud .xpbar i'), num = document.querySelector('.hud .xp b'), lvl = document.querySelector('.hud .stat.lv b');
+  const pct = Math.round(100 * lv.x / lv.need);
+  if (HUDPREV && !RM) {
+    if (bar) {
+      const from = lv.l > HUDPREV.l ? 0 : HUDPREV.pct;
+      bar.style.transition = 'none'; bar.style.width = from + '%'; void bar.offsetWidth;
+      bar.style.transition = 'width 0.7s steps(14)'; bar.style.width = pct + '%';
+    }
+    if (num && S.xp !== HUDPREV.xp) {
+      const a = HUDPREV.xp, b = S.xp, t0 = performance.now();
+      const stepf = now => { const k = Math.min(1, (now - t0) / 600); num.textContent = Math.round(a + (b - a) * k); if (k < 1) requestAnimationFrame(stepf); };
+      requestAnimationFrame(stepf);
+    }
+    if (lvl && lv.l > HUDPREV.l) lvl.parentElement.classList.add('popx');
+  }
+  HUDPREV = { l: lv.l, pct, xp: S.xp };
+}
+function countUp(el, to, ms) {
+  if (!el) return;
+  if (RM || !to) { el.textContent = '+' + to; return; }
+  const t0 = performance.now();
+  const f = now => { const k = Math.min(1, (now - t0) / (ms || 800)); el.textContent = '+' + Math.round(to * k); if (k < 1) requestAnimationFrame(f); };
+  requestAnimationFrame(f);
+}
+document.addEventListener('click', e => { if (e.target.closest('.btn:not(#check):not(#subb):not(#runb):not(#cont):not(#wcont), .mode, .hudbtn:not(.tog), button.st')) AU.sfx('click'); }, true);
+
 /* ---------------- Python engine (Pyodide in a worker) ---------------- */
 const PY = {
   w: null, state: 'off', msg: 'Python aus', pending: null, onStatus: [], startT: 0,
@@ -1268,7 +1400,7 @@ function makeEditor(host, value, onRun, onSubmit) {
 function renderHud() {
   const lv = level();
   $('#hud').innerHTML = `<button class="logo" id="tohome">NUMCS QUEST</button>
-    <span class="stat">STUFE <b>${lv.l}</b></span>
+    <span class="stat lv">STUFE <b>${lv.l}</b></span>
     <span class="stat xp"><span class="xpbar" title="${lv.x} / ${lv.need} XP"><i style="width:${Math.round(100 * lv.x / lv.need)}%"></i></span> <b>${S.xp}</b> XP</span>
     <span class="stat" title="Tage in Folge">${sprImg('flame')}<b>${streakNow()}</b></span>
     <span class="stat" title="Bosse besiegt">${sprImg('boss')}<b>${bossDone()}/${BOSSES.length}</b></span>
@@ -1283,11 +1415,13 @@ function renderHud() {
   $('#hmus').onclick = () => { AU.setMusic(!SND.music); if (SND.music) AU.play(AU.want || 'map', true); renderHud(); };
   $('#hsfx').onclick = () => { AU.setSfx(!SND.sfx); AU.sfx('click'); renderHud(); };
   renderPyChip();
+  tweenHud(lv);
 }
 
 /* ---------------- router ---------------- */
 let CUR = null;
 function go(view, arg) {
+  VIEWCHG = true;
   KEYH = null; CUR = { view, arg };
   document.querySelectorAll('.overlay').forEach(o => o.remove());
   try { history.replaceState(null, '', '#' + (view === 'room' ? arg : view === 'world' ? 'w-' + arg : view)); } catch (e) {}
@@ -1332,11 +1466,13 @@ function home() {
     <div class="titlecol">
       <h1>NUMCS<br><span>QUEST</span></h1>
       <p class="tag">${nk} Kapitel aus dem Skript · ${nt} Werkzeug-Welten · ${ALLQ.length} Quizfragen · ${CODE_ROOMS.length} Code-Aufgaben mit echtem Python</p>
+      <div class="walkway" aria-hidden="true"><i class="coin" style="left:22%"></i><i class="coin" style="left:48%"></i><i class="coin" style="left:74%"></i><img class="spr skull" src="${spr('boss')}" alt=""><span class="walker"><img class="spr" src="${spr('hero')}" alt=""></span></div>
     </div>
     ${nr ? `<div class="contcard frame" style="--wc: var(${nr.world.color})">
         <span class="lbl">${done ? 'Weiter, wo du warst' : 'Dein erster Raum'} · Welt ${nr.world.n}: ${esc(nr.world.title)}</span>
         <div class="ic">${sprImg(roomIcon(nr))}<img class="spr hero bob" src="${spr('hero')}" alt=""></div>
-        <div><h2>${esc(nr.title)}</h2><div class="meta">${roomMeta(nr)}${nr.ref ? ' · ' + esc(nr.ref) : ''}</div></div>
+        <div><h2>${esc(nr.title)}</h2><div class="meta">${roomMeta(nr)}${nr.ref ? ' · ' + esc(nr.ref) : ''}</div>
+          <div class="cprog"><div class="wbar"><i style="width:${Math.round(100 * nr.world.rooms.filter(r => roomDone(r.id)).length / nr.world.rooms.length)}%"></i></div><span>${nr.world.rooms.filter(r => roomDone(r.id)).length}/${nr.world.rooms.length}</span></div></div>
         <button class="btn go" id="cont">▶ ${done ? 'Weiterspielen' : 'Spiel starten'} <span class="k">ENTER</span></button>
       </div>`
     : `<div class="contcard frame" style="--wc: var(--yellow)"><span class="lbl">Alles geschafft!</span><div class="ic">${sprImg('crown')}</div><div><h2>Alle Räume gelöst</h2><div class="meta">Zeit für die Probeprüfung.</div></div><button class="btn go" id="examb2">▶ Probeprüfung</button></div>`}
@@ -1355,9 +1491,9 @@ function home() {
     <button class="mode" id="m-cheat">${sprImg('book')}<b>Spickzettel</b><span>Alle Erklärungen auf einer Seite</span></button>
     <button class="mode" id="m-lab">${sprImg('lab')}<b>Python-Labor</b><span>Freies Programmieren</span></button>
   </div>
-  <div class="grouphead"><h2>KAPITEL</h2><p>Der Stoff aus dem Vorlesungsskript, in der Reihenfolge der Vorlesung.</p></div>
+  <div class="grouphead"><h2>KAPITEL</h2><span class="gcount">${nk} WELTEN</span><p>Der Stoff aus dem Vorlesungsskript, in der Reihenfolge der Vorlesung.</p></div>
   <div class="wgrid">${GAME.worlds.filter(w => w.group !== 'tools').map(card).join('')}</div>
-  <div class="grouphead"><h2>WERKZEUGKASTEN</h2><p>Die Bibliotheken für Serien und Prüfung: @, einsum, linalg, interpolate, fft, integrate, optimize, default_rng, sympy, timeit.</p></div>
+  <div class="grouphead"><h2>WERKZEUGKASTEN</h2><span class="gcount">${nt} WELTEN</span><p>Die Bibliotheken für Serien und Prüfung: @, einsum, linalg, interpolate, fft, integrate, optimize, default_rng, sympy, timeit.</p></div>
   <div class="wgrid">${GAME.worlds.filter(w => w.group === 'tools').map(card).join('')}</div>
   <div class="foot">${GAME.public ? 'Öffentliche Version ohne Musterlösungen – nutze die Tests und Hinweise. ' : ''}Dein Spielstand und deine Code-Entwürfe werden nur in diesem Browser gespeichert. Alle Musterlösungen und Quiz-Ausgaben wurden mit echtem Python geprüft. Im Browser läuft NumPy 2.2 – in seltenen Fällen unterscheiden sich die letzten Nachkommastellen von CodeExpert. <button id="reset">Spielstand löschen</button><span id="resetc"></span></div>`;
   app.innerHTML = h;
@@ -1495,7 +1631,7 @@ function codeRoom(r) {
   }
   const con = makeConsole($('#con'));
   const ed = makeEditor($('#ed'), draft, () => run(false), () => run(true));
-  setTimeout(() => ed.refresh(), 30);
+  setTimeout(() => ed.refresh(), 30); setTimeout(() => ed.refresh(), 420);
   ed.onChange(() => { S.drafts[r.id] = ed.get(); clearTimeout(R.sv); R.sv = setTimeout(save, 400); });
   PY.start();
   const btns = ['#runb', '#subb'].map(s => $(s));
@@ -1551,7 +1687,7 @@ function codeRoom(r) {
     const gain = first ? (isBoss ? 150 : stars === 1 ? 15 : 50) : 0;
     AU.sfx(isBoss ? 'boss' : 'win'); FX.confetti();
     if (isBoss) { const b = $('#bossspr'); if (b) { b.src = spr('crown'); b.classList.add('dead'); } const l = app.querySelector('.hp .lbl span'); if (l) l.textContent = 'BESIEGT'; }
-    con.el.insertAdjacentHTML('afterbegin', `<div class="victory"><b>${isBoss ? 'BOSS BESIEGT!' : 'ALLE TESTS BESTANDEN'}</b><span class="stars" style="color:var(--yellow)">${starsHtml(stars)}</span> ${first ? ' · +' + gain + ' XP' : ''}<div class="actions" style="justify-content:center;margin-top:8px"><button class="btn go" id="nextr">Nächster Raum ▸</button><button class="btn ghost" id="maprb">${esc(r.world.title)}</button></div></div>`);
+    con.el.insertAdjacentHTML('afterbegin', `<div class="victory"><img class="spr vic bob" src="${spr(isBoss ? 'crown' : 'medal')}" alt=""><b>${isBoss ? 'BOSS BESIEGT!' : 'ALLE TESTS BESTANDEN'}</b><span class="stars" style="color:var(--yellow)">${starsHtml(stars)}</span> ${first ? ' · +' + gain + ' XP' : ''}<div class="actions" style="justify-content:center;margin-top:8px"><button class="btn go" id="nextr">Nächster Raum ▸</button><button class="btn ghost" id="maprb">${esc(r.world.title)}</button></div></div>`);
     const rs = r.world.rooms, nr = rs[rs.indexOf(r) + 1] || nextRoom();
     $('#nextr').onclick = () => nr ? go('room', nr.id) : go('home');
     $('#maprb').onclick = () => go('world', r.world.id);
@@ -1847,11 +1983,12 @@ function quizEnd() {
   app.innerHTML = `<div class="qwrap">${qHead()}<div class="frame end">
     ${r ? `<div class="stars">${starsHtml(stars)}</div>` : ''}
     <h2>${errs === 0 ? 'FEHLERFREI!' : errs <= 2 ? 'STARK!' : 'GESCHAFFT'}</h2>
-    <div class="nums"><div><b>${QS.firstTry}/${QS.total}</b><span>beim 1. Versuch</span></div><div><b>+${QS.xp}</b><span>XP</span></div><div><b>${level().l}</b><span>Stufe</span></div></div>
+    <div class="nums"><div><b>${QS.firstTry}/${QS.total}</b><span>beim 1. Versuch</span></div><div><b id="xpc">+0</b><span>XP</span></div><div><b>${level().l}</b><span>Stufe</span></div></div>
     ${missedQs.length ? `<div class="missed"><b>Zum Nachschauen</b> (landen im Fehler-Training):<ul>${missedQs.map(q => '<li>' + md(q.q) + '</li>').join('')}</ul></div>` : ''}
     <div class="actions">${nr ? `<button class="btn go" id="nextr">Nächster Raum ▸ ${esc(nr.title)}</button>` : ''}${r ? '<button class="btn ghost" id="again">Nochmal</button>' : ''}<button class="btn ghost" id="map">${r ? esc(r.world.title) : 'Karte'}</button></div>
   </div></div>`;
   bindQHead();
+  setTimeout(() => countUp($('#xpc'), QS.xp, 900), 250);
   $('#map').onclick = () => r ? go('world', r.world.id) : go('home');
   if (r) {
     const st = app.querySelectorAll('.end .stars i');
@@ -1982,6 +2119,7 @@ function cheat(wid) {
 }
 
 /* ---------------- boot ---------------- */
+STARS.init();
 renderHud();
 const h0 = (location.hash || '').slice(1);
 if (h0 && ROOM[h0]) go('room', h0);
