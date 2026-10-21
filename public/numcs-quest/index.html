@@ -822,6 +822,16 @@ button.st:hover { box-shadow: inset 0 0 0 2px var(--yellow); }
   .walkway .walker { left: 0; }
 }
 
+
+/* account dialog */
+.accov .ovbox { text-align: left; }
+.accov .ovbox h2 { text-align: center; }
+.accform label { display: block; margin: 12px 0; font-family: var(--f-pixel); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; }
+.accform input { display: block; margin-top: 5px; font-size: 0.95rem; }
+.accmsg { min-height: 1.3em; color: var(--orange) !important; font-size: 0.9rem; }
+.accdel { margin-top: 14px; color: var(--muted); font-size: 0.88rem; }
+.accdel summary { cursor: pointer; }
+.hudbtn.acc.in { border-color: var(--blue, #29ADFF); color: var(--blue, #29ADFF); }
 @media (max-width: 960px) {
   .hero2 { grid-template-columns: 1fr; gap: 18px; }
   .statrow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -896,7 +906,7 @@ const KEY = 'numcsquest.v2';
 const fresh = () => ({ xp: 0, rooms: {}, drafts: {}, mistakes: [], best: 0, exams: [] });
 let S = fresh();
 try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch (e) {}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function save() { S.t = Date.now(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} if (typeof SYNC === 'object') SYNC.touch(); }
 
 const ROOMS = []; const ROOM = {}; const QBY = {};
 GAME.worlds.forEach((w, wi) => {
@@ -1156,11 +1166,11 @@ function overlay(html, opts) {
   document.body.appendChild(o);
   let tm = null;
   const close = () => { if (!o.isConnected) return; clearTimeout(tm); o.remove(); document.removeEventListener('keydown', kh, true); if (opts.onClose) opts.onClose(); };
-  const kh = e => { if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); close(); } };
+  const kh = e => { if (opts.form ? e.key === 'Escape' : (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ')) { e.preventDefault(); e.stopPropagation(); close(); } else if (opts.form) { e.stopPropagation(); const f = e.key === 'Enter' && e.target.closest && e.target.closest('form'); if (f && o.contains(f) && e.target.tagName === 'INPUT') { e.preventDefault(); f.requestSubmit(); } } };
   document.addEventListener('keydown', kh, true);
   o.addEventListener('click', e => { if (e.target === o || e.target.closest('[data-close]')) close(); });
   if (opts.timeout) tm = setTimeout(close, opts.timeout);
-  const b = o.querySelector('[data-close]'); if (b) setTimeout(() => b.focus({ preventScroll: true }), 40);
+  const b = o.querySelector('[data-close]'); if (b && !opts.form) setTimeout(() => b.focus({ preventScroll: true }), 40);
   return close;
 }
 function levelUp(l) {
@@ -1421,6 +1431,7 @@ function renderHud() {
     <span class="hudr">
       <button class="hudbtn" id="hbadge" title="Abzeichen">${sprImg('medal')}<b>${Object.keys(S.badges || {}).length}/${BADGES.length}</b></button>
       ${LANG_FILES ? `<button class="hudbtn" id="hlang" title="${LANG === 'de' ? 'Switch to English' : 'Auf Deutsch wechseln'}" lang="${LANG === 'de' ? 'en' : 'de'}">${LANG === 'de' ? 'EN' : 'DE'}</button>` : ''}
+      ${typeof SYNC === 'object' && SYNC.on ? `<button class="hudbtn acc ${SYNC.auth ? 'in' : ''}" id="hacc" title="Konto">${SYNC.auth ? '☁ ' + esc(SYNC.auth.name) : 'LOGIN'}</button>` : ''}
       <button class="hudbtn tog ${SND.music ? 'on' : ''}" id="hmus" aria-pressed="${SND.music}">MUSIK</button>
       <button class="hudbtn tog ${SND.sfx ? 'on' : ''}" id="hsfx" aria-pressed="${SND.sfx}">SFX</button>
       <span class="pychip" id="pychip"></span>
@@ -1428,6 +1439,7 @@ function renderHud() {
   $('#tohome').onclick = () => go('home');
   $('#hbadge').onclick = () => go('badges');
   if ($('#hlang')) $('#hlang').onclick = switchLang;
+  if ($('#hacc')) $('#hacc').onclick = accountView;
   $('#hmus').onclick = () => { AU.setMusic(!SND.music); if (SND.music) AU.play(AU.want || 'map', true); renderHud(); };
   $('#hsfx').onclick = () => { AU.setSfx(!SND.sfx); AU.sfx('click'); renderHud(); };
   renderPyChip();
@@ -1511,7 +1523,7 @@ function home() {
   <div class="wgrid">${GAME.worlds.filter(w => w.group !== 'tools').map(card).join('')}</div>
   <div class="grouphead"><h2>WERKZEUGKASTEN</h2><span class="gcount">${nt} WELTEN</span><p>Die Bibliotheken für Serien und Prüfung: @, einsum, linalg, interpolate, fft, integrate, optimize, default_rng, sympy, timeit.</p></div>
   <div class="wgrid">${GAME.worlds.filter(w => w.group === 'tools').map(card).join('')}</div>
-  <div class="foot">${GAME.public ? 'Öffentliche Version ohne Musterlösungen – nutze die Tests und Hinweise. ' : ''}Dein Spielstand und deine Code-Entwürfe werden nur in diesem Browser gespeichert. Alle Musterlösungen und Quiz-Ausgaben wurden mit echtem Python geprüft. Im Browser läuft NumPy 2.2 – in seltenen Fällen unterscheiden sich die letzten Nachkommastellen von CodeExpert. <button id="reset">Spielstand löschen</button><span id="resetc"></span></div>`;
+  <div class="foot">${GAME.public ? 'Öffentliche Version ohne Musterlösungen – nutze die Tests und Hinweise. ' : ''}Dein Spielstand und deine Code-Entwürfe werden in diesem Browser gespeichert${typeof SYNC === 'object' && SYNC.on ? ' und mit einem Konto (oben: LOGIN) auf allen Geräten synchronisiert' : ''}. Alle Musterlösungen und Quiz-Ausgaben wurden mit echtem Python geprüft. Im Browser läuft NumPy 2.2 – in seltenen Fällen unterscheiden sich die letzten Nachkommastellen von CodeExpert. <button id="reset">Spielstand löschen</button><span id="resetc"></span></div>`;
   app.innerHTML = h;
   app.querySelectorAll('[data-world]').forEach(b => b.onclick = () => { AU.sfx('click'); go('world', b.dataset.world); });
   const c = $('#cont'); if (c) c.onclick = () => { AU.sfx('start'); go('room', nr.id); };
@@ -1648,7 +1660,7 @@ function codeRoom(r) {
   const con = makeConsole($('#con'));
   const ed = makeEditor($('#ed'), draft, () => run(false), () => run(true));
   setTimeout(() => ed.refresh(), 30); setTimeout(() => ed.refresh(), 420);
-  ed.onChange(() => { S.drafts[r.id] = ed.get(); clearTimeout(R.sv); R.sv = setTimeout(save, 400); });
+  ed.onChange(() => { S.drafts[r.id] = ed.get(); (S.draftT = S.draftT || {})[r.id] = Date.now(); clearTimeout(R.sv); R.sv = setTimeout(save, 400); });
   PY.start();
   const btns = ['#runb', '#subb'].map(s => $(s));
   let streamed = [];
@@ -2134,9 +2146,148 @@ function cheat(wid) {
   const a = $('#allc'); if (a) a.onclick = () => go('cheat');
 }
 
+
+/* ---------------- ACCOUNT & SYNC (only where /api/nq exists, i.e. on the website) ---------------- */
+const AUTH_KEY = 'numcsquest.auth';
+function mergeState(a, b) {
+  const A = Object.assign(fresh(), a || {}), B = Object.assign(fresh(), b || {});
+  const newer = (B.t || 0) > (A.t || 0) ? B : A;
+  const m = Object.assign({}, newer);
+  m.xp = Math.max(A.xp || 0, B.xp || 0);
+  m.best = Math.max(A.best || 0, B.best || 0);
+  m.rooms = {};
+  new Set([...Object.keys(A.rooms), ...Object.keys(B.rooms)]).forEach(id => {
+    const x = A.rooms[id] || {}, y = B.rooms[id] || {};
+    m.rooms[id] = Object.assign({}, x, y, { done: !!(x.done || y.done), stars: Math.max(x.stars || 0, y.stars || 0) });
+    if (x.solSeen || y.solSeen) m.rooms[id].solSeen = true;
+  });
+  const tA = A.draftT || {}, tB = B.draftT || {};
+  m.drafts = {}; m.draftT = {};
+  new Set([...Object.keys(A.drafts), ...Object.keys(B.drafts)]).forEach(id => {
+    const useB = !(id in A.drafts) || ((id in B.drafts) && (tB[id] || 0) > (tA[id] || 0));
+    m.drafts[id] = useB ? B.drafts[id] : A.drafts[id];
+    m.draftT[id] = Math.max(tA[id] || 0, tB[id] || 0);
+  });
+  const ex = new Map(); [...A.exams, ...B.exams].forEach(e => ex.set(JSON.stringify(e), e)); m.exams = [...ex.values()];
+  m.badges = Object.assign({}, B.badges || {});
+  Object.entries(A.badges || {}).forEach(([k, v]) => { if (!m.badges[k] || v < m.badges[k]) m.badges[k] = v; });
+  if (A.days || B.days) {
+    const da = A.days || {}, db = B.days || {}, la = da.last || '', lb = db.last || '';
+    const nd = lb > la ? db : la > lb ? da : ((db.streak || 0) > (da.streak || 0) ? db : da);
+    m.days = { last: nd.last || null, streak: nd.streak || 0, best: Math.max(da.best || 0, db.best || 0) };
+  }
+  m.labRuns = Math.max(A.labRuns || 0, B.labRuns || 0) || undefined;
+  if (A.owl || B.owl) m.owl = true;
+  m.t = Math.max(A.t || 0, B.t || 0);
+  return m;
+}
+var SYNC = {
+  api: '/api/nq', on: false, auth: null, dirty: false, timer: null, last: 0, busy: false,
+  async init() {
+    try { this.auth = JSON.parse(localStorage.getItem(AUTH_KEY) || 'null'); } catch (e) {}
+    if (!/^https?:$/.test(location.protocol)) return;
+    try {
+      const r = await fetch(this.api + '/health', { cache: 'no-store' });
+      if (!r.ok || !(await r.json()).ok) return;
+    } catch (e) { return; }
+    this.on = true; renderHud();
+    if (CUR && CUR.view === 'home') { const f = $('.foot'); if (f) go('home'); }
+    if (this.auth) this.pull();
+  },
+  async req(path, method, data, keepalive) {
+    const h = { 'content-type': 'application/json' };
+    if (this.auth) h.authorization = 'Bearer ' + this.auth.token;
+    const r = await fetch(this.api + '/' + path, { method: method || 'GET', headers: h, body: data === undefined ? undefined : JSON.stringify(data), cache: 'no-store', keepalive: !!keepalive });
+    let j = {}; try { j = await r.json(); } catch (e) {}
+    if (r.status === 401 && path !== 'login' && path !== 'delete' && this.auth) { this.forget(); toast(L_ACC.expired); }
+    if (!r.ok) { const err = new Error(j.error || 'http'); err.code = j.error || 'network'; throw err; }
+    return j;
+  },
+  forget() { this.auth = null; try { localStorage.removeItem(AUTH_KEY); } catch (e) {} renderHud(); },
+  async signIn(mode, name, pass) {
+    const j = await this.req(mode, 'POST', { name, pass });
+    this.auth = { name: j.name, token: j.token };
+    try { localStorage.setItem(AUTH_KEY, JSON.stringify(this.auth)); } catch (e) {}
+    await this.pull(); renderHud();
+  },
+  async pull() {
+    if (!this.auth) return;
+    try {
+      const j = await this.req('state');
+      if (j.data) {
+        S = mergeState(S, j.data);
+        try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+        if (CUR && ['home', 'world', 'badges'].includes(CUR.view)) go(CUR.view, CUR.arg); else renderHud();
+      }
+      this.dirty = true; await this.push();
+    } catch (e) { renderHud(); }
+  },
+  touch() {
+    if (!this.on || !this.auth) return;
+    this.dirty = true; clearTimeout(this.timer);
+    this.timer = setTimeout(() => this.push(), 4000);
+  },
+  async push(keepalive) {
+    if (!this.auth || !this.dirty || this.busy) return;
+    clearTimeout(this.timer); this.busy = true; this.dirty = false;
+    try { await this.req('state', 'PUT', { data: S }, keepalive); this.last = Date.now(); }
+    catch (e) { this.dirty = true; if (e.code !== 'auth') this.timer = setTimeout(() => this.push(), 30000); }
+    finally { this.busy = false; }
+  },
+};
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && SYNC.dirty && SYNC.auth) SYNC.push(JSON.stringify(S).length < 60000);
+});
+const L_ACC = {
+  expired: 'Abgemeldet – bitte neu anmelden.',
+  err: { taken: 'Dieser Name ist schon vergeben.', wrong: 'Benutzername oder Passwort falsch.', invalid: 'Name: 3–24 Zeichen (a–z, 0–9, _ . -), Passwort: mindestens 8 Zeichen.', rate: 'Zu viele Versuche – warte ein paar Minuten.', not_configured: 'Konten sind auf diesem Server noch nicht eingerichtet.', network: 'Keine Verbindung zum Server.' },
+};
+function accountView() {
+  const a = SYNC.auth;
+  const time = SYNC.last ? new Date(SYNC.last).toLocaleTimeString(LANG === 'de' ? 'de-CH' : 'en-GB', { hour: '2-digit', minute: '2-digit' }) : '–';
+  const html = a
+    ? `<h2>KONTO</h2><p>Angemeldet als <b>${esc(a.name)}</b>. Fortschritt, Sterne, Abzeichen und Code-Entwürfe werden automatisch gespeichert – melde dich auf einem anderen Gerät mit demselben Konto an, um weiterzuspielen.</p>
+       <p class="note">Zuletzt synchronisiert: <span id="acc-t">${time}</span></p>
+       <div class="actions" style="justify-content:center"><button class="btn go" data-close>OK</button><button class="btn ghost" id="acc-sync">Jetzt synchronisieren</button><button class="btn ghost" id="acc-out">Abmelden</button></div>
+       <details class="accdel"><summary>Konto löschen</summary><form id="acc-delf" class="accform"><label>Passwort zur Bestätigung<input class="answer-input" type="password" id="acc-dp" autocomplete="current-password" required></label><button class="btn red" type="submit">Konto und gespeicherten Fortschritt löschen</button></form></details>
+       <p class="accmsg" id="acc-msg" role="status"></p>`
+    : `<h2>KONTO</h2><p>Mit einem Konto wird dein Fortschritt gespeichert und auf allen Geräten synchronisiert. Ohne Konto bleibt alles nur in diesem Browser.</p>
+       <form id="accf" class="accform" novalidate>
+         <label>Benutzername<input class="answer-input" id="acc-n" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="24" required></label>
+         <label>Passwort<input class="answer-input" type="password" id="acc-p" autocomplete="current-password" maxlength="200" required></label>
+         <div class="actions" style="justify-content:center"><button class="btn go" type="submit" id="acc-login">Anmelden</button><button class="btn ghost" type="button" id="acc-reg">Neues Konto erstellen</button></div>
+       </form>
+       <p class="accmsg" id="acc-msg" role="status"></p>
+       <p class="note">Keine E-Mail nötig. Name: 3–24 Zeichen (a–z, 0–9, _ . -), Passwort: mindestens 8 Zeichen. Ein vergessenes Passwort kann nicht zurückgesetzt werden.</p>`;
+  const close = overlay(html, { form: true, cls: 'accov' });
+  const msg = t => { const m = $('#acc-msg'); if (m) m.textContent = t; };
+  const errText = e => L_ACC.err[e.code] || L_ACC.err.network;
+  if (!a) {
+    const go2 = async mode => {
+      const n = $('#acc-n').value.trim(), p = $('#acc-p').value;
+      if (mode === 'register') $('#acc-p').setAttribute('autocomplete', 'new-password');
+      msg('…');
+      try { await SYNC.signIn(mode, n, p); close(); toast(mode === 'register' ? 'Konto erstellt – Fortschritt wird jetzt synchronisiert' : 'Angemeldet als ' + SYNC.auth.name); AU.sfx('correct'); }
+      catch (e) { msg(errText(e)); AU.sfx('wrong'); }
+    };
+    $('#accf').onsubmit = e => { e.preventDefault(); go2('login'); };
+    $('#acc-reg').onclick = () => go2('register');
+    setTimeout(() => $('#acc-n') && $('#acc-n').focus(), 50);
+  } else {
+    $('#acc-sync').onclick = async () => { msg('…'); SYNC.dirty = true; await SYNC.pull(); msg(''); const t = $('#acc-t'); if (t && SYNC.last) t.textContent = new Date(SYNC.last).toLocaleTimeString(LANG === 'de' ? 'de-CH' : 'en-GB', { hour: '2-digit', minute: '2-digit' }); };
+    $('#acc-out').onclick = async () => { await SYNC.push(); try { await SYNC.req('logout', 'POST', {}); } catch (e) {} SYNC.forget(); close(); toast('Abgemeldet – dein Fortschritt bleibt in diesem Browser.'); };
+    $('#acc-delf').onsubmit = async e => {
+      e.preventDefault();
+      try { await SYNC.req('delete', 'POST', { pass: $('#acc-dp').value }); SYNC.forget(); close(); toast('Konto gelöscht.'); }
+      catch (err) { msg(errText(err)); }
+    };
+  }
+}
+
 /* ---------------- boot ---------------- */
 STARS.init();
 renderHud();
+SYNC.init();
 const h0 = (location.hash || '').slice(1);
 if (h0 && ROOM[h0]) go('room', h0);
 else if (h0.startsWith('w-') && GAME.worlds.some(w => w.id === h0.slice(2))) go('world', h0.slice(2));
